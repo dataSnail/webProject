@@ -1,0 +1,51 @@
+﻿@charset "utf-8";
+/*
+*
+* webname:维度端前端网
+* website:http://www.weiduduan.com/
+* author:vdu
+* qq:2210682628
+*
+*/
+
+/* reset */
+
+body,div,p,span,form,iframe,table,td,th,input,textarea,button,label,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6{margin:0;padding:0;}
+h1,h2,h3,h4,h5,h6{font-size:100%; }
+ul,ol,li,dl{list-style-type:none;}
+em,i,dfn,cite,strong,small{font-style:normal;} 
+img{border:0;}
+fieldset,button,input,select,option{vertical-align:middle;font:12px/18px "宋体",arial,sans-serif;}
+table{border-collapse:collapse;border-spacing:0}
+textarea{resize:none}
+
+/* color */
+a:link,a:visited{color:#575757;text-decoration:none;}
+a:hover{color:#ef4165;text-decoration:none;}
+a:active{color:#1d7400;}
+
+/* clearfix */
+.clearfix{ *zoom:1;}
+.clearfix:after{ display:table; line-height:0; content:""; clear:both;}
+
+/* public.omission */
+.fl{ float:left;}            .fr{ float:right;}            .tc{ text-align:center;}      .tr{ text-align:right;} 
+.fb{ font-weight:bold;}      .f12{ font-size:12px;}        h3{ font-weight:normal;}      .listop{ padding-top:15px;}
+.mr10{ margin-right:10px;}   .mr15{ margin-right:15px;}    .mL10{ margin-left:10px;}     .mL15{ margin-left:15px;}
+.mt10{ margin-top:10px;}     .mt15{ margin-top:15px;}      .mb10{ margin-bottom:10px;}   .mb15{ margin-bottom:15px;}
+
+/* weiduduan */
+.weiduduan{ width:550px; margin:15px auto 0 auto;}
+.tipfloat,.tipfloat .close{background:url(../images/tipright.png) no-repeat;}
+.tipfloat{display:none;z-index:999;position:fixed;_position:absolute;right:0px;bottom:0;width:236px;height:196px;overflow:hidden;}
+.tipfloat .tiphead{height:28px;line-height:28px;overflow:hidden;padding:0 5px;}
+.tipfloat .tiphead strong{float:left;color:#fff;font-size:14px;} 
+.tipfloat .tiphead .close{display:block;float:right;margin:5px 0 0 0;width:18px;height:18px;line-height:999em;overflow:hidden;cursor:pointer;background-position:-236px 0;}
+/* ranklist */
+.ranklist{border:solid 1px #ddd;padding:10px 10px 0 10px;}
+.ranklist li{height:16px;line-height:16px;overflow:hidden;position:relative;padding:0 70px 0 30px;margin:0 0 10px 0;vertical-align:bottom;}
+.ranklist li em{background:url(../images/mun.gif) no-repeat;width:20px;height:16px;overflow:hidden;display:block;position:absolute;left:0;top:0;text-align:center;font-style:normal;color:#333;}
+.ranklist li em{background-position:0 -16px;}
+.ranklist li.top em{background-position:0 0;color:#fff;}
+.ranklist li .num{position:absolute;right:0;top:0;color:#999;}
+/* 维度端前端网整理 http://www.weiduduan.com */

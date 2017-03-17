@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name = "error" extends = "struts-default">
+		<default-action-ref name="notFound" />
+   		<action name="notFound">
+    		<result>/error/error.jsp</result>
+  		 </action>
+	</package>
+
+	<package name = "loginAction" namespace = "/" extends = "struts-default">
+		<action name = "login" class = "com.cnpc.action.LoginAction" method = "loginProcess">
+			<result  name = "success">/login.jsp</result>
+		</action>
+		
+		<action name = "userLogin" class = "com.cnpc.action.LoginAction" method = "userLogin">
+			<result  name = "success">/welcome.jsp</result>
+			<result name = "error">/login.jsp</result>
+		</action>
+		
+	</package>
+	
+	<package name = "userAction" namespace = "/user" extends = "struts-default">
+		<action name = "addUser" class = "com.cnpc.action.UserAction" method = "addUser">
+			<result  name = "success">/user_management.jsp</result>
+		</action>
+		
+		<action name = "deleteUser" class = "com.cnpc.action.UserAction" method = "deleteUser">
+			<result  name = "success">/user_management.jsp</result>
+		</action>
+			
+		<action name = "userInfo" class = "com.cnpc.action.UserAction" method = "userInfo">
+			<result  name = "success">/user_management.jsp</result>
+		</action>
+		
+		<action name = "updateUser" class = "com.cnpc.action.UserAction" method = "updateUser">
+			<result  name = "success">/user_management.jsp</result>
+		</action>
+	</package>
+</struts>
