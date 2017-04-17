@@ -1,4 +1,9 @@
 package com.cnpc.action;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
+
 import com.opensymphony.xwork2.ActionSupport;
 
 public class LoginAction extends ActionSupport {
@@ -47,13 +52,16 @@ public class LoginAction extends ActionSupport {
 	{
 		String userName = this.getUserName();
 		String passWord = this.getPassWord();
-		if("admin".equals(userName)&&"admin".equals(passWord))
+		if("admin".equals(userName)&&"admin".equals(passWord)) 
 		{
+			HttpServletRequest request = ServletActionContext.getRequest();
+			request.getSession().setAttribute("username", userName); 
 			return SUCCESS;
 		}else{
 			result = "用户名或密码错误！";
 			return ERROR;
 		}
 	}
+	
 	
 }
