@@ -12,30 +12,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<%=basePath%>/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="./dist/css/font-awesome.min.css">
+  <link rel="stylesheet" href="<%=basePath%>/dist/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="./dist/css/ionicons.min.css">
+  <link rel="stylesheet" href="<%=basePath%>/dist/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<%=basePath%>/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="<%=basePath%>/dist/css/skins/_all-skins.min.css">
   <!-- iCheck -->
-  <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
+  <link rel="stylesheet" href="<%=basePath%>/plugins/iCheck/flat/blue.css">
   <!-- Morris chart -->
-  <link rel="stylesheet" href="plugins/morris/morris.css">
+  <link rel="stylesheet" href="<%=basePath%>/plugins/morris/morris.css">
   <!-- jvectormap -->
-  <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+  <link rel="stylesheet" href="<%=basePath%>/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
   <!-- Date Picker -->
-  <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
+  <link rel="stylesheet" href="<%=basePath%>/plugins/datepicker/datepicker3.css">
   <!-- Daterange picker -->
-  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="<%=basePath%>/plugins/daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
-  <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet" href="<%=basePath%>/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <!-- DATA TABLES -->
-  <link href="./plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+  <link href="<%=basePath%>/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="welcome.jsp" class="logo">
+    <a href="<%=basePath%>welcome.jsp" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini">MS</span>
       <!-- logo for regular state and mobile devices -->
@@ -66,13 +66,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="<%=basePath%>/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs">管理员</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="<%=basePath%>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p>系统管理员</p>
               </li>
               <!-- Menu Footer-->
@@ -94,7 +94,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="<%=basePath%>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>管理员</p>
@@ -111,25 +111,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>流量计管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>压力表管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>加气机管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>储气井管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
+            <li class="${equipType==0?'active':'' }"><a href="<%=basePath%>equip/query?equipType=0"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
+            <li class="${equipType==1?'active':'' }"><a href="<%=basePath%>equip/query?equipType=1"><i class="fa fa-circle-o"></i>流量计管理</a></li>
+            <li class="${equipType==2?'active':'' }"><a href="<%=basePath%>equip/query?equipType=2"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
+            <li class="${equipType==3?'active':'' }"><a href="<%=basePath%>equip/query?equipType=3"><i class="fa fa-circle-o"></i>压力表管理</a></li>
+            <li class="${equipType==4?'active':'' }"><a href="<%=basePath%>equip/query?equipType=4"><i class="fa fa-circle-o"></i>加气机管理</a></li>
+            <li class="${equipType==5?'active':'' }"><a href="<%=basePath%>equip/query?equipType=5"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
+            <li class="${equipType==6?'active':'' }"><a href="<%=basePath%>equip/query?equipType=6"><i class="fa fa-circle-o"></i>储气井管理</a></li>
+            <li class="${equipType==7?'active':'' }"><a href="<%=basePath%>equip/query?equipType=7"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
           </ul>
         </li>
-
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-tasks"></i> <span>资产证照管理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
+            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>商务局批复</a></li>
+            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
+            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>烟草证</a></li>
+            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
+          </ul>
+        </li>
         <li>
-          <a href="out_date_item.jsp">
+          <a href="<%=basePath%>out_date_item.jsp">
             <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
           </a>
         </li>
 
         <li>
-          <a href="user_management.jsp">
+          <a href="<%=basePath%>user_management.jsp">
             <i class="fa fa-user"></i> <span>用户管理</span>
           </a>
         </li>
@@ -159,7 +173,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <div class="box box-solid box-info">
 	        
 	          <div class="box-header">
-	            <h3 class="box-title">灭火器</h3>
+	            <h3 class="box-title">${equipType==0?'灭火器':equipType==1?'流量计':equipType==2?'安全阀':equipType==3?'压力表':equipType==4?'加气机':equipType==5?'卸气柱':equipType==6?'储气井':'可燃气体报警'}</h3>
 	            <div class = "pull-right">
 	            	<a href = "#" class="text-muted">
 	            	<i class="fa fa-upload">点击导入Excel表格</i>
@@ -172,6 +186,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <table id="table2017" class="table table-bordered table-striped">
 	              <thead>
 	                <tr>
+	                  <th>地区</th>
 	                  <th>部门</th>
 	                  <th>房间号</th>
 	                  <th>规格</th>
@@ -186,6 +201,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	              </thead>
 	              <tbody>
 	                <tr>
+	                	<td class="text-red">江宁</td>
 	                	<td class="text-red">经理室</td>
 	                	<td class="text-red">1201</td>
 	                	<td class="text-red">5KG手提干粉式灭火器</td>
@@ -198,6 +214,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	<td class="text-red"></td>
 	                </tr>
 	                <tr>
+	               		<td>江宁</td>
 	                	<td>经理室</td>
 	                	<td>1201</td>
 	                	<td>5KG手提干粉式灭火器</td>
@@ -235,20 +252,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- ./wrapper -->
 
 <!-- jQuery 2.1.4 -->
-<script src="./plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="<%=basePath%>plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.2 JS -->
-<script src="./bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <!-- DATA TABES SCRIPT -->
-<script src="./plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="./plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
 <!-- SlimScroll -->
-<script src="./plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <!-- FastClick -->
-<script src='./plugins/fastclick/fastclick.min.js'></script>
+<script src='<%=basePath%>plugins/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
-<script src="./dist/js/app.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>dist/js/app.min.js" type="text/javascript"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="./dist/js/demo.js" type="text/javascript"></script>
+<script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script>
 <!-- page script -->
 <script>
   $(function () {

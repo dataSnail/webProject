@@ -112,7 +112,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
           </ul>
         </li>
-
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-tasks"></i> <span>资产证照管理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="certificationt_status.jsp"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
+            <li><a href="certificationt_status.jsp"><i class="fa fa-circle-o"></i>商务局批复</a></li>
+            <li><a href="certificationt_status.jsp"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
+            <li><a href="certificationt_status.jsp"><i class="fa fa-circle-o"></i>烟草证</a></li>
+            <li><a href="certificationt_status.jsp"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
+          </ul>
+        </li>
         <li>
           <a href="out_date_item.jsp">
             <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>

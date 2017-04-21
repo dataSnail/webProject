@@ -8,50 +8,39 @@
 //import java.sql.ResultSet;
 //import java.sql.ResultSetMetaData;
 //import java.sql.SQLException;
+//import java.sql.Statement;
 //import java.util.ArrayList;
 //import java.util.HashMap;
 //import java.util.List;
 //import java.util.Map;
 //import java.util.Properties;
 //
+//import org.logicalcobwebs.proxool.ProxoolDataSource;
+//import org.springframework.context.ApplicationContext;
+//import org.springframework.context.support.FileSystemXmlApplicationContext;
+//
 //public class DBManager {
 //
 //    
 //	
-//	private static String url;
-//	private static String driverClass;
-//	private static String userName;
-//	private static String password;
+//	private ApplicationContext ac = null;
+//	private ProxoolDataSource template = null;
+//	private Connection conn = null;
+//	private Statement stmt = null;
 //	
-//	static {
-//		Properties pro = new Properties();
-//		try{
-//			pro.load(DBManager.class.getResourceAsStream("/db.properties"));
-//			driverClass = pro.getProperty("jdbc.driverClassName");
-//			url = pro.getProperty("jdbc.url");
-//			userName = pro.getProperty("jdbc.username");
-//			password = pro.getProperty("jdbc.password");
-//			
-//		}catch(IOException e){
-//			e.printStackTrace();
-//		}
-//		
+//	DBManager(String dataSource) throws SQLException
+//	{
+//		ac = new FileSystemXmlApplicationContext("src/applicationContext.xml");
+//		template = (ProxoolDataSource) ac.getBean(dataSource);
 //	}
 //	
 //	/**
 //	 * 获得数据库的连接
 //	 * @return
+//	 * @throws SQLException 
 //	 */
-//	public static Connection getConnection(){
-//		Connection conn = null;
-//		try {
-//			Class.forName(driverClass);
-//			conn = DriverManager.getConnection(url, userName, password);
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+//	public Connection getConnection() throws SQLException{
+//		conn = template.getConnection();
 //		return conn;
 //	}
 //	
@@ -105,8 +94,9 @@
 //	{
 //		boolean flag = true;
 //		int[] result;
-//		connection.setAutoCommit(false);
-//		pstmt = connection.prepareStatement(sql);
+//		PreparedStatement pstmt = null;
+//		conn.setAutoCommit(false);
+//		pstmt = conn.prepareStatement(sql);
 //		if(params != null && !params.isEmpty())
 //		{
 //			for(int i = 0; i < params.size();i++)
@@ -118,7 +108,7 @@
 //			}
 //		}
 //		result = pstmt.executeBatch();
-//		connection.commit();
+//		conn.commit();
 //		//check the result
 //		for(int i = 0;i<result.length;i++)
 //		{
@@ -140,7 +130,7 @@
 //	public Map<String, Object> findSimpleResult(String sql, List<Object> params) throws SQLException{
 //		Map<String, Object> map = new HashMap<String, Object>();
 //		int index  = 1;
-//		pstmt = connection.prepareStatement(sql);
+//		pstmt = conn.prepareStatement(sql);
 //		if(params != null && !params.isEmpty()){
 //			for(int i=0; i<params.size(); i++){
 //				pstmt.setObject(index++, params.get(i));
@@ -171,7 +161,7 @@
 //	public List<Map<String, Object>> findModeResult(String sql, List<Object> params) throws SQLException{
 //		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 //		int index = 1;
-//		pstmt = connection.prepareStatement(sql);
+//		pstmt = conn.prepareStatement(sql);
 //		if(params != null && !params.isEmpty()){
 //			for(int i = 0; i<params.size(); i++){
 //				pstmt.setObject(index++, params.get(i));

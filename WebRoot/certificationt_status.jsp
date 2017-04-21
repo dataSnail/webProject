@@ -36,47 +36,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <link rel="stylesheet" href="<%=basePath%>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <!-- DATA TABLES -->
   <link href="<%=basePath%>plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
-  <link href="<%=basePath%>css/shou.css" rel="stylesheet" type="text/css" />
-  <script src="<%=basePath%>js/jquery.1.4.2-min.js" type="text/javascript"></script>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-	<script type="text/javascript">
-	$(function(){
-		var titHeight=$(".tiphead").height();
-		$(".tipfloat").animate({height:"show"},400);
-		$(".close").click(function(){
-			$(".tipfloat").animate({height:titHeight-50},1000,function(){
-				$(".tipfloat").hide();
-			});
-		});
-	});
-	</script>  
-  <style>
-    .example-modal .modal {
-      position: relative;
-      top: auto;
-      bottom: auto;
-      right: auto;
-      left: auto;
-      display: block;
-      z-index: 1;
-    }
-
-    .example-modal .modal {
-      background: transparent !important;
-    }
-  </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="<%=basePath%>welcome.jsp" class="logo">
+    <a href="welcome.jsp" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini">MS</span>
       <!-- logo for regular state and mobile devices -->
@@ -94,14 +66,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">管理员:${userName}</span>
+              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs">管理员</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                <p>${userName}</p>
+                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <p>系统管理员</p>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
@@ -139,17 +111,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="${equipType==0?'active':'' }"><a href="<%=basePath%>equip/query?equipType=0"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
-            <li class="${equipType==1?'active':'' }"><a href="<%=basePath%>equip/query?equipType=1"><i class="fa fa-circle-o"></i>流量计管理</a></li>
-            <li class="${equipType==2?'active':'' }"><a href="<%=basePath%>equip/query?equipType=2"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
-            <li class="${equipType==3?'active':'' }"><a href="<%=basePath%>equip/query?equipType=3"><i class="fa fa-circle-o"></i>压力表管理</a></li>
-            <li class="${equipType==4?'active':'' }"><a href="<%=basePath%>equip/query?equipType=4"><i class="fa fa-circle-o"></i>加气机管理</a></li>
-            <li class="${equipType==5?'active':'' }"><a href="<%=basePath%>equip/query?equipType=5"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
-            <li class="${equipType==6?'active':'' }"><a href="<%=basePath%>equip/query?equipType=6"><i class="fa fa-circle-o"></i>储气井管理</a></li>
-            <li class="${equipType==7?'active':'' }"><a href="<%=basePath%>equip/query?equipType=7"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
+            <li><a href="<%=basePath%>equip/query?equipType=0"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
+            <li><a href="<%=basePath%>equip/query?equipType=1"><i class="fa fa-circle-o"></i>流量计管理</a></li>
+            <li><a href="<%=basePath%>equip/query?equipType=2"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
+            <li><a href="<%=basePath%>equip/query?equipType=3"><i class="fa fa-circle-o"></i>压力表管理</a></li>
+            <li><a href="<%=basePath%>equip/query?equipType=4"><i class="fa fa-circle-o"></i>加气机管理</a></li>
+            <li><a href="<%=basePath%>equip/query?equipType=5"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
+            <li><a href="<%=basePath%>equip/query?equipType=6"><i class="fa fa-circle-o"></i>储气井管理</a></li>
+            <li><a href="<%=basePath%>equip/query?equipType=7"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
           </ul>
         </li>
-        <li class="treeview">
+        <li class="treeview active">
           <a href="#">
             <i class="fa fa-tasks"></i> <span>资产证照管理</span>
             <span class="pull-right-container">
@@ -157,7 +129,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
+            <li class="active"><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
             <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>商务局批复</a></li>
             <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
             <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>烟草证</a></li>
@@ -185,39 +157,79 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>欢迎页面
-        <small>信息管理系统</small>
+      <h1>
+        <small>设备设施有效期</small>
       </h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
 		<div class="callout callout-info">
-		  <h4>欢迎访问!</h4>
-		  <p>欢迎您，${userName}.</p>
+		  <h4>小贴士!</h4>
+		  <p>红色代表此设备即将到期！</p>
 		</div>
+	    <div class="row">
+	      <div class="col-xs-12">
+	        <div class="box box-solid box-info">
+	        
+	          <div class="box-header">
+	            <h3 class="box-title">灭火器</h3>
+	            <div class = "pull-right">
+	            	<a href = "#" class="text-muted">
+	            	<i class="fa fa-upload">点击导入Excel表格</i>
+	            	</a>
+	            </div>
+	          </div>
+	          <!-- /.box-header -->
+	          
+	          <div class="box-body">
+	            <table id="table2017" class="table table-bordered table-striped">
+	              <thead>
+	                <tr>
+	                  <th>地区</th>
+	                  <th>部门</th>
+	                  <th>证号</th>
+	                  <th>证到期时间</th>
+	                  <th>责任部门</th>
+	                  <th>责任人(电话)</th>
+	                  <th>负责办理人(电话)</th>
+	                  <th>存放地点</th>
+	                  <th>备注</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	                <tr>
+	                	<td class="text-red">南片区</td>
+	                	<td class="text-red">xxx大街</td>
+	                	<td class="text-red">xxxxxxxxxxxxxxx</td>
+	                	<td class="text-red">2017-5-6</td>
+	                	<td class="text-red">综合办公室</td>
+	                	<td class="text-red">张三（666666）</td>
+	                	<td class="text-red">李大大（666666）</td>
+	                	<td class="text-red">1201办公室</td>
+	                	<td class="text-red"></td>
+	                </tr>
+	                <tr>
+	               		<td>江宁</td>
+	                	<td>经理部门</td>
+	                	<td>323432342424233</td>
+	                	<td>2017-8-6</td>
+	                	<td>综合管理部</td>
+	                	<td>张三（666666）</td>
+	                	<td>李大大（666666）</td>
+	                	<td>1201办公室</td>
+	                	<td></td>
+	                </tr>
+
+	              </tbody>
+	            </table>
+	          </div><!-- /.box-body -->
+	        </div><!-- /.box -->
+	      </div><!-- /.col -->
+	    </div><!-- /.row -->
     </section>
     <!-- /.content -->
-    <!-- ./弹窗提示 -->
-	<div class="weiduduan clearfix">
-	<div class="tipfloat">
-		<h2 class="tiphead"><strong>系统提示</strong><span title="关闭" class="close">关闭</span></h2>
-		<div class="ranklist">
-			<ol>
-				<li class="top">
-					<em>01</em><p><a href="out_date_item.jsp" title="#">有5个设备已过期</a></p>
-				</li>
-				<li class="top">
-					<em>02</em><p><a href="out_date_item.jsp" title="#">有3个位置已过期</a></p>
-				</li>
-	
-			</ol>
-		</div>
-	</div>
-	</div> <!-- weiduduan End -->
   </div>
-  
-
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -232,7 +244,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
 
 <!-- jQuery 2.1.4 -->
 <script src="<%=basePath%>plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -252,9 +263,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- page script -->
 <script>
   $(function () {
-    $('#table2017').DataTable();
+    $('#table2017').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false
+    });
   });
-  
 </script>
 </body>
 </html>

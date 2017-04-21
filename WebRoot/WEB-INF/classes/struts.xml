@@ -41,4 +41,13 @@
 			<result  name = "success">/user_management.jsp</result>
 		</action>
 	</package>
+	
+	<package name = "equipmentAction" namespace = "/equip" extends = "struts-default">
+		<action name = "query" class = "com.cnpc.action.EquipmentAction" method = "queryEquipInfo">
+			<result  name = "success">/equipment_status.jsp</result>
+			<result  name = "error">/login.jsp</result>
+		</action>
+		
+	</package>
+	
 </struts>

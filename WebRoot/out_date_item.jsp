@@ -117,25 +117,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>流量计管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>压力表管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>加气机管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>储气井管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
+            <li class="${equipType==0?'active':'' }"><a href="<%=basePath%>equip/query?equipType=0"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
+            <li class="${equipType==1?'active':'' }"><a href="<%=basePath%>equip/query?equipType=1"><i class="fa fa-circle-o"></i>流量计管理</a></li>
+            <li class="${equipType==2?'active':'' }"><a href="<%=basePath%>equip/query?equipType=2"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
+            <li class="${equipType==3?'active':'' }"><a href="<%=basePath%>equip/query?equipType=3"><i class="fa fa-circle-o"></i>压力表管理</a></li>
+            <li class="${equipType==4?'active':'' }"><a href="<%=basePath%>equip/query?equipType=4"><i class="fa fa-circle-o"></i>加气机管理</a></li>
+            <li class="${equipType==5?'active':'' }"><a href="<%=basePath%>equip/query?equipType=5"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
+            <li class="${equipType==6?'active':'' }"><a href="<%=basePath%>equip/query?equipType=6"><i class="fa fa-circle-o"></i>储气井管理</a></li>
+            <li class="${equipType==7?'active':'' }"><a href="<%=basePath%>equip/query?equipType=7"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
           </ul>
         </li>
-
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-tasks"></i> <span>资产证照管理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
+            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>商务局批复</a></li>
+            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
+            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>烟草证</a></li>
+            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
+          </ul>
+        </li>
         <li class = "active">
-          <a href="out_date_item.jsp">
+          <a href="<%=basePath%>out_date_item.jsp">
             <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
           </a>
         </li>
 
         <li>
-          <a href="user_management.jsp">
+          <a href="<%=basePath%>user_management.jsp">
             <i class="fa fa-user"></i> <span>用户管理</span>
           </a>
         </li>
@@ -289,21 +303,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- ./wrapper -->
 
 <!-- jQuery 2.1.4 -->
-<script src="./plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="<%=basePath%>plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.2 JS -->
-<script src="./bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <!-- DATA TABES SCRIPT -->
-<script src="./plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="./plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
 <!-- SlimScroll -->
-<script src="./plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <!-- FastClick -->
-<script src='./plugins/fastclick/fastclick.min.js'></script>
+<script src='<%=basePath%>plugins/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
-<script src="./dist/js/app.min.js" type="text/javascript"></script>
-<script src="./plugins/input-mask/jquery.inputmask.js"></script>
-<script src="./plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-<script src="./plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<script src="<%=basePath%>dist/js/app.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/input-mask/jquery.inputmask.js"></script>
+<script src="<%=basePath%>plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="<%=basePath%>plugins/input-mask/jquery.inputmask.extensions.js"></script>
 
 <!-- date-range-picker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
