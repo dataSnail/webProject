@@ -105,33 +105,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <li class="header">主菜单</li>
         <li class="treeview active">
           <a href="#">
-            <i class="fa fa-tasks"></i> <span>灭火器状态查询</span>
+            <i class="fa fa-tasks"></i> <span>设备设施管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i> 灭火器A</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>加油站B</a></li>
-          </ul>
-        </li>
-
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>其他状态查询</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="active"><a href="welcome.jsp"><i class="fa fa-circle-o"></i> 设备项目A</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>设备项目B</a></li>
+            <li class="active"><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>流量计管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>压力表管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>加气机管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>储气井管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
           </ul>
         </li>
 
         <li>
           <a href="out_date_item.jsp">
-            <i class="fa fa-calendar-times-o"></i> <span>到期查询</span>
+            <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
           </a>
         </li>
 
@@ -151,18 +144,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <small>灭火器状态信息面板</small>
+        <small>设备设施有效期</small>
       </h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
+		<div class="callout callout-info">
+		  <h4>小贴士!</h4>
+		  <p>红色代表此设备即将到期！</p>
+		</div>
 	    <div class="row">
 	      <div class="col-xs-12">
 	        <div class="box box-solid box-info">
 	        
 	          <div class="box-header">
-	            <h3 class="box-title">灭火器状态</h3>
+	            <h3 class="box-title">灭火器</h3>
+	            <div class = "pull-right">
+	            	<a href = "#" class="text-muted">
+	            	<i class="fa fa-upload">点击导入Excel表格</i>
+	            	</a>
+	            </div>
 	          </div>
 	          <!-- /.box-header -->
 	          
@@ -170,55 +172,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <table id="table2017" class="table table-bordered table-striped">
 	              <thead>
 	                <tr>
-	                  <th>灭火器位置</th>
+	                  <th>部门</th>
+	                  <th>房间号</th>
+	                  <th>规格</th>
+	                  <th>设备标号</th>
+	                  <th>所在位置</th>
 	                  <th>有效期</th>
-	                  <th>到期时间</th>
-	                  <th>责任人</th>
-	                  <th>电话</th>
+	                  <th>责任部门</th>
+	                  <th>责任人(电话)</th>
+	                  <th>负责办理人(电话)</th>
 	                  <th>备注</th>
 	                </tr>
 	              </thead>
 	              <tbody>
 	                <tr>
-	                	<td>A号位置</td>
-	                	<td>2017-4</td>
-	                	<td>2019-10</td>
-	                	<td>张三</td>
-	                	<td>025-6352222</td>
-	                	<td>无</td>
+	                	<td class="text-red">经理室</td>
+	                	<td class="text-red">1201</td>
+	                	<td class="text-red">5KG手提干粉式灭火器</td>
+	                	<td class="text-red">1</td>
+	                	<td class="text-red">办公室门口</td>
+	                	<td class="text-red">2017-5-6</td>
+	                	<td class="text-red">综合办公室</td>
+	                	<td class="text-red">张三（666666）</td>
+	                	<td class="text-red">李大大（666666）</td>
+	                	<td class="text-red"></td>
 	                </tr>
 	                <tr>
-	                	<td class="text-red">B号位置</td>
-	                	<td class="text-red">2018-4</td>
-	                	<td class="text-red">2020-10</td>
-	                	<td class="text-red">李四</td>
-	                	<td class="text-red">025-9999999</td>
-	                	<td class="text-red">无</td>
+	                	<td>经理室</td>
+	                	<td>1201</td>
+	                	<td>5KG手提干粉式灭火器</td>
+	                	<td>2</td>
+	                	<td>办公桌旁</td>
+	                	<td>2017-5-6</td>
+	                	<td>综合管理部</td>
+	                	<td>张三（666666）</td>
+	                	<td>李大大（666666）</td>
+	                	<td></td>
 	                </tr>
-	                <tr>
-	                	<td>B号位置</td>
-	                	<td>2018-4</td>
-	                	<td>2020-10</td>
-	                	<td>李四</td>
-	                	<td>025-9999999</td>
-	                	<td>无</td>
-	                </tr>
-	                <tr>
-	                	<td>B号位置</td>
-	                	<td>2018-4</td>
-	                	<td>2020-10</td>
-	                	<td>李四</td>
-	                	<td>025-9999999</td>
-	                	<td>无</td>
-	                </tr>
-	                <tr>
-	                	<td>B号位置</td>
-	                	<td>2018-4</td>
-	                	<td>2020-10</td>
-	                	<td>李四</td>
-	                	<td>025-9999999</td>
-	                	<td>无</td>
-	                </tr>
+
 	              </tbody>
 	            </table>
 	          </div><!-- /.box-body -->

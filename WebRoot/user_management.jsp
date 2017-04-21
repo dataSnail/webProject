@@ -96,33 +96,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <li class="header">主菜单</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-tasks"></i> <span>灭火器状态查询</span>
+            <i class="fa fa-tasks"></i> <span>设备设施管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i> 灭火器A</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>加油站B</a></li>
-          </ul>
-        </li>
-
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>其他状态查询</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="active"><a href="welcome.jsp"><i class="fa fa-circle-o"></i> 设备项目A</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>设备项目B</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>流量计管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>压力表管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>加气机管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>储气井管理</a></li>
+            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
           </ul>
         </li>
 
         <li>
           <a href="out_date_item.jsp">
-            <i class="fa fa-calendar-times-o"></i> <span>到期查询</span>
+            <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
           </a>
         </li>
 
