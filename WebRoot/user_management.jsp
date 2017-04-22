@@ -102,14 +102,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>流量计管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>压力表管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>加气机管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>储气井管理</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
+            <li class="${equipType==0?'active':'' }"><a href="<%=basePath%>equip/query?equipType=0"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
+            <li class="${equipType==1?'active':'' }"><a href="<%=basePath%>equip/query?equipType=1"><i class="fa fa-circle-o"></i>流量计管理</a></li>
+            <li class="${equipType==2?'active':'' }"><a href="<%=basePath%>equip/query?equipType=2"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
+            <li class="${equipType==3?'active':'' }"><a href="<%=basePath%>equip/query?equipType=3"><i class="fa fa-circle-o"></i>压力表管理</a></li>
+            <li class="${equipType==4?'active':'' }"><a href="<%=basePath%>equip/query?equipType=4"><i class="fa fa-circle-o"></i>加气机管理</a></li>
+            <li class="${equipType==5?'active':'' }"><a href="<%=basePath%>equip/query?equipType=5"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
+            <li class="${equipType==6?'active':'' }"><a href="<%=basePath%>equip/query?equipType=6"><i class="fa fa-circle-o"></i>储气井管理</a></li>
+            <li class="${equipType==7?'active':'' }"><a href="<%=basePath%>equip/query?equipType=7"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -120,17 +120,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="certificationt_status.jsp"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
-            <li><a href="certificationt_status.jsp"><i class="fa fa-circle-o"></i>商务局批复</a></li>
-            <li><a href="certificationt_status.jsp"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
-            <li><a href="certificationt_status.jsp"><i class="fa fa-circle-o"></i>烟草证</a></li>
-            <li><a href="certificationt_status.jsp"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
+            <li class="${certifType==0?'active':'' }"><a href="<%=basePath%>certif/query?certifType=0"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
+            <li class="${certifType==1?'active':'' }"><a href="<%=basePath%>certif/query?certifType=1"><i class="fa fa-circle-o"></i>商务局批复</a></li>
+            <li class="${certifType==2?'active':'' }"><a href="<%=basePath%>certif/query?certifType=2"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
+            <li class="${certifType==3?'active':'' }"><a href="<%=basePath%>certif/query?certifType=3"><i class="fa fa-circle-o"></i>烟草证</a></li>
+            <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
           </ul>
         </li>
-        <li>
-          <a href="out_date_item.jsp">
+        <li class = "treeview">
+          <a href="#">
             <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
+            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
+            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
+            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
+          </ul>
         </li>
 
         <li class = "active">

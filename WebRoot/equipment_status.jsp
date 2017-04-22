@@ -3,7 +3,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -129,17 +129,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
-            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>商务局批复</a></li>
-            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
-            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>烟草证</a></li>
-            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
+            <li class="${certifType==0?'active':'' }"><a href="<%=basePath%>certif/query?certifType=0"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
+            <li class="${certifType==1?'active':'' }"><a href="<%=basePath%>certif/query?certifType=1"><i class="fa fa-circle-o"></i>商务局批复</a></li>
+            <li class="${certifType==2?'active':'' }"><a href="<%=basePath%>certif/query?certifType=2"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
+            <li class="${certifType==3?'active':'' }"><a href="<%=basePath%>certif/query?certifType=3"><i class="fa fa-circle-o"></i>烟草证</a></li>
+            <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
           </ul>
         </li>
-        <li>
-          <a href="<%=basePath%>out_date_item.jsp">
+        <li class = "treeview">
+          <a href="#">
             <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
+            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
+            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
+            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
+          </ul>
         </li>
 
         <li>
@@ -158,7 +167,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <small>设备设施有效期</small>
+        <small>>设备设施有效期查询</small>
       </h1>
     </section>
 
@@ -173,7 +182,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <div class="box box-solid box-info">
 	        
 	          <div class="box-header">
-	            <h3 class="box-title">${equipType==0?'灭火器':equipType==1?'流量计':equipType==2?'安全阀':equipType==3?'压力表':equipType==4?'加气机':equipType==5?'卸气柱':equipType==6?'储气井':'可燃气体报警'}</h3>
+	            <h3 class="box-title">${equipType==0?'灭火器':equipType==1?'流量计':equipType==2?'安全阀':equipType==3?'压力表':equipType==4?'加气机':equipType==5?'卸气柱':equipType==6?'储气井':'可燃气体报警'}信息列表</h3>
 	            <div class = "pull-right">
 	            	<a href = "#" class="text-muted">
 	            	<i class="fa fa-upload">点击导入Excel表格</i>
@@ -200,32 +209,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                </tr>
 	              </thead>
 	              <tbody>
-	                <tr>
-	                	<td class="text-red">江宁</td>
-	                	<td class="text-red">经理室</td>
-	                	<td class="text-red">1201</td>
-	                	<td class="text-red">5KG手提干粉式灭火器</td>
-	                	<td class="text-red">1</td>
-	                	<td class="text-red">办公室门口</td>
-	                	<td class="text-red">2017-5-6</td>
-	                	<td class="text-red">综合办公室</td>
-	                	<td class="text-red">张三（666666）</td>
-	                	<td class="text-red">李大大（666666）</td>
-	                	<td class="text-red"></td>
-	                </tr>
-	                <tr>
-	               		<td>江宁</td>
-	                	<td>经理室</td>
-	                	<td>1201</td>
-	                	<td>5KG手提干粉式灭火器</td>
-	                	<td>2</td>
-	                	<td>办公桌旁</td>
-	                	<td>2017-5-6</td>
-	                	<td>综合管理部</td>
-	                	<td>张三（666666）</td>
-	                	<td>李大大（666666）</td>
-	                	<td></td>
-	                </tr>
+	                <s:iterator value="equipLs" id="equipLs">
+	                <tr class=" ">
+					    <td><s:property value="#equipLs.area"/></td>
+	                	<td><s:property value="#equipLs.department"/></td>
+	                	<td><s:property value="#equipLs.roomId"/></td>
+	                	<td><s:property value="#equipLs.specification"/></td>
+	                	<td><s:property value="#equipLs.label"/></td>
+	                	<td><s:property value="#equipLs.location"/></td>
+	                	<td><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></td>
+	                	<td><s:property value="#equipLs.responsible_dep"/></td>
+	                	<td><s:property value="#equipLs.responsible_person"/></td>
+	                	<td><s:property value="#equipLs.person_pic"/></td>
+	                	<td><s:property value="#equipLs.note"/></td>
+					</tr>
+					</s:iterator>
 
 	              </tbody>
 	            </table>
@@ -275,7 +273,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         "searching": false,
         "ordering": true,
         "info": true,
-        "autoWidth": false
+        "autoWidth": false,
+        "queryParamsType":""
     });
   });
 </script>

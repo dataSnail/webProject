@@ -3,4 +3,4 @@
 .myumldata
 .project
 /bin
-.class
+*.class

@@ -4,8 +4,6 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<%@ taglib prefix="s" uri="/struts-tags" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,18 +36,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <link rel="stylesheet" href="<%=basePath%>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <!-- DATA TABLES -->
   <link href="<%=basePath%>plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
-  
-  <!-- Select2 -->
-  <link rel="stylesheet" href="<%=basePath%>plugins/select2/select2.min.css">
-  
-  <!-- daterange picker -->
-  <link rel="stylesheet" href="<%=basePath%>plugins/daterangepicker/daterangepicker.css">  
+  <link href="<%=basePath%>css/shou.css" rel="stylesheet" type="text/css" />
+  <script src="<%=basePath%>js/jquery.1.4.2-min.js" type="text/javascript"></script>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+	<script type="text/javascript">
+	$(function(){
+		var titHeight=$(".tiphead").height();
+		$(".tipfloat").animate({height:"show"},400);
+		$(".close").click(function(){
+			$(".tipfloat").animate({height:titHeight-50},1000,function(){
+				$(".tipfloat").hide();
+			});
+		});
+	});
+	</script>  
+  <style>
+    .example-modal .modal {
+      position: relative;
+      top: auto;
+      bottom: auto;
+      right: auto;
+      left: auto;
+      display: block;
+      z-index: 1;
+    }
+
+    .example-modal .modal {
+      background: transparent !important;
+    }
+  </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -68,20 +88,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
-      
+
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">管理员</span>
+              <span class="hidden-xs">管理员:${userName}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                <p>系统管理员</p>
+                <p>${userName}</p>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
@@ -102,7 +122,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>管理员</p>
@@ -144,19 +164,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
           </ul>
         </li>
-        <li class = "treeview active">
-          <a href="#">
+        <li>
+          <a href="<%=basePath%>out_date_item.jsp">
             <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
           </a>
-          <ul class="treeview-menu">
-            <li class="${timeType==0?'active':'' }"><a href="<%=basePath%>outdate/query?timeType=0"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
-            <li class="${timeType==1?'active':'' }"><a href="<%=basePath%>outdate/query?timeType=1"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
-            <li class="${timeType==2?'active':'' }"><a href="<%=basePath%>outdate/query?timeType=2"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
-            <li class="${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query?timeType=3"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
-          </ul>
         </li>
 
         <li>
@@ -174,109 +185,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        <small>到期设备设施一览表</small>
+      <h1>欢迎页面
+        <small>信息管理系统</small>
       </h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
 		<div class="callout callout-info">
-		  <h4>小贴士!</h4>
-		  <p>红色代表此设备即将到期！</p>
+		  <h4>欢迎访问!</h4>
+		  <p>欢迎您，${userName}.</p>
 		</div>
-    	<div class = "box box-primary ${timeType==3?'':'hide' }">
-    	<div class = "box-header"></div>
-    	<div class = "box-body">
-		<div class = "row"> 
-		    <div class="col-xs-3">
-		        <!-- Date yyyy-mm-dd -->
-		        <div class="form-group">
-		          <label>到期日期：</label>
-		
-		          <div class="input-group">
-		            <div class="input-group-addon">
-		              <i class="fa fa-calendar"></i>
-		            </div>
-		            <input type="text" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
-		            <span class="input-group-btn">
-                      <button type="button" class="btn btn-info btn-flat">查询</button>
-                    </span>
-		          </div>
-		          <!-- /.input group -->
-		        </div>
-		    </div>
-		    
-		    <div class="col-xs-3">
-              <!-- Date and time range -->
-              <!--
-              <div class="form-group">
-                <label>快速查询:</label>
-
-                <div class="input-group">
-                  <button type="button" class="btn btn-default pull-right" id="daterange-btn">
-                    <span>
-                      <i class="fa fa-calendar"></i> Date range picker
-                    </span>
-                    <i class="fa fa-caret-down"></i>
-                  </button>
-                </div>
-              </div>-->
-              <!-- /.form group -->
-		    </div> 
-	    </div>
-		</div>
-		</div>
-
-	    <div class="row">
-	      <div class="col-xs-12">
-	      
-	        <div class="box box-solid box-info">
-	          <div class="box-header">
-	            <h3 class="box-title">到期设备设施一览</h3>
-	          </div>
-	          <!-- /.box-header -->
-	          <div class="box-body">
-	            <table id="table2017" class="table table-bordered table-striped">
-	              <thead>
-	                <tr>
-	                  <th>部门</th>
-	                  <th>房间号</th>
-	                  <th>规格</th>
-	                  <th>设备标号</th>
-	                  <th>所在位置</th>
-	                  <th>有效期</th>
-	                  <th>责任部门</th>
-	                  <th>责任人(电话)</th>
-	                  <th>负责办理人(电话)</th>
-	                  <th>备注</th>
-	                </tr>
-	              </thead>
-	              <tbody>
-	                <s:iterator value="equipLs" id="equipLs">
-	                <tr class=" ">
-					    <td><s:property value="#equipLs.area"/></td>
-	                	<td><s:property value="#equipLs.department"/></td>
-	                	<td><s:property value="#equipLs.roomId"/></td>
-	                	<td><s:property value="#equipLs.specification"/></td>
-	                	<td><s:property value="#equipLs.label"/></td>
-	                	<td><s:property value="#equipLs.location"/></td>
-	                	<td><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></td>
-	                	<td><s:property value="#equipLs.responsible_dep"/></td>
-	                	<td><s:property value="#equipLs.responsible_person"/></td>
-	                	<td><s:property value="#equipLs.person_pic"/></td>
-	                	<td><s:property value="#equipLs.note"/></td>
-					</tr>
-					</s:iterator>
-	              </tbody>
-	            </table>
-	          </div><!-- /.box-body -->
-	        </div><!-- /.box -->
-	      </div><!-- /.col -->
-	    </div><!-- /.row -->
     </section>
     <!-- /.content -->
+    <!-- ./弹窗提示 -->
+	<div class="weiduduan clearfix">
+	<div class="tipfloat">
+		<h2 class="tiphead"><strong>系统提示</strong><span title="关闭" class="close">关闭</span></h2>
+		<div class="ranklist">
+			<ol>
+				<li class="top">
+					<em>01</em><p><a href="out_date_item.jsp" title="#">有5个设备已过期</a></p>
+				</li>
+				<li class="top">
+					<em>02</em><p><a href="out_date_item.jsp" title="#">有3个位置已过期</a></p>
+				</li>
+	
+			</ol>
+		</div>
+	</div>
+	</div> <!-- weiduduan End -->
   </div>
+  
+
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -292,6 +233,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <!-- ./wrapper -->
 
+
 <!-- jQuery 2.1.4 -->
 <script src="<%=basePath%>plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.2 JS -->
@@ -305,53 +247,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src='<%=basePath%>plugins/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
 <script src="<%=basePath%>dist/js/app.min.js" type="text/javascript"></script>
-<script src="<%=basePath%>plugins/input-mask/jquery.inputmask.js"></script>
-<script src="<%=basePath%>plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-<script src="<%=basePath%>plugins/input-mask/jquery.inputmask.extensions.js"></script>
-
-<!-- date-range-picker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-<script src="<%=basePath%>plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Select2 -->
-<script src="<%=basePath%>plugins/select2/select2.full.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script>
 <!-- page script -->
 <script>
   $(function () {
-	  
-	$(".select2").select2();
-    $('#table2017').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false
-    });
-    //Datemask yyyy-mm-dd
-    $("#datemask").inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"});
-    //Money Euro
-    $("[data-mask]").inputmask();
-    
-    //Date range as a button
-    $('#daterange-btn').daterangepicker(
-        {
-          ranges: {
-            '今天': [moment()],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-          },
-          startDate: moment().subtract(29, 'days'),
-          endDate: moment()
-        },
-        function (start, end) {
-          $('#daterange-btn span').html(start.format('yyyy-mm-dd') + ' - ' + end.format('MMMM D, YYYY'));
-        }
-        );
+    $('#table2017').DataTable();
   });
+  
 </script>
 </body>
 </html>
+

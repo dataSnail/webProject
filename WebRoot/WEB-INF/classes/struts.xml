@@ -47,7 +47,21 @@
 			<result  name = "success">/equipment_status.jsp</result>
 			<result  name = "error">/login.jsp</result>
 		</action>
-		
 	</package>
+	
+	<package name = "certifAction" namespace = "/certif" extends = "struts-default">
+		<action name = "query" class = "com.cnpc.action.CertificationAction" method = "queryCertifInfo">
+			<result  name = "success">/certificationt_status.jsp</result>
+			<result  name = "error">/login.jsp</result>
+		</action>
+	</package>
+	
+	<package name = "outDateAction" namespace = "/outdate" extends = "struts-default">
+		<action name = "query" class = "com.cnpc.action.OutDateAction" method = "queryOutDate">
+			<result  name = "success">/out_date_item.jsp</result>
+			<result  name = "error">/login.jsp</result>
+		</action>
+	</package>
+	
 	
 </struts>

@@ -28,33 +28,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <link rel="stylesheet" href="<%=basePath%>plugins/morris/morris.css">
   <!-- jvectormap -->
   <link rel="stylesheet" href="<%=basePath%>plugins/jvectormap/jquery-jvectormap-1.2.2.css">
-  <!-- Date Picker -->
-  <link rel="stylesheet" href="<%=basePath%>plugins/datepicker/datepicker3.css">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="<%=basePath%>plugins/daterangepicker/daterangepicker.css">
-  <!-- bootstrap wysihtml5 - text editor -->
-  <link rel="stylesheet" href="<%=basePath%>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-  <!-- DATA TABLES -->
-  <link href="<%=basePath%>plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
-  <link href="<%=basePath%>css/shou.css" rel="stylesheet" type="text/css" />
-  <script src="<%=basePath%>js/jquery.1.4.2-min.js" type="text/javascript"></script>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-	<script type="text/javascript">
-	$(function(){
-		var titHeight=$(".tiphead").height();
-		$(".tipfloat").animate({height:"show"},400);
-		$(".close").click(function(){
-			$(".tipfloat").animate({height:titHeight-50},1000,function(){
-				$(".tipfloat").hide();
-			});
-		});
-	});
-	</script>  
   <style>
     .example-modal .modal {
       position: relative;
@@ -157,17 +136,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
-            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>商务局批复</a></li>
-            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
-            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>烟草证</a></li>
-            <li><a href="<%=basePath%>certificationt_status.jsp"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
+            <li class="${certifType==0?'active':'' }"><a href="<%=basePath%>certif/query?certifType=0"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
+            <li class="${certifType==1?'active':'' }"><a href="<%=basePath%>certif/query?certifType=1"><i class="fa fa-circle-o"></i>商务局批复</a></li>
+            <li class="${certifType==2?'active':'' }"><a href="<%=basePath%>certif/query?certifType=2"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
+            <li class="${certifType==3?'active':'' }"><a href="<%=basePath%>certif/query?certifType=3"><i class="fa fa-circle-o"></i>烟草证</a></li>
+            <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
           </ul>
         </li>
-        <li>
-          <a href="<%=basePath%>out_date_item.jsp">
+        <li class = "treeview">
+          <a href="#">
             <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
+            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
+            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
+            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
+          </ul>
         </li>
 
         <li>
@@ -198,23 +186,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
     </section>
     <!-- /.content -->
-    <!-- ./弹窗提示 -->
-	<div class="weiduduan clearfix">
-	<div class="tipfloat">
-		<h2 class="tiphead"><strong>系统提示</strong><span title="关闭" class="close">关闭</span></h2>
-		<div class="ranklist">
-			<ol>
-				<li class="top">
-					<em>01</em><p><a href="out_date_item.jsp" title="#">有5个设备已过期</a></p>
-				</li>
-				<li class="top">
-					<em>02</em><p><a href="out_date_item.jsp" title="#">有3个位置已过期</a></p>
-				</li>
-	
-			</ol>
-		</div>
-	</div>
-	</div> <!-- weiduduan End -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	        <div class="modal-dialog" role="document">
+	            <div class="modal-content" style="margin-top:50%">
+					<div class="box box-widget widget-user-2">
+					            <!-- Add the bg color to the header using any of the bg-* classes -->
+					            <div class="widget-user-header bg-red">
+					              <!-- /.widget-user-image -->
+					              <h4 >设备、证书到期提醒</h4>
+					            </div>
+					            <div class="box-footer no-padding">
+					              <ul class="nav nav-stacked">
+					                <li><a href="#">今天已经到期 设备数量<span class="pull-right badge bg-red">31</span></a></li>
+					                <li><a href="#">今天已经到期 证书数量 <span class="pull-right badge bg-red">5</span></a></li>
+					                <li><a href="#">30天内到期设备数量<span class="pull-right badge bg-yellow">12</span></a></li>
+					                <li><a href="#">30天内到期证书数量<span class="pull-right badge bg-yellow">842</span></a></li>
+					              </ul>
+					            </div>
+					</div>
+	            </div>
+	        </div>
+	    </div>
   </div>
   
 
@@ -238,24 +230,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.2 JS -->
 <script src="<%=basePath%>bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-<!-- DATA TABES SCRIPT -->
-<script src="<%=basePath%>plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="<%=basePath%>plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
 <!-- SlimScroll -->
 <script src="<%=basePath%>plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-<!-- FastClick -->
-<script src='<%=basePath%>plugins/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
 <script src="<%=basePath%>dist/js/app.min.js" type="text/javascript"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script>
 <!-- page script -->
-<script>
-  $(function () {
-    $('#table2017').DataTable();
-  });
-  
-</script>
+<script type="text/javascript">
+$(function(){
+	$('#myModal').modal();
+});
+</script>  
+
 </body>
 </html>
 

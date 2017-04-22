@@ -3,9 +3,6 @@ package com.cnpc.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,37 +15,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.logicalcobwebs.proxool.ProxoolDataSource;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class ExcelReader {
-	ApplicationContext ac = new FileSystemXmlApplicationContext("src/applicationContext.xml"); 
-	ProxoolDataSource template = (ProxoolDataSource) ac.getBean("dataSource");
-	Connection conn = null;
-	Statement stmt = null;
-//	ResultSet res = stmt.executeQuery("select * from equipments");
-//	while(res.next()){
-//		String  a = res.getString("id");
-//		System.out.println(a);
-//	}
-//	stmt.close();
-//	conn.close();
 	
-	
-	
-	 public boolean readExcel2DB(File file)
+	 public List<List<Object>> readExcel2DB(File file)
 	 {
-		 boolean result =false;
-		 
-		try {
-			conn = template.getConnection();
-			stmt = conn.createStatement();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		 
+		 List<List<Object>> resultLs = new ArrayList<List<Object>>();
 		 try{
 			 InputStream inputStream = new FileInputStream(file);
 	         String fileName = file.getName();  
@@ -69,7 +41,7 @@ public class ExcelReader {
 	                 int firstCellIndex = row.getFirstCellNum();
 	                 int lastCellIndex = row.getLastCellNum();
 	                 System.out.print("("+firstCellIndex+","+lastCellIndex+")");
-	                 if (lastCellIndex-firstCellIndex!=9)
+	                 if (lastCellIndex-firstCellIndex!=10)
 	                 {
 	                	 System.out.println("数据列数不符合！");
 	                	 break;
@@ -101,25 +73,14 @@ public class ExcelReader {
 	                     }
 	                 }
 	                 System.out.println('\n');
+	                 resultLs.add(params);
 	             }
 	             
 	         }
 	     } catch (Exception e) {
 	         e.printStackTrace();  
-	     }finally{
-			try {
-				if(stmt!=null)
-					stmt.close();
-				if(conn!=null)
-					conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	    	 
 	     }
-		 
-		 return result;
+		 return resultLs;
 	 }
 	 
 	 public static void main(String [] args)
