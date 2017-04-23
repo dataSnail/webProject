@@ -13,12 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 public class LoginFilter extends HttpServlet implements Filter{
     
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 
 	public void destory(){
 		
@@ -34,16 +36,27 @@ public class LoginFilter extends HttpServlet implements Filter{
 		HttpSession session = request.getSession();
 		String url = request.getServletPath();
 		String contextPath = request.getContextPath();
+		String user = (String) session.getAttribute("username");
 		if(url.equals("")) url += "/";
+		if((url.startsWith("/") && !url.startsWith("/login") && (user == null)))
+		{
+			System.out.println("####"+url);
+		    response.sendRedirect(contextPath + "/login.jsp");
+		
+		}
+		/*
 		if((url.startsWith("/") && !url.startsWith("/login")))
 		{
+			System.out.println("####"+url);
 			String user = (String) session.getAttribute("username");
 			if (user == null)
 			{
 				response.sendRedirect(contextPath + "/login.jsp");
-				return;
+				//return;
 			}
+			
 		}
+		*/
 		sFilterChain.doFilter(sRequest,sResponse);
 	}
 
