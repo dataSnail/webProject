@@ -41,6 +41,7 @@ public class LoginFilter extends HttpServlet implements Filter{
 			if (user == null)
 			{
 				response.sendRedirect(contextPath + "/login.jsp");
+				return;
 			}
 		}
 		sFilterChain.doFilter(sRequest,sResponse);

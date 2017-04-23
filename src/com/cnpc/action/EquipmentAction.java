@@ -1,6 +1,5 @@
 package com.cnpc.action;
 
-import java.util.Date;
 import java.util.List;
 
 import com.cnpc.bean.Equipmentinfo;
@@ -16,7 +15,16 @@ public class EquipmentAction extends ActionSupport{
 
 	private String equipType = "";
 	private List<Equipmentinfo> equipLs = null;
-//	private Date nowDate = Date();
+	private EquipInfoDao equipDao;
+//	public EquipInfoDao getEquipDao() {
+//			return equipDao;
+//		}
+//
+//	public void setEquipDao(EquipInfoDao equipDao) {
+//		this.equipDao = equipDao;
+//	}
+
+	//	private Date nowDate = Date();
 	public List<Equipmentinfo> getEquipLs() {
 		return equipLs;
 	}
@@ -44,12 +52,12 @@ public class EquipmentAction extends ActionSupport{
 		{
 			return ERROR;
 		}else if(equipType.equals("9")){
-			EquipInfoDao ed = new EquipInfoDao();
-			ed.readExcel2DB();
+			equipDao = new EquipInfoDao();
+			equipDao.readExcel2DB();
 			
 		}else{
-			EquipInfoDao ed = new EquipInfoDao();
-			this.setEquipLs(ed.getEquipInfo(equipType,1));
+			equipDao = new EquipInfoDao();
+			this.setEquipLs(equipDao.getEquipInfo(equipType,1));
 			System.out.println(equipType);
 		}
 		
