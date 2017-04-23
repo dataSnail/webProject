@@ -4,14 +4,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.logicalcobwebs.proxool.ProxoolDataSource;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-public class UserDao {
+import com.cnpc.bean.Equipmentinfo;
 
+public class CertificationDao {
 	private static ApplicationContext ac;
 	private static ProxoolDataSource template ;
 	private Connection conn = null;
@@ -22,16 +24,29 @@ public class UserDao {
 		template = (ProxoolDataSource) ac.getBean("dataSource");
 	}
 	
-	public Map<String,Integer> getOutDateStatistic()
+	
+	public List<Equipmentinfo> getOutDateInfo(String outdateTime)
 	{
-		Map<String,Integer> statisticResult = null;
+		List<Equipmentinfo> equipLs = new ArrayList<Equipmentinfo>();
 		try {
 			conn = template.getConnection();
 			stmt = conn.createStatement();
-			String sql = "";
+			String sql = "select area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where datediff(exp_date,NOW())<"+outdateTime;
 			ResultSet res = stmt.executeQuery(sql);
 			while(res.next()){
-
+				Equipmentinfo ei = new Equipmentinfo();
+				ei.setArea(res.getString("area"));
+				ei.setDepartment(res.getString("department"));
+				ei.setRoomId(res.getString("room"));
+				ei.setSpecification(res.getString("specification"));
+				ei.setLabel(res.getString("label"));
+				ei.setLocation(res.getString("location"));
+				ei.setExp_date(res.getDate("exp_date"));
+				ei.setResponsible_dep(res.getString("responsible_dep"));
+				ei.setResponsible_person(res.getString("responsible_person"));
+				ei.setPerson_pic(res.getString("person_pic"));
+				ei.setNote(res.getString("notes"));
+				equipLs.add(ei);
 			}
 		} catch (SQLException  e) {
 			// TODO Auto-generated catch block
@@ -52,7 +67,6 @@ public class UserDao {
 					e.printStackTrace();
 				}
 		}
-		return statisticResult;
+		return equipLs;
 	}
-	
 }

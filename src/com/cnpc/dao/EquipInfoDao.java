@@ -9,21 +9,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.logicalcobwebs.proxool.ProxoolDataSource;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.cnpc.bean.Equipmentinfo;
 import com.cnpc.utils.ExcelReader;
 
-public class EquipInfoDao {
-	private ApplicationContext ac;
-	private ProxoolDataSource template ;
+public class EquipInfoDao extends JdbcDaoSupport {
+	private static ApplicationContext ac;
+	private static ProxoolDataSource template ;
 	private Connection conn = null;
 	private Statement stmt = null;
 	
-	public EquipInfoDao(){
+	static{
 		ac = new FileSystemXmlApplicationContext("classpath:applicationContext.xml"); 
 		template = (ProxoolDataSource) ac.getBean("dataSource");
 	}
@@ -137,6 +139,14 @@ public class EquipInfoDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void testDao()
+	{
+		String sql = "select 1";
+		List<Map<String, Object>> a = this.getJdbcTemplate().queryForList(sql);
+		System.out.print(a);
+		
 	}
 	
 	

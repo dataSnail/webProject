@@ -1,13 +1,10 @@
 package com.cnpc.dao;
 
-import java.io.File;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.logicalcobwebs.proxool.ProxoolDataSource;
@@ -15,15 +12,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.cnpc.bean.Equipmentinfo;
-import com.cnpc.utils.ExcelReader;
 
 public class OutDateDao {
-	private ApplicationContext ac;
-	private ProxoolDataSource template ;
+	private static ApplicationContext ac;
+	private static ProxoolDataSource template ;
 	private Connection conn = null;
 	private Statement stmt = null;
 	
-	public OutDateDao(){
+	static{
 		ac = new FileSystemXmlApplicationContext("classpath:applicationContext.xml"); 
 		template = (ProxoolDataSource) ac.getBean("dataSource");
 	}
