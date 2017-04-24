@@ -3,7 +3,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,6 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <li class="user-header">
                 <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p>系统管理员</p>
+                <p><s:property value = '#session.username'/></p>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
@@ -98,6 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="pull-left info">
           <p>管理员</p>
+          <p><s:property value = '#session.username'/></p>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -152,7 +154,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </li>
 
         <li>
-          <a href="<%=basePath%>user_management.jsp">
+          <a href="<%=basePath%>user/userInfo.do">
             <i class="fa fa-user"></i> <span>用户管理</span>
           </a>
         </li>

@@ -11,21 +11,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <title>状态管理系统</title>
   <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
   <!-- Bootstrap 3.3.4 -->
-  <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="<%=basePath%>bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
   <!-- Font Awesome Icons -->
-  <link href="./dist/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <link href="<%=basePath%>dist/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
   <!-- Ionicons -->
-  <link href="./dist/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+  <link href="<%=basePath%>dist/css/ionicons.min.css" rel="stylesheet" type="text/css" />
   
   <!-- iCheck for checkboxes and radio inputs -->
-  <link rel="stylesheet" href="./plugins/iCheck/all.css">
+  <link rel="stylesheet" href="<%=basePath%>plugins/iCheck/all.css">
   <!-- DATA TABLES -->
-  <link href="./plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+  <link href="<%=basePath%>plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
   <!-- Theme style -->
-  <link href="./dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+  <link href="<%=basePath%>dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link href="./dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+  <link href="<%=basePath%>dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="welcome.jsp" class="logo">
+    <a href="<%=basePath%>welcome.jsp" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini">MS</span>
       <!-- logo for regular state and mobile devices -->
@@ -57,13 +57,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs">管理员</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p>系统管理员</p>
               </li>
               <!-- Menu Footer-->
@@ -85,7 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>管理员</p>
@@ -135,15 +135,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
-            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
-            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
-            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
+            <li class = "${timeType==0?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=0"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
+            <li class = "${timeType==1?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=1"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
+            <li class = "${timeType==2?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=2"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
+            <li class = "${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
           </ul>
         </li>
 
         <li class = "active">
-          <a href="user_management.jsp">
+          <a href="<%=basePath%>user/userInfo.do">
             <i class="fa fa-user"></i> <span>用户管理</span>
           </a>
         </li>
@@ -378,22 +378,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- ./wrapper -->
 
 <!-- jQuery 2.1.4 -->
-<script src="./plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="<%=basePath%>plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.2 JS -->
-<script src="./bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <!-- DATA TABES SCRIPT -->
-<script src="./plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="./plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
 <!-- SlimScroll -->
-<script src="./plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <!-- FastClick -->
-<script src='./plugins/fastclick/fastclick.min.js'></script>
+<script src='<%=basePath%>plugins/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
-<script src="./dist/js/app.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>dist/js/app.min.js" type="text/javascript"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="./dist/js/demo.js" type="text/javascript"></script>
+<script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script>
 <!-- iCheck 1.0.1 -->
-<script src="./plugins/iCheck/icheck.min.js"></script>
+<script src="<%=basePath%>plugins/iCheck/icheck.min.js"></script>
 <!-- Page script -->
 <script>
   $(function () {

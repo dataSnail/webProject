@@ -3,7 +3,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,13 +74,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">管理员:${userName}</span>
+              <span class="hidden-xs">管理员</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                <p>${userName}</p>
+                <p>系统管理员</p>
+                <p><s:property value = '#session.username'/></p>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
@@ -105,6 +106,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="pull-left info">
           <p>管理员</p>
+          <p><s:property value = '#session.username'/></p>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -151,15 +153,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
-            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
-            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
-            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
+            <li class = "${timeType==0?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=0"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
+            <li class = "${timeType==1?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=1"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
+            <li class = "${timeType==2?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=2"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
+            <li class = "${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
           </ul>
         </li>
 
         <li>
-          <a href="<%=basePath%>user_management.jsp">
+          <a href="<%=basePath%>user/userInfo.do">
             <i class="fa fa-user"></i> <span>用户管理</span>
           </a>
         </li>
@@ -182,7 +184,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <section class="content">
 		<div class="callout callout-info">
 		  <h4>欢迎访问!</h4>
-		  <p>欢迎您，${userName}.</p>
+		  <p>欢迎您，<s:property value = '#session.username'/>.</p>
 		</div>
     </section>
     <!-- /.content -->
@@ -197,10 +199,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					            </div>
 					            <div class="box-footer no-padding">
 					              <ul class="nav nav-stacked">
-					                <li><a href="#">今天已经到期 设备数量<span class="pull-right badge bg-red">31</span></a></li>
-					                <li><a href="#">今天已经到期 证书数量 <span class="pull-right badge bg-red">5</span></a></li>
-					                <li><a href="#">30天内到期设备数量<span class="pull-right badge bg-yellow">12</span></a></li>
-					                <li><a href="#">30天内到期证书数量<span class="pull-right badge bg-yellow">842</span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?timeType=0">今天已经到期 设备数量<span class="pull-right badge bg-red">31</span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?timeType=0">今天已经到期 证书数量 <span class="pull-right badge bg-red">5</span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?timeType=2">30天内到期设备数量<span class="pull-right badge bg-yellow">12</span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?timeType=2">30天内到期证书数量<span class="pull-right badge bg-yellow">842</span></a></li>
 					              </ul>
 					            </div>
 					</div>

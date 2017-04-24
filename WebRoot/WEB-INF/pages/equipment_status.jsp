@@ -12,30 +12,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="<%=basePath%>/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<%=basePath%>bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="<%=basePath%>/dist/css/font-awesome.min.css">
+  <link rel="stylesheet" href="<%=basePath%>dist/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="<%=basePath%>/dist/css/ionicons.min.css">
+  <link rel="stylesheet" href="<%=basePath%>dist/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="<%=basePath%>/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<%=basePath%>dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="<%=basePath%>/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="<%=basePath%>dist/css/skins/_all-skins.min.css">
   <!-- iCheck -->
-  <link rel="stylesheet" href="<%=basePath%>/plugins/iCheck/flat/blue.css">
+  <link rel="stylesheet" href="<%=basePath%>plugins/iCheck/flat/blue.css">
   <!-- Morris chart -->
-  <link rel="stylesheet" href="<%=basePath%>/plugins/morris/morris.css">
+  <link rel="stylesheet" href="<%=basePath%>plugins/morris/morris.css">
   <!-- jvectormap -->
-  <link rel="stylesheet" href="<%=basePath%>/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+  <link rel="stylesheet" href="<%=basePath%>plugins/jvectormap/jquery-jvectormap-1.2.2.css">
   <!-- Date Picker -->
-  <link rel="stylesheet" href="<%=basePath%>/plugins/datepicker/datepicker3.css">
+  <link rel="stylesheet" href="<%=basePath%>plugins/datepicker/datepicker3.css">
   <!-- Daterange picker -->
-  <link rel="stylesheet" href="<%=basePath%>/plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="<%=basePath%>plugins/daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
-  <link rel="stylesheet" href="<%=basePath%>/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet" href="<%=basePath%>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <!-- DATA TABLES -->
-  <link href="<%=basePath%>/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+  <link href="<%=basePath%>plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -74,6 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <li class="user-header">
                 <img src="<%=basePath%>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p>系统管理员</p>
+                <p><s:property value = '#session.username'/></p>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
@@ -98,6 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="pull-left info">
           <p>管理员</p>
+          <p><s:property value = '#session.username'/></p>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -144,15 +146,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
-            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
-            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
-            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
+            <li class = "${timeType==0?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=0"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
+            <li class = "${timeType==1?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=1"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
+            <li class = "${timeType==2?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=2"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
+            <li class = "${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
           </ul>
         </li>
 
         <li>
-          <a href="<%=basePath%>user_management.jsp">
+          <a href="<%=basePath%>user/userInfo.do">
             <i class="fa fa-user"></i> <span>用户管理</span>
           </a>
         </li>
@@ -167,7 +169,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <small>>设备设施有效期查询</small>
+        <small>设备设施有效期查询</small>
       </h1>
     </section>
 

@@ -136,14 +136,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
           </ul>
         </li>
-        <li>
-          <a href="<%=basePath%>out_date_item.jsp">
+        <li class = "treeview">
+          <a href="#">
             <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li class = "${timeType==0?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=0"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
+            <li class = "${timeType==1?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=1"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
+            <li class = "${timeType==2?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=2"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
+            <li class = "${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
+          </ul>
         </li>
 
         <li>
-          <a href="<%=basePath%>user_management.jsp">
+          <a href="<%=basePath%>user/userInfo.do">
             <i class="fa fa-user"></i> <span>用户管理</span>
           </a>
         </li>

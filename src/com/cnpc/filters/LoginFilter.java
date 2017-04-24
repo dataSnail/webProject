@@ -174,7 +174,7 @@ public class LoginFilter extends HttpServlet implements Filter{
             // 跳转到登录界面  
 //           out.print("<script language='javascript'>alert('身份验证失效，请重新登录！');window.parent.location.href='"  
 //                    + redirectPath + "';</script>");  
-        	if(!url.startsWith("/login.jsp"))
+        	if(!url.startsWith("/login.jsp"))//&&url.indexOf("userInfo.do")!=-1
         	{
         		response.sendRedirect(contextPath + "/login.jsp");
         	}
