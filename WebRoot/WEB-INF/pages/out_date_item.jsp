@@ -4,6 +4,8 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
+<%@ taglib prefix="s" uri="/struts-tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,6 +38,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <link rel="stylesheet" href="<%=basePath%>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <!-- DATA TABLES -->
   <link href="<%=basePath%>plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+  
+  <!-- Select2 -->
+  <link rel="stylesheet" href="<%=basePath%>plugins/select2/select2.min.css">
+  
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="<%=basePath%>plugins/daterangepicker/daterangepicker.css">  
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -60,7 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
-
+      
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- User Account: style can be found in dropdown.less -->
@@ -111,17 +119,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="${equipType==0?'active':'' }"><a href="<%=basePath%>equip/query?equipType=0"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
-            <li class="${equipType==1?'active':'' }"><a href="<%=basePath%>equip/query?equipType=1"><i class="fa fa-circle-o"></i>流量计管理</a></li>
-            <li class="${equipType==2?'active':'' }"><a href="<%=basePath%>equip/query?equipType=2"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
-            <li class="${equipType==3?'active':'' }"><a href="<%=basePath%>equip/query?equipType=3"><i class="fa fa-circle-o"></i>压力表管理</a></li>
-            <li class="${equipType==4?'active':'' }"><a href="<%=basePath%>equip/query?equipType=4"><i class="fa fa-circle-o"></i>加气机管理</a></li>
-            <li class="${equipType==5?'active':'' }"><a href="<%=basePath%>equip/query?equipType=5"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
-            <li class="${equipType==6?'active':'' }"><a href="<%=basePath%>equip/query?equipType=6"><i class="fa fa-circle-o"></i>储气井管理</a></li>
-            <li class="${equipType==7?'active':'' }"><a href="<%=basePath%>equip/query?equipType=7"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
+            <li class="${equipType==0?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=0"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
+            <li class="${equipType==1?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=1"><i class="fa fa-circle-o"></i>流量计管理</a></li>
+            <li class="${equipType==2?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=2"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
+            <li class="${equipType==3?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=3"><i class="fa fa-circle-o"></i>压力表管理</a></li>
+            <li class="${equipType==4?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=4"><i class="fa fa-circle-o"></i>加气机管理</a></li>
+            <li class="${equipType==5?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=5"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
+            <li class="${equipType==6?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=6"><i class="fa fa-circle-o"></i>储气井管理</a></li>
+            <li class="${equipType==7?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=7"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
           </ul>
         </li>
-        <li class="treeview active">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-tasks"></i> <span>资产证照管理</span>
             <span class="pull-right-container">
@@ -129,14 +137,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="${certifType==0?'active':'' }"><a href="<%=basePath%>certif/query?certifType=0"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
-            <li class="${certifType==1?'active':'' }"><a href="<%=basePath%>certif/query?certifType=1"><i class="fa fa-circle-o"></i>商务局批复</a></li>
-            <li class="${certifType==2?'active':'' }"><a href="<%=basePath%>certif/query?certifType=2"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
-            <li class="${certifType==3?'active':'' }"><a href="<%=basePath%>certif/query?certifType=3"><i class="fa fa-circle-o"></i>烟草证</a></li>
-            <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
+            <li class="${certifType==0?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=0"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
+            <li class="${certifType==1?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=1"><i class="fa fa-circle-o"></i>商务局批复</a></li>
+            <li class="${certifType==2?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=2"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
+            <li class="${certifType==3?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=3"><i class="fa fa-circle-o"></i>烟草证</a></li>
+            <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
           </ul>
         </li>
-        <li class = "treeview">
+        <li class = "treeview active">
           <a href="#">
             <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
             <span class="pull-right-container">
@@ -144,10 +152,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
-            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
-            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
-            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
+            <li class="${timeType==0?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=0"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
+            <li class="${timeType==1?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=1"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
+            <li class="${timeType==2?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=2"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
+            <li class="${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
           </ul>
         </li>
 
@@ -167,7 +175,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <small>设备设施有效期</small>
+        <small>到期设备设施一览表</small>
       </h1>
     </section>
 
@@ -177,59 +185,89 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <h4>小贴士!</h4>
 		  <p>红色代表此设备即将到期！</p>
 		</div>
+    	<div class = "box box-primary ${timeType==3?'':'hide' }">
+    	<div class = "box-header"></div>
+    	<div class = "box-body">
+		<div class = "row"> 
+		    <div class="col-xs-3">
+		        <!-- Date yyyy-mm-dd -->
+		        <div class="form-group">
+		          <label>到期日期：</label>
+		
+		          <div class="input-group">
+		            <div class="input-group-addon">
+		              <i class="fa fa-calendar"></i>
+		            </div>
+		            <input type="text" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+		            <span class="input-group-btn">
+                      <button type="button" class="btn btn-info btn-flat">查询</button>
+                    </span>
+		          </div>
+		          <!-- /.input group -->
+		        </div>
+		    </div>
+		    
+		    <div class="col-xs-3">
+              <!-- Date and time range -->
+              <!--
+              <div class="form-group">
+                <label>快速查询:</label>
+
+                <div class="input-group">
+                  <button type="button" class="btn btn-default pull-right" id="daterange-btn">
+                    <span>
+                      <i class="fa fa-calendar"></i> Date range picker
+                    </span>
+                    <i class="fa fa-caret-down"></i>
+                  </button>
+                </div>
+              </div>-->
+              <!-- /.form group -->
+		    </div> 
+	    </div>
+		</div>
+		</div>
+
 	    <div class="row">
 	      <div class="col-xs-12">
+	      
 	        <div class="box box-solid box-info">
-	        
 	          <div class="box-header">
-	            <h3 class="box-title">${certifType==0?'成品油经营许可证':certifType==1?'商务批复':certifType==2?'食品经营许可证':certifType==3?'烟草证':'从业人员健康证'}信息列表</h3>
-	            <div class = "pull-right">
-	            	<a href = "#" class="text-muted">
-	            	<i class="fa fa-upload">点击导入Excel表格</i>
-	            	</a>
-	            </div>
+	            <h3 class="box-title">到期设备设施一览</h3>
 	          </div>
 	          <!-- /.box-header -->
-	          
 	          <div class="box-body">
 	            <table id="table2017" class="table table-bordered table-striped">
 	              <thead>
 	                <tr>
-	                  <th>地区</th>
 	                  <th>部门</th>
-	                  <th>证号</th>
-	                  <th>证到期时间</th>
+	                  <th>房间号</th>
+	                  <th>规格</th>
+	                  <th>设备标号</th>
+	                  <th>所在位置</th>
+	                  <th>有效期</th>
 	                  <th>责任部门</th>
 	                  <th>责任人(电话)</th>
 	                  <th>负责办理人(电话)</th>
-	                  <th>存放地点</th>
 	                  <th>备注</th>
 	                </tr>
 	              </thead>
 	              <tbody>
-	                <tr>
-	                	<td class="text-red">南片区</td>
-	                	<td class="text-red">xxx大街</td>
-	                	<td class="text-red">xxxxxxxxxxxxxxx</td>
-	                	<td class="text-red">2017-5-6</td>
-	                	<td class="text-red">综合办公室</td>
-	                	<td class="text-red">张三（666666）</td>
-	                	<td class="text-red">李大大（666666）</td>
-	                	<td class="text-red">1201办公室</td>
-	                	<td class="text-red"></td>
-	                </tr>
-	                <tr>
-	               		<td>江宁</td>
-	                	<td>经理部门</td>
-	                	<td>323432342424233</td>
-	                	<td>2017-8-6</td>
-	                	<td>综合管理部</td>
-	                	<td>张三（666666）</td>
-	                	<td>李大大（666666）</td>
-	                	<td>1201办公室</td>
-	                	<td></td>
-	                </tr>
-
+	                <s:iterator value="equipLs" id="equipLs">
+	                <tr class=" ">
+					    <td><s:property value="#equipLs.area"/></td>
+	                	<td><s:property value="#equipLs.department"/></td>
+	                	<td><s:property value="#equipLs.roomId"/></td>
+	                	<td><s:property value="#equipLs.specification"/></td>
+	                	<td><s:property value="#equipLs.label"/></td>
+	                	<td><s:property value="#equipLs.location"/></td>
+	                	<td><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></td>
+	                	<td><s:property value="#equipLs.responsible_dep"/></td>
+	                	<td><s:property value="#equipLs.responsible_person"/></td>
+	                	<td><s:property value="#equipLs.person_pic"/></td>
+	                	<td><s:property value="#equipLs.note"/></td>
+					</tr>
+					</s:iterator>
 	              </tbody>
 	            </table>
 	          </div><!-- /.box-body -->
@@ -267,11 +305,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src='<%=basePath%>plugins/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
 <script src="<%=basePath%>dist/js/app.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/input-mask/jquery.inputmask.js"></script>
+<script src="<%=basePath%>plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="<%=basePath%>plugins/input-mask/jquery.inputmask.extensions.js"></script>
+
+<!-- date-range-picker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script src="<%=basePath%>plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Select2 -->
+<script src="<%=basePath%>plugins/select2/select2.full.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script>
 <!-- page script -->
 <script>
   $(function () {
+	  
+	$(".select2").select2();
     $('#table2017').DataTable({
         "paging": true,
         "lengthChange": false,
@@ -280,8 +329,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         "info": true,
         "autoWidth": false
     });
+    //Datemask yyyy-mm-dd
+    $("#datemask").inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"});
+    //Money Euro
+    $("[data-mask]").inputmask();
+    
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+        {
+          ranges: {
+            '今天': [moment()],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          },
+          startDate: moment().subtract(29, 'days'),
+          endDate: moment()
+        },
+        function (start, end) {
+          $('#daterange-btn span').html(start.format('yyyy-mm-dd') + ' - ' + end.format('MMMM D, YYYY'));
+        }
+        );
   });
 </script>
 </body>
 </html>
-

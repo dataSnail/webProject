@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
   <meta charset="utf-8">
-  <title>状态管理系统</title>
+  <title>状态管理系统-信息</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -111,14 +111,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="${equipType==0?'active':'' }"><a href="<%=basePath%>equip/query?equipType=0"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
-            <li class="${equipType==1?'active':'' }"><a href="<%=basePath%>equip/query?equipType=1"><i class="fa fa-circle-o"></i>流量计管理</a></li>
-            <li class="${equipType==2?'active':'' }"><a href="<%=basePath%>equip/query?equipType=2"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
-            <li class="${equipType==3?'active':'' }"><a href="<%=basePath%>equip/query?equipType=3"><i class="fa fa-circle-o"></i>压力表管理</a></li>
-            <li class="${equipType==4?'active':'' }"><a href="<%=basePath%>equip/query?equipType=4"><i class="fa fa-circle-o"></i>加气机管理</a></li>
-            <li class="${equipType==5?'active':'' }"><a href="<%=basePath%>equip/query?equipType=5"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
-            <li class="${equipType==6?'active':'' }"><a href="<%=basePath%>equip/query?equipType=6"><i class="fa fa-circle-o"></i>储气井管理</a></li>
-            <li class="${equipType==7?'active':'' }"><a href="<%=basePath%>equip/query?equipType=7"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
+            <li class="${equipType==0?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=0"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
+            <li class="${equipType==1?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=1"><i class="fa fa-circle-o"></i>流量计管理</a></li>
+            <li class="${equipType==2?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=2"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
+            <li class="${equipType==3?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=3"><i class="fa fa-circle-o"></i>压力表管理</a></li>
+            <li class="${equipType==4?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=4"><i class="fa fa-circle-o"></i>加气机管理</a></li>
+            <li class="${equipType==5?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=5"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
+            <li class="${equipType==6?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=6"><i class="fa fa-circle-o"></i>储气井管理</a></li>
+            <li class="${equipType==7?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=7"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -129,11 +129,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="${certifType==0?'active':'' }"><a href="<%=basePath%>certif/query?certifType=0"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
-            <li class="${certifType==1?'active':'' }"><a href="<%=basePath%>certif/query?certifType=1"><i class="fa fa-circle-o"></i>商务局批复</a></li>
-            <li class="${certifType==2?'active':'' }"><a href="<%=basePath%>certif/query?certifType=2"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
-            <li class="${certifType==3?'active':'' }"><a href="<%=basePath%>certif/query?certifType=3"><i class="fa fa-circle-o"></i>烟草证</a></li>
-            <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
+            <li class="${certifType==0?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=0"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
+            <li class="${certifType==1?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=1"><i class="fa fa-circle-o"></i>商务局批复</a></li>
+            <li class="${certifType==2?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=2"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
+            <li class="${certifType==3?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=3"><i class="fa fa-circle-o"></i>烟草证</a></li>
+            <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
           </ul>
         </li>
         <li>
@@ -170,56 +170,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	    <div class="row">
 	      <div class="col-xs-12">
-	        <div class="box box-solid box-info">
-	        
-	          <div class="box-header">
-	            <h3 class="box-title">${equipType==0?'灭火器':equipType==1?'流量计':equipType==2?'安全阀':equipType==3?'压力表':equipType==4?'加气机':equipType==5?'卸气柱':equipType==6?'储气井':'可燃气体报警'}信息列表</h3>
-	            <div class = "pull-right">
-	            	<a href = "#" class="text-muted">
-	            	<i class="fa fa-upload">点击导入Excel表格</i>
-	            	</a>
-	            </div>
-	          </div>
-	          <!-- /.box-header -->
-	          
-	          <div class="box-body">
-	            <table id="table2017" class="table table-bordered table-striped">
-	              <thead>
-	                <tr>
-	                  <th>地区</th>
-	                  <th>部门</th>
-	                  <th>房间号</th>
-	                  <th>规格</th>
-	                  <th>设备标号</th>
-	                  <th>所在位置</th>
-	                  <th>有效期</th>
-	                  <th>责任部门</th>
-	                  <th>责任人(电话)</th>
-	                  <th>负责办理人(电话)</th>
-	                  <th>备注</th>
-	                </tr>
-	              </thead>
-	              <tbody>
-	                <s:iterator value="equipLs" id="equipLs">
-	                <tr>
-					    <td class="text-red"><s:property value="#equipLs.area"/></td>
-	                	<td class="text-red"><s:property value="#equipLs.department"/></td>
-	                	<td class="text-red"><s:property value="#equipLs.roomId"/></td>
-	                	<td class="text-red"><s:property value="#equipLs.specification"/></td>
-	                	<td class="text-red"><s:property value="#equipLs.label"/></td>
-	                	<td class="text-red"><s:property value="#equipLs.location"/></td>
-	                	<td class="text-red"><s:property value="#equipLs.exp_date"/></td>
-	                	<td class="text-red"><s:property value="#equipLs.responsible_dep"/></td>
-	                	<td class="text-red"><s:property value="#equipLs.responsible_person"/></td>
-	                	<td class="text-red"><s:property value="#equipLs.person_pic"/></td>
-	                	<td class="text-red"><s:property value="#equipLs.note"/></td>
-					</tr>
-					</s:iterator>
 
-	              </tbody>
-	            </table>
-	          </div><!-- /.box-body -->
-	        </div><!-- /.box -->
 	      </div><!-- /.col -->
 	    </div><!-- /.row -->
     </section>

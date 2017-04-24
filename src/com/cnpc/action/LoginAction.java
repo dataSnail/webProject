@@ -52,6 +52,7 @@ public class LoginAction extends ActionSupport {
 	{
 		String userName = this.getUserName();
 		String passWord = this.getPassWord();
+		System.out.println("122");
 		if("admin".equals(userName)&&"admin".equals(passWord)) 
 		{
 			HttpServletRequest request = ServletActionContext.getRequest();

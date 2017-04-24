@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="login-box-body">
     <p class="login-box-msg">用户登录</p>
 
-    <form action="userLogin" method="post">
+    <form action="userLogin.do" method="post">
       <div class="form-group has-feedback">
         <input type="text" class="form-control" placeholder="用户名" name = "userName">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>

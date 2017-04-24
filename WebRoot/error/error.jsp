@@ -9,17 +9,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>404page</title>
 	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 	<!-- Bootstrap 3.3.4 -->
-	<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="<%=basePath%>bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<!-- Font Awesome Icons -->
-	<link href="./dist/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link href="<%=basePath%>dist/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<!-- Ionicons -->
-	<link href="./dist/css/ionicons.min.css" rel="stylesheet" type="text/css" />    
+	<link href="<%=basePath%>dist/css/ionicons.min.css" rel="stylesheet" type="text/css" />    
 
   	<!-- Theme style -->
-  	<link href="./dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+  	<link href="<%=basePath%>dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
 	<!-- AdminLTE Skins. Choose a skin from the css/skins
 	     folder instead of downloading all of them to reduce the load. -->
-	<link href="./dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />  	
+	<link href="<%=basePath%>dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />  	
 
   </head>
   <body class="skin-blue sidebar-mini">
@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="welcome.jsp" class="logo">
+    <a href="<%=basePath%>welcome.jsp" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini">MS</span>
       <!-- logo for regular state and mobile devices -->
@@ -45,13 +45,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs">管理员</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p>系统管理员</p>
               </li>
               <!-- Menu Footer-->
@@ -72,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="<%=basePath %>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>管理员</p>
@@ -83,38 +83,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <li class="header">主菜单</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-tasks"></i> <span>灭火器状态查询</span>
+            <i class="fa fa-tasks"></i> <span>设备设施管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i> 灭火器A</a></li>
-            <li><a href="equipment_status.jsp"><i class="fa fa-circle-o"></i>加油站B</a></li>
+            <li class="${equipType==0?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=0"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
+            <li class="${equipType==1?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=1"><i class="fa fa-circle-o"></i>流量计管理</a></li>
+            <li class="${equipType==2?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=2"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
+            <li class="${equipType==3?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=3"><i class="fa fa-circle-o"></i>压力表管理</a></li>
+            <li class="${equipType==4?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=4"><i class="fa fa-circle-o"></i>加气机管理</a></li>
+            <li class="${equipType==5?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=5"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
+            <li class="${equipType==6?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=6"><i class="fa fa-circle-o"></i>储气井管理</a></li>
+            <li class="${equipType==7?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=7"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
           </ul>
         </li>
-
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>其他状态查询</span>
+            <i class="fa fa-tasks"></i> <span>资产证照管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="welcome.jsp"><i class="fa fa-circle-o"></i> 设备项目A</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>设备项目B</a></li>
+            <li class="${certifType==0?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=0"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
+            <li class="${certifType==1?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=1"><i class="fa fa-circle-o"></i>商务局批复</a></li>
+            <li class="${certifType==2?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=2"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
+            <li class="${certifType==3?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=3"><i class="fa fa-circle-o"></i>烟草证</a></li>
+            <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
+          </ul>
+        </li>
+        <li class = "treeview">
+          <a href="#">
+            <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
+            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
+            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
+            <li><a href="<%=basePath%>out_date_item.jsp"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
           </ul>
         </li>
 
         <li>
-          <a href="out_date_item.jsp">
-            <i class="fa fa-calendar-times-o"></i> <span>到期查询</span>
-          </a>
-        </li>
-
-        <li class = "active">
-          <a href="user_management.jsp">
+          <a href="<%=basePath %>user_management.jsp">
             <i class="fa fa-user"></i> <span>用户管理</span>
           </a>
         </li>
@@ -136,7 +152,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <h2 class="headline text-yellow"> 404</h2>
         <div class="error-content">
           <h3><i class="fa fa-warning text-yellow"></i> </h3>
-          <p>xxx秒返回主页，点此跳转！</p>
+          <span id = 'second'>5</span><p>秒返回主页，<a href = "<%=basePath%>">点此跳转！</a></p>
         </div>
         <!-- /.error-content -->
       </div>
@@ -144,5 +160,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       
       </section>
   	</div>
+  </div>
+  
+<script type="text/javascript">  
+ 
+	var sec = document.getElementById("second");
+	var i = 5;
+	var timer = setInterval(function(){
+		i--;
+		sec.innerHTML = i;
+		if(i==1){
+			window.location.href =  "<%=basePath%>";
+		}
+	},1000);
+	 
+  function goBack(){ 
+	window.history.go(-1);
+  }  
+  </script>
   </body>
 </html>

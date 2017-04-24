@@ -31,7 +31,7 @@ public class UserDao {
 			String sql = "";
 			ResultSet res = stmt.executeQuery(sql);
 			while(res.next()){
-
+				//TODO
 			}
 		} catch (SQLException  e) {
 			// TODO Auto-generated catch block

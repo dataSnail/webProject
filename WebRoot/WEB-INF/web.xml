@@ -42,7 +42,7 @@
     
     <init-param>
     	<param-name>authorityURLs</param-name>
-    	<param-value>.jsp,.do,?</param-value>
+    	<param-value>.jsp,.do</param-value>
     </init-param>
     
   </filter>
