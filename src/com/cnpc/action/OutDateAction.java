@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.cnpc.bean.Equipmentinfo;
 import com.cnpc.dao.OutDateDao;
+import com.cnpc.filters.SpringInit;
+import com.cnpc.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class OutDateAction  extends ActionSupport{
@@ -11,8 +13,8 @@ public class OutDateAction  extends ActionSupport{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	private String timeType = "";
+	private String type = "";
 	private List<Equipmentinfo> equipLs = null;
 	public String getTimeType() {
 		return timeType;
@@ -30,7 +32,13 @@ public class OutDateAction  extends ActionSupport{
 		this.equipLs = equipLs;
 	}
 	
-	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 	
 	public String queryOutDate()
 	{
@@ -40,26 +48,20 @@ public class OutDateAction  extends ActionSupport{
 		{
 			return ERROR;
 		}else{
-			OutDateDao odd = new OutDateDao();
-			String outdateTime = "";
-			if(timeType.equals("0"))
+//			OutDateDao odd = new OutDateDao();
+			OutDateDao odd = (OutDateDao) SpringInit.getApplicationContext().getBean("outdateDao");
+			if(Utils.checkNull(timeType))
 			{
-				outdateTime = "0";
-			}else if(timeType.equals("1"))
+				return ERROR;
+			}else if(Utils.isNumeric(timeType))
 			{
-				outdateTime = "7";
-			}else if(timeType.equals("2"))
-			{
-				outdateTime = "30";
-			}else if(timeType.equals("3")){
+				this.setEquipLs(odd.getOutDateInfo(timeType,type));
+				System.out.println(timeType);
 				return SUCCESS;
 			}else{
 				return ERROR;
 			}
-			this.setEquipLs(odd.getOutDateInfo(outdateTime));
-			System.out.println(timeType);
+//			odd.getTest();
 		}
-		
-		return SUCCESS;
 	}
 }

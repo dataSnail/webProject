@@ -34,6 +34,7 @@ public class ExcelReader {
 	         Sheet sheet = wb.getSheetAt(0);//第一个工作表 
 	         int firstRowIndex = sheet.getFirstRowNum();  
 	         int lastRowIndex = sheet.getLastRowNum();
+	         System.out.println(lastRowIndex);
 	         for(int rIndex = firstRowIndex; rIndex <= lastRowIndex; rIndex ++){
 	             Row row = sheet.getRow(rIndex); 
 	             if(row != null){
@@ -89,5 +90,4 @@ public class ExcelReader {
 		 File f = new File("E:\\project1\\info.xls");
 		 er.readExcel2DB(f);
 	 }
-	 
 }

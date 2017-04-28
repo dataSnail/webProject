@@ -2,63 +2,51 @@ package com.cnpc.bean;
 
 import java.util.Date;
 
-import com.cnpc.utils.Utils;
-
-public class Equipmentinfo {
+public class Certificationinfo {
+	
+	private int type;
 	private String area;
 	private String department;
-	private String roomId;
-	private String specification;
-	private String label;
+	private String name;//批复文件名称、健康证姓名
+	private String specification;//规格
+	private String label;//证号、批文号
 	private String location;
 	private Date exp_date;
-	private String responsible_dep;
-	private String responsible_person;
-	private String person_pic;
+	private String responsible_dep;//负责人
+	private String responsible_person;//负责部门
+	private String person_pic;//负责办理人
 	private String note;
 	private String status;//与当前时间比，间隔的天数
 	
-	public String getStatus() {
-		return status;
+	public int getType() {
+		return type;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setType(int type) {
+		this.type = type;
 	}
 	public String getArea() {
 		return area;
 	}
 	public void setArea(String area) {
-		if(Utils.checkNull(area))
-			this.area = "无";
-		else
-			this.area = area;
+		this.area = area;
 	}
 	public String getDepartment() {
 		return department;
 	}
 	public void setDepartment(String department) {
-		if(Utils.checkNull(department))
-			this.department = "无";
-		else
-			this.department = department;
+		this.department = department;
 	}
-	public String getRoomId() {
-		return roomId;
+	public String getName() {
+		return name;
 	}
-	public void setRoomId(String roomId) {
-		if (Utils.checkNull(roomId))
-			this.roomId = "无";
-		else
-			this.roomId = roomId;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getSpecification() {
 		return specification;
 	}
 	public void setSpecification(String specification) {
-		if(Utils.checkNull(specification))
-			this.specification = "无";
-		else
-			this.specification = specification;
+		this.specification = specification;
 	}
 	public String getLabel() {
 		return label;
@@ -70,10 +58,7 @@ public class Equipmentinfo {
 		return location;
 	}
 	public void setLocation(String location) {
-		if(Utils.checkNull(location))
-			this.location = "无";
-		else
-			this.location = location;
+		this.location = location;
 	}
 	public Date getExp_date() {
 		return exp_date;
@@ -85,37 +70,32 @@ public class Equipmentinfo {
 		return responsible_dep;
 	}
 	public void setResponsible_dep(String responsible_dep) {
-		if(Utils.checkNull(responsible_dep))
-			this.responsible_dep = "无";
-		else
-			this.responsible_dep = responsible_dep;
+		this.responsible_dep = responsible_dep;
 	}
 	public String getResponsible_person() {
 		return responsible_person;
 	}
 	public void setResponsible_person(String responsible_person) {
-		if(Utils.checkNull(responsible_person))
-			this.responsible_person = "无";
-		else
-			this.responsible_person = responsible_person;
+		this.responsible_person = responsible_person;
 	}
 	public String getPerson_pic() {
 		return person_pic;
 	}
 	public void setPerson_pic(String person_pic) {
-		if(Utils.checkNull(person_pic))
-			this.person_pic = "无";
-		else
-			this.person_pic = person_pic;
+		this.person_pic = person_pic;
 	}
 	public String getNote() {
 		return note;
 	}
 	public void setNote(String note) {
-		if(Utils.checkNull(note))
-			this.note = "无";
-		else
-			this.note = note;
+		this.note = note;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	
 }

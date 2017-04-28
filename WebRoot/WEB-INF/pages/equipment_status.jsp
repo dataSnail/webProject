@@ -146,13 +146,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class = "${timeType==0?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=0"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
-            <li class = "${timeType==1?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=1"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
-            <li class = "${timeType==2?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=2"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
-            <li class = "${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
+            <li class="${timeType==0&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=0"><i class="fa fa-circle-o"></i>已到期设备</a></li>
+            <li class="${timeType==1&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=1"><i class="fa fa-circle-o"></i>7天内到期设备</a></li>
+            <li class="${timeType==2&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=2"><i class="fa fa-circle-o"></i>30天内到期设备</a></li>
+            <li class="${timeType==0&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=0"><i class="fa fa-certificate"></i>已到期、证书</a></li>
+            <li class="${timeType==1&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=1"><i class="fa fa-certificate"></i>7天内到期证书</a></li>
+            <li class="${timeType==2&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=2"><i class="fa fa-certificate"></i>30天内到期证书</a></li>
+            <li class="${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-calendar-check-o"></i>自定义时间内到期设备、证书</a></li>
           </ul>
         </li>
-
+        <li>
+          <a href="<%=basePath%>user/userInfo.do">
+            <i class="fa fa-user"></i> <span>数据导入</span>
+          </a>
+        </li>
         <li>
           <a href="<%=basePath%>user/userInfo.do">
             <i class="fa fa-user"></i> <span>用户管理</span>
@@ -212,18 +219,63 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	              </thead>
 	              <tbody>
 	                <s:iterator value="equipLs" id="equipLs">
-	                <tr class=" ">
-					    <td><s:property value="#equipLs.area"/></td>
-	                	<td><s:property value="#equipLs.department"/></td>
-	                	<td><s:property value="#equipLs.roomId"/></td>
-	                	<td><s:property value="#equipLs.specification"/></td>
-	                	<td><s:property value="#equipLs.label"/></td>
-	                	<td><s:property value="#equipLs.location"/></td>
-	                	<td><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></td>
-	                	<td><s:property value="#equipLs.responsible_dep"/></td>
-	                	<td><s:property value="#equipLs.responsible_person"/></td>
-	                	<td><s:property value="#equipLs.person_pic"/></td>
-	                	<td><s:property value="#equipLs.note"/></td>
+	                <tr>
+	                	<s:if test="#equipLs.status <= 0">
+					    <td class = "text-red"><b><s:property value="#equipLs.area"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#equipLs.department"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#equipLs.roomId"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#equipLs.specification"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#equipLs.label"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#equipLs.location"/></b></td>
+	                	<td class = "text-red"><b><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#equipLs.responsible_dep"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#equipLs.responsible_person"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#equipLs.person_pic"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#equipLs.note"/><small class="label pull-right bg-red">过期</small></b></td>
+	                	</s:if>
+	                	
+	                	<s:elseif test="30>=#equipLs.status > 0">
+	                	<s:if test="#equipLs.status <= 7">
+					    <td class = "text-orange"><b><s:property value="#equipLs.area"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#equipLs.department"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#equipLs.roomId"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#equipLs.specification"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#equipLs.label"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#equipLs.location"/></b></td>
+	                	<td class = "text-orange"><b><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#equipLs.responsible_dep"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#equipLs.responsible_person"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#equipLs.person_pic"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#equipLs.note"/><small class="label pull-right bg-orange">7</small></b></td>
+	                	</s:if>
+	                	<s:else>
+					    <td class = "text-light-blue"><b><s:property value="#equipLs.area"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#equipLs.department"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#equipLs.roomId"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#equipLs.specification"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#equipLs.label"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#equipLs.location"/></b></td>
+	                	<td class = "text-light-blue"><b><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#equipLs.responsible_dep"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#equipLs.responsible_person"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#equipLs.person_pic"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#equipLs.note"/><small class="label pull-right bg-light-blue">30</small></b></td>
+	                	</s:else>
+	                	</s:elseif>
+	                	
+	                	<s:else>
+					    <td><b><s:property value="#equipLs.area"/></b></td>
+	                	<td><b><s:property value="#equipLs.department"/></b></td>
+	                	<td><b><s:property value="#equipLs.roomId"/></b></td>
+	                	<td><b><s:property value="#equipLs.specification"/></b></td>
+	                	<td><b><s:property value="#equipLs.label"/></b></td>
+	                	<td><b><s:property value="#equipLs.location"/></b></td>
+	                	<td><b><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></b></td>
+	                	<td><b><s:property value="#equipLs.responsible_dep"/></b></td>
+	                	<td><b><s:property value="#equipLs.responsible_person"/></b></td>
+	                	<td><b><s:property value="#equipLs.person_pic"/></b></td>
+	                	<td><b><s:property value="#equipLs.note"/></b></td>
+	                	</s:else>
 					</tr>
 					</s:iterator>
 
@@ -273,10 +325,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         "paging": true,
         "lengthChange": false,
         "searching": false,
-        "ordering": true,
+        "ordering": false,
         "info": true,
         "autoWidth": false,
-        "queryParamsType":""
+        "iDisplayLength":50,
+        "oLanguage": {
+        	"sLengthMenu": "每页显示 _MENU_ 条记录",
+        	"sZeroRecords": "抱歉， 没有找到",
+        	"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+        	"sInfoEmpty": "没有数据",
+        	"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+        	"oPaginate": {
+        	"sFirst": "首页",
+        	"sPrevious": "前一页",
+        	"sNext": "后一页",
+        	"sLast": "尾页"
+        	},
+        	"sZeroRecords": "没有检索到数据"
+        	},
+        "queryParamsType":"limit"
     });
   });
 </script>

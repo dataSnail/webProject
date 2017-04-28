@@ -18,40 +18,39 @@ import com.cnpc.bean.Equipmentinfo;
 import com.cnpc.utils.ExcelReader;
 import com.cnpc.utils.Utils;
 
-public class EquipInfoDao extends JdbcDaoSupport {
+public class UploadFileDao extends JdbcDaoSupport {
 	
-	public List<Equipmentinfo> getEquipInfo(String type,int page)
-	{
-		List<Equipmentinfo> equipLs = new ArrayList<Equipmentinfo>();
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		Date now = new Date();
-		try {
-			String sql = "select area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where type = "+type+" order by exp_date asc";//+"  limit "+10*(page-1)+","+10*page
-			List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
-			for(Map<String,Object> res:resLs){
-				Equipmentinfo ei = new Equipmentinfo();
-				ei.setArea(res.get("area")+"");
-				ei.setDepartment(res.get("department")+"");
-				ei.setRoomId(res.get("room")+"");
-				ei.setSpecification(res.get("specification")+"");
-				ei.setLabel(res.get("label")+"");
-				ei.setLocation(res.get("location")+"");
-				ei.setExp_date(df.parse(res.get("exp_date")+""));
-				ei.setResponsible_dep(res.get("responsible_dep")+"");
-				ei.setResponsible_person(res.get("responsible_person")+"");
-				ei.setPerson_pic(res.get("person_pic")+"");
-				ei.setNote(res.get("notes")+"");
-				ei.setStatus(Double.toString(Math.ceil((ei.getExp_date().getTime()-now.getTime())/(24*60*60*1000.0))));
-				equipLs.add(ei);
-			}
-		} catch (ParseException  e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		return equipLs;
-
-	}
-	
+//	public List<Equipmentinfo> getEquipInfo(String type,int page)
+//	{
+//		List<Equipmentinfo> equipLs = new ArrayList<Equipmentinfo>();
+//		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//		Date now = new Date();
+//		try {
+//			String sql = "select area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where type = "+type+" order by exp_date asc";//+"  limit "+10*(page-1)+","+10*page
+//			List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
+//			for(Map<String,Object> res:resLs){
+//				Equipmentinfo ei = new Equipmentinfo();
+//				ei.setArea(res.get("area")+"");
+//				ei.setDepartment(res.get("department")+"");
+//				ei.setRoomId(res.get("room")+"");
+//				ei.setSpecification(res.get("specification")+"");
+//				ei.setLabel(res.get("label")+"");
+//				ei.setLocation(res.get("location")+"");
+//				ei.setExp_date(df.parse(res.get("exp_date")+""));
+//				ei.setResponsible_dep(res.get("responsible_dep")+"");
+//				ei.setResponsible_person(res.get("responsible_person")+"");
+//				ei.setPerson_pic(res.get("person_pic")+"");
+//				ei.setNote(res.get("notes")+"");
+//				ei.setStatus(Double.toString(Math.ceil((ei.getExp_date().getTime()-now.getTime())/(24*60*60*1000.0))));
+//				equipLs.add(ei);
+//			}
+//		} catch (ParseException  e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} 
+//		return equipLs;
+//
+//	}
 	
 	public void readExcel2DB(String fileName){
 		boolean flag = true;

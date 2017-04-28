@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.cnpc.bean.Equipmentinfo;
 import com.cnpc.dao.EquipInfoDao;
+import com.cnpc.dao.UploadFileDao;
 import com.cnpc.filters.SpringInit;
 import com.cnpc.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class EquipmentAction extends ActionSupport{
+public class UploadFileAction extends ActionSupport{
 
 	/**
 	 * 
@@ -17,7 +18,7 @@ public class EquipmentAction extends ActionSupport{
 
 	private String equipType = "";
 	private List<Equipmentinfo> equipLs = null;
-	private EquipInfoDao equipDao = (EquipInfoDao) SpringInit.getApplicationContext().getBean("equipDao");
+	private UploadFileDao uploadDao = (UploadFileDao) SpringInit.getApplicationContext().getBean("uploadDao");
 
 	public List<Equipmentinfo> getEquipLs() {
 		return equipLs;
@@ -36,19 +37,16 @@ public class EquipmentAction extends ActionSupport{
 	}
 
 
-	public String queryEquipInfo()
+	public String uploadFile()
 	{
 		String equipType = this.getEquipType();
 		
 		if (Utils.checkNull(equipType))
 		{
-			return ERROR;
-		}else if("9".equals(equipType)){//TODO 暂时导入接口
-			equipDao.readExcel2DB("E:\\project1\\info.xls");
+			return SUCCESS;
+		}else if("9".equals(equipType)){
+			uploadDao.readExcel2DB("E:\\project1\\info.xls");
 			
-		}else if(Utils.isNumeric(equipType)){//判断是否为数字
-			this.setEquipLs(equipDao.getEquipInfo(equipType,1));
-			System.out.println(equipType);
 		}else{
 			return ERROR;
 		}

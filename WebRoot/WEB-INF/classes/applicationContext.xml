@@ -26,5 +26,28 @@
 	</bean>
 	
 	
+	<bean id = "equipDao" class = "com.cnpc.dao.EquipInfoDao">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"></ref>
+		</property>
+	</bean>
+
+	<bean id = "certifDao" class = "com.cnpc.dao.CertificationDao">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"></ref>
+		</property>
+	</bean>
 	
+	
+	<bean id = "outdateDao" class = "com.cnpc.dao.OutDateDao">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"></ref>
+		</property>
+	</bean>
+	
+	<bean id = "uploadDao" class = "com.cnpc.dao.UploadFileDao">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"></ref>
+		</property>
+	</bean>
 </beans>

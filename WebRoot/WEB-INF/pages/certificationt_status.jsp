@@ -146,13 +146,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class = "${timeType==0?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=0"><i class="fa fa-circle-o"></i>A类（已到期设备、证书）</a></li>
-            <li class = "${timeType==1?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=1"><i class="fa fa-circle-o"></i>B类（7天内到期设备、证书）</a></li>
-            <li class = "${timeType==2?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=2"><i class="fa fa-circle-o"></i>C类（30天内到期设备、证书）</a></li>
-            <li class = "${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-circle-o"></i>自定义时间内到期设备、证书</a></li>
+            <li class="${timeType==0&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=0"><i class="fa fa-circle-o"></i>已到期设备</a></li>
+            <li class="${timeType==1&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=1"><i class="fa fa-circle-o"></i>7天内到期设备</a></li>
+            <li class="${timeType==2&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=2"><i class="fa fa-circle-o"></i>30天内到期设备</a></li>
+            <li class="${timeType==0&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=0"><i class="fa fa-certificate"></i>已到期、证书</a></li>
+            <li class="${timeType==1&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=1"><i class="fa fa-certificate"></i>7天内到期证书</a></li>
+            <li class="${timeType==2&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=2"><i class="fa fa-certificate"></i>30天内到期证书</a></li>
+            <li class="${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-calendar-check-o"></i>自定义时间内到期设备、证书</a></li>
           </ul>
         </li>
-
+        <li>
+          <a href="<%=basePath%>user/userInfo.do">
+            <i class="fa fa-user"></i> <span>数据导入</span>
+          </a>
+        </li>
         <li>
           <a href="<%=basePath%>user/userInfo.do">
             <i class="fa fa-user"></i> <span>用户管理</span>
@@ -200,37 +207,76 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                  <th>地区</th>
 	                  <th>部门</th>
 	                  <th>证号</th>
+	                  <th>规格</th>
+	                  <th>存放地点</th>
 	                  <th>证到期时间</th>
 	                  <th>责任部门</th>
 	                  <th>责任人(电话)</th>
 	                  <th>负责办理人(电话)</th>
-	                  <th>存放地点</th>
 	                  <th>备注</th>
 	                </tr>
 	              </thead>
 	              <tbody>
+	                <s:iterator value="certifLs" id="certifLs">
 	                <tr>
-	                	<td class="text-red">南片区</td>
-	                	<td class="text-red">xxx大街</td>
-	                	<td class="text-red">xxxxxxxxxxxxxxx</td>
-	                	<td class="text-red">2017-5-6</td>
-	                	<td class="text-red">综合办公室</td>
-	                	<td class="text-red">张三（666666）</td>
-	                	<td class="text-red">李大大（666666）</td>
-	                	<td class="text-red">1201办公室</td>
-	                	<td class="text-red"></td>
-	                </tr>
-	                <tr>
-	               		<td>江宁</td>
-	                	<td>经理部门</td>
-	                	<td>323432342424233</td>
-	                	<td>2017-8-6</td>
-	                	<td>综合管理部</td>
-	                	<td>张三（666666）</td>
-	                	<td>李大大（666666）</td>
-	                	<td>1201办公室</td>
-	                	<td></td>
-	                </tr>
+	                	<s:if test="#equipLs.status <= 0">
+					    <td class = "text-red"><b><s:property value="#certifLs.area"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#certifLs.department"/></b></td>
+	                	<!-- <td class = "text-red"><b><s:property value="#certifLs.name"/></b></td> -->
+	                	<td class = "text-red"><b><s:property value="#certifLs.specification"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#certifLs.label"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#certifLs.location"/></b></td>
+	                	<td class = "text-red"><b><s:date name="#certifLs.exp_date" format ="yyyy-MM-dd"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#certifLs.responsible_dep"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#certifLs.responsible_person"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#certifLs.person_pic"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#certifLs.note"/><small class="label pull-right bg-red">过期</small></b></td>
+	                	</s:if>
+	                	
+	                	<s:elseif test="30>=#certifLs.status > 0">
+	                	<s:if test="#certifLs.status <= 7">
+					    <td class = "text-orange"><b><s:property value="#certifLs.area"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#certifLs.department"/></b></td>
+	                	<!-- <td class = "text-red"><b><s:property value="#certifLs.name"/></b></td> -->
+	                	<td class = "text-orange"><b><s:property value="#certifLs.specification"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#certifLs.label"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#certifLs.location"/></b></td>
+	                	<td class = "text-orange"><b><s:date name="#certifLs.exp_date" format ="yyyy-MM-dd"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#certifLs.responsible_dep"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#certifLs.responsible_person"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#certifLs.person_pic"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#certifLs.note"/><small class="label pull-right bg-orange">7</small></b></td>
+	                	</s:if>
+	                	<s:else>
+					    <td class = "text-light-blue"><b><s:property value="#certifLs.area"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#certifLs.department"/></b></td>
+	                	<!-- <td class = "text-light-blue"><b><s:property value="#certifLs.name"/></b></td> -->
+	                	<td class = "text-light-blue"><b><s:property value="#certifLs.specification"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#certifLs.label"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#certifLs.location"/></b></td>
+	                	<td class = "text-light-blue"><b><s:date name="#certifLs.exp_date" format ="yyyy-MM-dd"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#certifLs.responsible_dep"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#certifLs.responsible_person"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#certifLs.person_pic"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#certifLs.note"/><small class="label pull-right bg-light-blue">30</small></b></td>
+	                	</s:else>
+	                	</s:elseif>
+	                	
+	                	<s:else>
+					    <td><b><s:property value="#certifLs.area"/></b></td>
+	                	<td><b><s:property value="#certifLs.department"/></b></td>
+	                	<!-- <td><b><s:property value="#certifLs.roomId"/></b></td> -->
+	                	<td><b><s:property value="#certifLs.specification"/></b></td>
+	                	<td><b><s:property value="#certifLs.label"/></b></td>
+	                	<td><b><s:property value="#certifLs.location"/></b></td>
+	                	<td><b><s:date name="#certifLs.exp_date" format ="yyyy-MM-dd"/></b></td>
+	                	<td><b><s:property value="#certifLs.responsible_dep"/></b></td>
+	                	<td><b><s:property value="#certifLs.responsible_person"/></b></td>
+	                	<td><b><s:property value="#certifLs.person_pic"/></b></td>
+	                	<td><b><s:property value="#certifLs.note"/></b></td>
+	                	</s:else>
+					</tr>
+					</s:iterator>
 
 	              </tbody>
 	            </table>
@@ -280,7 +326,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         "searching": false,
         "ordering": true,
         "info": true,
-        "autoWidth": false
+        "autoWidth": false,
+        "iDisplayLength":50,
+        "oLanguage": {
+        	"sLengthMenu": "每页显示 _MENU_ 条记录",
+        	"sZeroRecords": "抱歉， 没有找到",
+        	"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+        	"sInfoEmpty": "没有数据",
+        	"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+        	"oPaginate": {
+        	"sFirst": "首页",
+        	"sPrevious": "前一页",
+        	"sNext": "后一页",
+        	"sLast": "尾页"
+        	},
+        	"sZeroRecords": "没有检索到数据"
+        	},
     });
   });
 </script>

@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
   <meta charset="utf-8">
-  <title>状态管理系统</title>
+  <title>数据导入-状态管理系统</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -145,7 +145,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
           </ul>
         </li>
-        <li class = "treeview active">
+        <li class = "treeview">
           <a href="#">
             <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
             <span class="pull-right-container">
@@ -162,7 +162,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li class="${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-calendar-check-o"></i>自定义时间内到期设备、证书</a></li>
           </ul>
         </li>
-
+        <li>
+          <a href="<%=basePath%>up/uploadfile.do">
+            <i class="fa fa-user"></i> <span>数据导入</span>
+          </a>
+        </li>
         <li>
           <a href="<%=basePath%>user/userInfo.do">
             <i class="fa fa-user"></i> <span>用户管理</span>
@@ -189,24 +193,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <h4>小贴士!</h4>
 		  <p>红色代表此设备即将到期！</p>
 		</div>
-    	<div class = "box box-primary ${timeType==3?'':'hide' }">
+    	<div class = "box box-primary">
     	<div class = "box-header"></div>
     	<div class = "box-body">
 		<div class = "row"> 
 		    <div class="col-xs-3">
 		        <!-- Date yyyy-mm-dd -->
-		        <div class="form-group">
-		          <label>到期日期：</label>
-		
-		          <div class="input-group">
-		            <div class="input-group-addon">
-		              <i class="fa fa-calendar"></i>
+		        <div class="box box-primary">
+					<div class="box-header with-border">
+		              <h3 class="box-title">Quick Example</h3>
 		            </div>
-		            <input type="text" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+		          <label>上传文件：</label>
+		            <input type="file" >
 		            <span class="input-group-btn">
                       <button type="button" class="btn btn-info btn-flat">查询</button>
                     </span>
-		          </div>
 		          <!-- /.input group -->
 		        </div>
 		    </div>
@@ -232,98 +233,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		</div>
 
-	    <div class="row">
-	      <div class="col-xs-12">
-	      
-	        <div class="box box-solid box-info">
-	          <div class="box-header">
-	            <h3 class="box-title">到期设备设施一览</h3>
-	          </div>
-	          <!-- /.box-header -->
-	          <div class="box-body">
-	            <table id="table2017" class="table table-bordered table-striped">
-	              <thead>
-	                <tr>
-	                  <th>地区</th>
-	                  <th>部门</th>
-	                  <th>房间号</th>
-	                  <th>规格</th>
-	                  <th>设备标号</th>
-	                  <th>所在位置</th>
-	                  <th>有效期</th>
-	                  <th>责任部门</th>
-	                  <th>责任人(电话)</th>
-	                  <th>负责办理人(电话)</th>
-	                  <th>备注</th>
-	                </tr>
-	              </thead>
-	              <tbody>
-	                <s:iterator value="equipLs" id="equipLs">
-	                <tr>
-	                	<s:if test="#equipLs.status <= 0">
-					    <td class = "text-red"><b><s:property value="#equipLs.area"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.department"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.roomId"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.specification"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.label"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.location"/></b></td>
-	                	<td class = "text-red"><b><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.responsible_dep"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.responsible_person"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.person_pic"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.note"/><small class="label pull-right bg-red">过期</small></b></td>
-	                	</s:if>
-	                	
-	                	<s:elseif test="30>=#equipLs.status > 0">
-	                	<s:if test="#equipLs.status <= 7">
-					    <td class = "text-orange"><b><s:property value="#equipLs.area"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.department"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.roomId"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.specification"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.label"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.location"/></b></td>
-	                	<td class = "text-orange"><b><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.responsible_dep"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.responsible_person"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.person_pic"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.note"/><small class="label pull-right bg-orange">7</small></b></td>
-	                	</s:if>
-	                	<s:else>
-					    <td class = "text-light-blue"><b><s:property value="#equipLs.area"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.department"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.roomId"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.specification"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.label"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.location"/></b></td>
-	                	<td class = "text-light-blue"><b><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.responsible_dep"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.responsible_person"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.person_pic"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.note"/><small class="label pull-right bg-light-blue">30</small></b></td>
-	                	</s:else>
-	                	</s:elseif>
-	                	
-	                	<s:else>
-					    <td><b><s:property value="#equipLs.area"/></b></td>
-	                	<td><b><s:property value="#equipLs.department"/></b></td>
-	                	<td><b><s:property value="#equipLs.roomId"/></b></td>
-	                	<td><b><s:property value="#equipLs.specification"/></b></td>
-	                	<td><b><s:property value="#equipLs.label"/></b></td>
-	                	<td><b><s:property value="#equipLs.location"/></b></td>
-	                	<td><b><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></b></td>
-	                	<td><b><s:property value="#equipLs.responsible_dep"/></b></td>
-	                	<td><b><s:property value="#equipLs.responsible_person"/></b></td>
-	                	<td><b><s:property value="#equipLs.person_pic"/></b></td>
-	                	<td><b><s:property value="#equipLs.note"/></b></td>
-	                	</s:else>
-					</tr>
-					</s:iterator>
-	              </tbody>
-	            </table>
-	          </div><!-- /.box-body -->
-	        </div><!-- /.box -->
-	      </div><!-- /.col -->
-	    </div><!-- /.row -->
     </section>
     <!-- /.content -->
   </div>
