@@ -132,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-tasks"></i> <span>资产证照管理</span>
+            <i class="fa fa-book"></i> <span>资产证照管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -162,9 +162,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li class="${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-calendar-check-o"></i>自定义时间内到期设备、证书</a></li>
           </ul>
         </li>
-        <li>
+        <li  class = "active">
           <a href="<%=basePath%>up/uploadfile.do">
-            <i class="fa fa-user"></i> <span>数据导入</span>
+            <i class="fa  fa-cloud-upload"></i> <span>数据导入</span>
           </a>
         </li>
         <li>
@@ -183,7 +183,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <small>到期设备设施一览表</small>
+        <small>数据导入</small>
       </h1>
     </section>
 
@@ -193,45 +193,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <h4>小贴士!</h4>
 		  <p>红色代表此设备即将到期！</p>
 		</div>
-    	<div class = "box box-primary">
-    	<div class = "box-header"></div>
-    	<div class = "box-body">
-		<div class = "row"> 
-		    <div class="col-xs-3">
-		        <!-- Date yyyy-mm-dd -->
-		        <div class="box box-primary">
-					<div class="box-header with-border">
-		              <h3 class="box-title">Quick Example</h3>
-		            </div>
-		          <label>上传文件：</label>
-		            <input type="file" >
-		            <span class="input-group-btn">
-                      <button type="button" class="btn btn-info btn-flat">查询</button>
-                    </span>
-		          <!-- /.input group -->
-		        </div>
-		    </div>
-		    
-		    <div class="col-xs-3">
-              <!-- Date and time range -->
-              <!--
-              <div class="form-group">
-                <label>快速查询:</label>
-
-                <div class="input-group">
-                  <button type="button" class="btn btn-default pull-right" id="daterange-btn">
-                    <span>
-                      <i class="fa fa-calendar"></i> Date range picker
-                    </span>
-                    <i class="fa fa-caret-down"></i>
-                  </button>
-                </div>
-              </div>-->
-              <!-- /.form group -->
-		    </div> 
-	    </div>
-		</div>
-		</div>
+	        <!-- Date yyyy-mm-dd -->
+        <div class="box box-primary">
+			<div class="box-header with-border">
+              <h3 class="box-title">导入文件</h3>
+            </div>
+            <form role = "form" action = "" method="POST" enctype="multipart/form-data">
+            <div class = "box-body">
+            <div class = "form-group">
+	          <label>上传文件：</label>
+	             <s:file name="myFile" label="文件"></s:file>
+          	</div>
+          	<div class="form-group">
+	            <div class="radio">
+	              <label>
+	                <input type="radio" name="fileType" id="optionsRadios1" value="equipment" checked="">设备文件格式
+	              </label>
+	            </div>
+	            <div class="radio">
+	              <label>
+	                <input type="radio" name="fileType" id="optionsRadios2" value="certification">证书文件格式
+	              </label>
+	            </div>
+            </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">上传并导入系统</button>
+              </div>
+            </form>
+        </div>
 
     </section>
     <!-- /.content -->

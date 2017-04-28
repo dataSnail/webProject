@@ -132,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-tasks"></i> <span>资产证照管理</span>
+            <i class="fa fa-book"></i> <span>资产证照管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -162,7 +162,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li class="${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-calendar-check-o"></i>自定义时间内到期设备、证书</a></li>
           </ul>
         </li>
-
+        <li>
+          <a href="<%=basePath%>up/uploadfile.do">
+            <i class="fa fa-cloud-upload"></i> <span>数据导入</span>
+          </a>
+        
         <li>
           <a href="<%=basePath%>user/userInfo.do">
             <i class="fa fa-user"></i> <span>用户管理</span>
@@ -194,6 +198,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<div class = "box-body">
 		<div class = "row"> 
 		    <div class="col-xs-3">
+		    <form role = "form" action = "" method="POST" enctype="multipart/form-data">
 		        <!-- Date yyyy-mm-dd -->
 		        <div class="form-group">
 		          <label>到期日期：</label>
@@ -202,13 +207,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            <div class="input-group-addon">
 		              <i class="fa fa-calendar"></i>
 		            </div>
-		            <input type="text" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+		            <input type="text" name = "outdate" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
 		            <span class="input-group-btn">
-                      <button type="button" class="btn btn-info btn-flat">查询</button>
+                      <button type="submit" class="btn btn-info btn-flat">查询</button>
                     </span>
 		          </div>
 		          <!-- /.input group -->
 		        </div>
+		       
+	          	<div class="form-group">
+		            <div class="radio">
+		              <label>
+		                <input type="radio" name="type" id="optionsRadios1" value="0" checked="">设备
+		              </label>
+		              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		              <label>
+		                <input type="radio" name="type" id="optionsRadios2" value="1">证书
+		              </label>
+		            </div>
+	            </div>
+		       </form>
 		    </div>
 		    
 		    <div class="col-xs-3">

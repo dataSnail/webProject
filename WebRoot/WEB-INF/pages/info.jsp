@@ -104,7 +104,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">主菜单</li>
-        <li class="treeview active">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-tasks"></i> <span>设备设施管理</span>
             <span class="pull-right-container">
@@ -124,7 +124,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-tasks"></i> <span>资产证照管理</span>
+            <i class="fa fa-book"></i> <span>资产证照管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -155,8 +155,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </ul>
         </li>
         <li>
-          <a href="<%=basePath%>user/userInfo.do">
-            <i class="fa fa-user"></i> <span>数据导入</span>
+          <a href="<%=basePath%>up/uploadfile.do">
+            <i class="fa fa-cloud-upload"></i> <span>数据导入</span>
           </a>
         </li>
         <li>
@@ -175,15 +175,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <small>>设备设施有效期查询</small>
+        <small>提示信息</small>
       </h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
-		<div class="callout callout-info">
-		  <h4>小贴士!</h4>
-		  <p>红色代表此设备即将到期！</p>
+		<div class="callout callout-danger">
+		  <h4>提示信息!</h4>
+		  <p>请求错误！！！</p>
 		</div>
 	    <div class="row">
 	      <div class="col-xs-12">

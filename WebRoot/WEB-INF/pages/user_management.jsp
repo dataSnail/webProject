@@ -116,7 +116,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-tasks"></i> <span>资产证照管理</span>
+            <i class="fa fa-book"></i> <span>资产证照管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -147,8 +147,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </ul>
         </li>
         <li>
-          <a href="<%=basePath%>user/userInfo.do">
-            <i class="fa fa-user"></i> <span>数据导入</span>
+          <a href="<%=basePath%>up/uploadfile.do">
+            <i class="fa fa-cloud-upload"></i> <span>数据导入</span>
           </a>
         </li>
         <li class = "active">
@@ -192,24 +192,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="active tab-pane" id="userinfo">
 					<div class="box">
 					  <div class="box-header with-border">
-					    <h3 class="box-title">用户管理</h3>
+					    <h3 class="box-title">用户信息列表</h3>
 					  </div>
 					  <!-- /.box-header -->
 					  <div class="box-body">
 					    <table class="table table-bordered">
 					      <tr>
 					        <th>用户名</th>
-					        <th>角色</th>
 					        <th>姓名</th>
-					        <th>权限1</th>
-					        <th>权限2</th>
-					        <th>权限3</th>
-					        <th>权限4</th>
-					        <th>权限5</th>
+					        <th>设备管理</th>
+					        <th>资产证照管理</th>
+					        <th>到期设备管理</th>
+					        <th>数据导入</th>
+					        <th>用户管理</th>
+					        <th>备注</th>
 					      </tr>
 					      <tr>
 					        <td>admin</td>
-					        <td>管理员</td>
 					        <td>张三</td>
 					        <td>
 					      <!-- checkbox -->
@@ -241,10 +240,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					          <input type="checkbox" class="flat-red" checked disabled>
 					        </label>
 					        </td>
+					        <td>管理员</td>
 					      </tr>
 					      <tr>
 					        <td>user1</td>
-					        <td>普通用户</td>
 					        <td>李四</td>
 					        <td>
 					      <!-- checkbox -->
@@ -276,6 +275,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					          <input type="checkbox" class="flat-red" disabled>
 					        </label>
 					        </td>
+					        <td>普通用户</td>
 					      </tr>
 					
 					
@@ -295,34 +295,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        	</div><!-- /.tab-pane -->
 	        	
 				<div class="tab-pane" id="adduser">
-				    <form class="form-horizontal">
+				    <form class="form-horizontal" method="POST" action = "<%=basePath%>user/addUser.do">
 				      <div class="form-group">
 				        <label for="inputName" class="col-sm-2 control-label">用户名</label>
 				
 				        <div class="col-sm-6">
-				          <input type="email" class="form-control" id="inputName" placeholder="用户名">
+				          <input type="text" class="form-control" id="inputName" placeholder="用户名">
 				        </div>
 				      </div>
 				      <div class="form-group">
 				        <label for="inputEmail" class="col-sm-2 control-label">真实姓名</label>
 				
 				        <div class="col-sm-6">
-				          <input type="email" class="form-control" id="inputEmail" placeholder="真实姓名">
+				          <input type="text" class="form-control" id="inputEmail" placeholder="真实姓名">
 				        </div>
 				      </div>
 				      <div class="form-group">
-				        <label for="inputName" class="col-sm-2 control-label">角色</label>
+				        <label for="text" class="col-sm-2 control-label">密码</label>
 				
 				        <div class="col-sm-6">
-					        <div class = "form-group">
-						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
-						          <input type="radio" name = "r3" class="flat-red">管理员
-						        </label>
-						        
-						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
-						          <input type="radio" name = "r3" class="flat-red">普通用户
-						        </label>
-					    	</div>
+				          <input type="password" class="form-control" id="inputEmail" placeholder="密码">
 				        </div>
 				      </div>
 				      <div class="form-group">
@@ -331,13 +323,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        <div class="col-sm-6">
 					        <div class = "form-group">
 						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
-						          <input type="checkbox" name = "c3" class="flat-red">状态查询
+						          <input type="checkbox" name = "c3" class="flat-red">设备管理
 						        </label>
 						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
-						          <input type="checkbox" name = "c3" class="flat-red">设备查询
+						          <input type="checkbox" name = "c3" class="flat-red">资产证照管理
 						        </label>
 						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
-						          <input type="checkbox" name = "c3" class="flat-red">到期查询
+						          <input type="checkbox" name = "c3" class="flat-red">到期设备管理
+						        </label>
+						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
+						          <input type="checkbox" name = "c3" class="flat-red">数据导入
+						        </label>
+						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
+						          <input type="checkbox" name = "c3" class="flat-red">用户管理
 						        </label>
 					    	</div>
 				        </div>
@@ -351,7 +349,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				      </div>
 				      <div class="form-group">
 				        <div class="col-sm-offset-2 col-sm-6">
-				          <button type="submit" class="btn btn-danger">Submit</button>
+				          <button type="submit" class="btn btn-danger">添加用户</button>
 				        </div>
 				      </div>
 				    </form>

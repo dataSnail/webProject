@@ -132,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-tasks"></i> <span>资产证照管理</span>
+            <i class="fa fa-book"></i> <span>资产证照管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -165,7 +165,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
         <li>
           <a href="<%=basePath%>up/uploadfile.do">
-            <i class="fa fa-user"></i> <span>数据导入</span>
+            <i class="fa fa-cloud-upload"></i> <span>数据导入</span>
           </a>
         </li>
 

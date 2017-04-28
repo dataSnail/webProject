@@ -14,32 +14,33 @@ import com.cnpc.bean.Equipmentinfo;
 
 public class OutDateDao extends JdbcDaoSupport{
 
-	public List<Equipmentinfo> getOutDateInfo(String timeType,String type)
+	public List<Equipmentinfo> getOutDateInfo(String timeType,String type,String outdate)
 	{
 		List<Equipmentinfo> equipLs = new ArrayList<Equipmentinfo>();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
 		String sql;
 		try {
-			
+			//查询设备
 			if ("0".equals(type))
 			{
 				sql = "select area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments";
-			}else if ("1".equals(type))
+			}else if ("1".equals(type))//查询证书
 			{
 				sql = "select area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from certifications"; 
 			}else{
 				return equipLs;//返回空
 			}
+			//时间限制
 			if(timeType.equals("0"))//过期
 			{
 				 sql += " where datediff(exp_date,NOW()) <= 0";
 			}else if(timeType.equals("1"))//七天内过期
 			{
 				sql += " where datediff(exp_date,NOW()) > 0 and datediff(exp_date,NOW()) <= 7 ";
-			}else if(timeType.equals("2")){
+			}else if(timeType.equals("2")){//30天过期
 				sql += " where datediff(exp_date,NOW()) > 7 and datediff(exp_date,NOW()) <= 30 ";
-			}else if (timeType.equals("3")){
+			}else if (timeType.equals("3")){//自定义
 				sql += " where datediff(exp_date,NOW()) <= 0 ";
 			}
 			List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);

@@ -15,6 +15,7 @@ public class OutDateAction  extends ActionSupport{
 	private static final long serialVersionUID = 1L;
 	private String timeType = "";
 	private String type = "";
+	private String outdate;
 	private List<Equipmentinfo> equipLs = null;
 	public String getTimeType() {
 		return timeType;
@@ -24,6 +25,14 @@ public class OutDateAction  extends ActionSupport{
 		this.timeType = timeType;
 	}
 	
+	public String getOutdate() {
+		return outdate;
+	}
+
+	public void setOutdate(String outdate) {
+		this.outdate = outdate;
+	}
+
 	public List<Equipmentinfo> getEquipLs() {
 		return equipLs;
 	}
@@ -55,8 +64,8 @@ public class OutDateAction  extends ActionSupport{
 				return ERROR;
 			}else if(Utils.isNumeric(timeType))
 			{
-				this.setEquipLs(odd.getOutDateInfo(timeType,type));
-				System.out.println(timeType);
+				this.setEquipLs(odd.getOutDateInfo(timeType,type,outdate));
+				System.out.println(timeType+""+type+""+outdate);
 				return SUCCESS;
 			}else{
 				return ERROR;
