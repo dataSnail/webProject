@@ -3,7 +3,6 @@ package com.cnpc.action;
 import java.util.List;
 
 import com.cnpc.bean.Equipmentinfo;
-import com.cnpc.dao.EquipInfoDao;
 import com.cnpc.dao.UploadFileDao;
 import com.cnpc.filters.SpringInit;
 import com.cnpc.utils.Utils;

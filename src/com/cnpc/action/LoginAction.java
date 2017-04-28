@@ -3,6 +3,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.cnpc.dao.UserDao;
+import com.cnpc.filters.SpringInit;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class LoginAction extends ActionSupport {
@@ -14,7 +16,7 @@ public class LoginAction extends ActionSupport {
 	private String result = "";
 	private String userName = null;
 	private String passWord = null;
-	
+	private UserDao userDao = (UserDao) SpringInit.getApplicationContext().getBean("userDao");
 	
 	public String getResult() {
 		return result;
@@ -52,7 +54,7 @@ public class LoginAction extends ActionSupport {
 		String userName = this.getUserName();
 		String passWord = this.getPassWord();
 		System.out.println("122");
-		if("admin".equals(userName)&&"admin".equals(passWord)) 
+		if(userDao.checkUserAndPassword(userName, passWord)) 
 		{
 			HttpServletRequest request = ServletActionContext.getRequest();
 			request.getSession().setAttribute("username", userName); 
@@ -62,6 +64,9 @@ public class LoginAction extends ActionSupport {
 			return ERROR;
 		}
 	}
+	
+	
+	
 	
 	
 }

@@ -50,4 +50,11 @@
 			<ref bean="jdbcTemplate"></ref>
 		</property>
 	</bean>
+	
+	<bean id = "userDao" class = "com.cnpc.dao.UserDao">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"></ref>
+		</property>
+	</bean>
+	
 </beans>

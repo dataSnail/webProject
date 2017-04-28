@@ -3,18 +3,13 @@ package com.cnpc.dao;
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
-import com.cnpc.bean.Equipmentinfo;
 import com.cnpc.utils.ExcelReader;
 import com.cnpc.utils.Utils;
 
