@@ -74,19 +74,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">管理员</span>
+              <span class="hidden-xs">登录用户</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                <p>系统管理员</p>
+                <p>登录用户</p>
                 <p><s:property value = '#session.username'/></p>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">登出</a>
+                  <a href="<%=basePath%>userLogout.do?userName=<s:property value = '#session.username'/>" class="btn btn-default btn-flat">登出</a>
                 </div>
               </li>
             </ul>
@@ -105,7 +105,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>管理员</p>
+          <p>登录用户</p>
           <p><s:property value = '#session.username'/></p>
         </div>
       </div>
@@ -153,12 +153,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="${timeType==0&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=0"><i class="fa fa-circle-o"></i>已到期设备</a></li>
-            <li class="${timeType==1&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=1"><i class="fa fa-circle-o"></i>7天内到期设备</a></li>
-            <li class="${timeType==2&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=2"><i class="fa fa-circle-o"></i>30天内到期设备</a></li>
-            <li class="${timeType==0&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=0"><i class="fa fa-certificate"></i>已到期、证书</a></li>
-            <li class="${timeType==1&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=1"><i class="fa fa-certificate"></i>7天内到期证书</a></li>
-            <li class="${timeType==2&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=2"><i class="fa fa-certificate"></i>30天内到期证书</a></li>
+            <li class="${timeType==0&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=0"><i class="fa fa-circle-o"></i>30天内到期设备</a></li>
+            <li class="${timeType==1&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=1"><i class="fa fa-circle-o"></i>60天内到期设备</a></li>
+            <li class="${timeType==2&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=2"><i class="fa fa-circle-o"></i>90天内到期设备</a></li>
+            <li class="${timeType==0&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=0"><i class="fa fa-certificate"></i>30天内到期证书</a></li>
+            <li class="${timeType==1&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=1"><i class="fa fa-certificate"></i>60天内到期证书</a></li>
+            <li class="${timeType==2&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=2"><i class="fa fa-certificate"></i>90天内到期证书</a></li>
             <li class="${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-calendar-check-o"></i>自定义时间内到期设备、证书</a></li>
           </ul>
         </li>
@@ -218,7 +218,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             </div>
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary">上传并导入系统</button>
+                <button type="submit" class="btn btn-primary">上传并导入系统</button><label>${result }</label>
               </div>
             </form>
         </div>
@@ -263,8 +263,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>plugins/daterangepicker/daterangepicker.js"></script>
 <!-- Select2 -->
 <script src="<%=basePath%>plugins/select2/select2.full.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script>
+<!-- AdminLTE for demo purposes
+<script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script> -->
 <!-- page script -->
 <script>
   $(function () {

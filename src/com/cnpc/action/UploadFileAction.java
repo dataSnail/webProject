@@ -83,16 +83,14 @@ public class UploadFileAction extends ActionSupport{
 		System.out.println(fileType);
 		if("equipment".equals(fileType))
 		{
-//			uploadDao.readExcel2DB(uploadPath+"\temp.xls");
-			if(true)
+			if(uploadDao.readExcel2DBC(uploadPath+"\\temp.xls",0))
 			{
 				result = "导入设备信息文件成功！";
 			}else{
 				result = "导入设备信息失败！";
 			}
 		}else if("certification".equals(fileType)){
-			uploadDao.readExcel2DB(uploadPath+"\temp.xls");
-			if(true)
+			if(uploadDao.readExcel2DB(uploadPath+"\\temp.xls",1))
 			{
 				result = "导入证件信息文件成功！";
 			}else{

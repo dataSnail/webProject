@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.cnpc.bean.Equipmentinfo;
+import com.cnpc.utils.Utils;
 
 public class OutDateDao extends JdbcDaoSupport{
 
@@ -34,15 +35,19 @@ public class OutDateDao extends JdbcDaoSupport{
 			//时间限制
 			if(timeType.equals("0"))//过期
 			{
-				 sql += " where datediff(exp_date,NOW()) <= 0";
+				 sql += " where datediff(exp_date,NOW()) <= 30 ";
 			}else if(timeType.equals("1"))//七天内过期
 			{
-				sql += " where datediff(exp_date,NOW()) > 0 and datediff(exp_date,NOW()) <= 7 ";
+				sql += " where datediff(exp_date,NOW()) > 30 and datediff(exp_date,NOW()) <= 60 ";
 			}else if(timeType.equals("2")){//30天过期
-				sql += " where datediff(exp_date,NOW()) > 7 and datediff(exp_date,NOW()) <= 30 ";
+				sql += " where datediff(exp_date,NOW()) > 60 and datediff(exp_date,NOW()) <= 90 ";
 			}else if (timeType.equals("3")){//自定义
-				sql += " where datediff(exp_date,NOW()) <= 0 ";
+				if(!Utils.checkNull(outdate)){
+					sql += " where exp_date <= '"+outdate+"' ";
+				}
 			}
+			sql += " order by exp_date asc";
+			
 			List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
 			for(Map<String,Object> res:resLs){
 				Equipmentinfo ei = new Equipmentinfo();

@@ -74,19 +74,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">管理员</span>
+              <span class="hidden-xs">登录用户</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                <p>系统管理员</p>
+                <p>登录用户</p>
                 <p><s:property value = '#session.username'/></p>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">登出</a>
+                  <a href="<%=basePath%>userLogout.do?userName=<s:property value = '#session.username'/>" class="btn btn-default btn-flat">登出</a>
                 </div>
               </li>
             </ul>
@@ -95,91 +95,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </div>
     </nav>
   </header>
-  <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      <!-- Sidebar user panel -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p>管理员</p>
-          <p><s:property value = '#session.username'/></p>
-        </div>
-      </div>
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu">
-        <li class="header">主菜单</li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-tasks"></i> <span>设备设施管理</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="${equipType==0?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=0"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
-            <li class="${equipType==1?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=1"><i class="fa fa-circle-o"></i>流量计管理</a></li>
-            <li class="${equipType==2?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=2"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
-            <li class="${equipType==3?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=3"><i class="fa fa-circle-o"></i>压力表管理</a></li>
-            <li class="${equipType==4?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=4"><i class="fa fa-circle-o"></i>加气机管理</a></li>
-            <li class="${equipType==5?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=5"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
-            <li class="${equipType==6?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=6"><i class="fa fa-circle-o"></i>储气井管理</a></li>
-            <li class="${equipType==7?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=7"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-book"></i> <span>资产证照管理</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="${certifType==0?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=0"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
-            <li class="${certifType==1?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=1"><i class="fa fa-circle-o"></i>商务局批复</a></li>
-            <li class="${certifType==2?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=2"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
-            <li class="${certifType==3?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=3"><i class="fa fa-circle-o"></i>烟草证</a></li>
-            <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
-          </ul>
-        </li>
-        <li class = "treeview">
-          <a href="#">
-            <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="${timeType==0&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=0"><i class="fa fa-circle-o"></i>已到期设备</a></li>
-            <li class="${timeType==1&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=1"><i class="fa fa-circle-o"></i>7天内到期设备</a></li>
-            <li class="${timeType==2&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=2"><i class="fa fa-circle-o"></i>30天内到期设备</a></li>
-            <li class="${timeType==0&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=0"><i class="fa fa-certificate"></i>已到期、证书</a></li>
-            <li class="${timeType==1&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=1"><i class="fa fa-certificate"></i>7天内到期证书</a></li>
-            <li class="${timeType==2&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=2"><i class="fa fa-certificate"></i>30天内到期证书</a></li>
-            <li class="${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-calendar-check-o"></i>自定义时间内到期设备、证书</a></li>
-          </ul>
-        </li>
-
-        <li>
-          <a href="<%=basePath%>up/uploadfile.do">
-            <i class="fa fa-cloud-upload"></i> <span>数据导入</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="<%=basePath%>user/userInfo.do">
-            <i class="fa fa-user"></i> <span>用户管理</span>
-          </a>
-        </li>
-
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
-
+  <!-- 侧边栏 -->
+  <jsp:include page="sider.jsp"/>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -208,12 +125,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					            </div>
 					            <div class="box-footer no-padding">
 					              <ul class="nav nav-stacked">
-					                <li><a href="<%=basePath%>outdate/query.do?type=0&timeType=0">今天已经到期 设备<span class="pull-right badge bg-red">31</span></a></li>
-					                <li><a href="<%=basePath%>outdate/query.do?type=0&timeType=2">7天内到期 设备<span class="pull-right badge bg-orange">31</span></a></li>
-					                <li><a href="<%=basePath%>outdate/query.do?type=1&timeType=1">30天内到期设备<span class="pull-right badge bg-light-blue">12</span></a></li>
-					                <li><a href="<%=basePath%>outdate/query.do?type=0&timeType=1">今天已经到期 证书 <span class="pull-right badge bg-red">5</span></a></li>
-					                <li><a href="<%=basePath%>outdate/query.do?type=1&timeType=0">7天内到期 证书 <span class="pull-right badge bg-orange">5</span></a></li>
-					                <li><a href="<%=basePath%>outdate/query.do?type=1&timeType=2">30天内到期证书<span class="pull-right badge bg-light-blue">842</span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?type=0&timeType=0">30天内到期设备<span class="pull-right badge bg-red"><s:if test="#session.e30 > 0"><s:property value = '#session.e30'/></s:if><s:else>0</s:else></span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?type=0&timeType=1">60天内到期设备<span class="pull-right badge bg-orange"><s:if test="#session.e60 > 0"><s:property value = '#session.e60'/></s:if><s:else>0</s:else></span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?type=0&timeType=2">90天内到期设备<span class="pull-right badge bg-light-blue"><s:if test="#session.e90 > 0"><s:property value = '#session.e90'/></s:if><s:else>0</s:else></span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?type=1&timeType=0">30天内到期 证书 <span class="pull-right badge bg-red"><s:if test="#session.c30 > 0"><s:property value = '#session.c30'/></s:if><s:else>0</s:else></span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?type=1&timeType=1">60天内到期 证书 <span class="pull-right badge bg-orange"><s:if test="#session.c60 > 0"><s:property value = '#session.c60'/></s:if><s:else>0</s:else></span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?type=1&timeType=2">90天内到期证书<span class="pull-right badge bg-light-blue"><s:if test="#session.c90 > 0"><s:property value = '#session.c90'/></s:if><s:else>0</s:else></span></a></li>
 					              </ul>
 					            </div>
 					</div>
@@ -247,8 +164,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <!-- AdminLTE App -->
 <script src="<%=basePath%>dist/js/app.min.js" type="text/javascript"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script>
 <!-- page script -->
 <script type="text/javascript">
 $(function(){

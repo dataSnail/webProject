@@ -3,73 +3,45 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>状态管理系统</title>
+  <title>状态管理系统-信息</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="<%=basePath%>bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<%=basePath%>/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="<%=basePath%>dist/css/font-awesome.min.css">
+  <link rel="stylesheet" href="<%=basePath%>/dist/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="<%=basePath%>dist/css/ionicons.min.css">
+  <link rel="stylesheet" href="<%=basePath%>/dist/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="<%=basePath%>dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<%=basePath%>/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="<%=basePath%>dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="<%=basePath%>/dist/css/skins/_all-skins.min.css">
   <!-- iCheck -->
-  <link rel="stylesheet" href="<%=basePath%>plugins/iCheck/flat/blue.css">
+  <link rel="stylesheet" href="<%=basePath%>/plugins/iCheck/flat/blue.css">
   <!-- Morris chart -->
-  <link rel="stylesheet" href="<%=basePath%>plugins/morris/morris.css">
+  <link rel="stylesheet" href="<%=basePath%>/plugins/morris/morris.css">
   <!-- jvectormap -->
-  <link rel="stylesheet" href="<%=basePath%>plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+  <link rel="stylesheet" href="<%=basePath%>/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
   <!-- Date Picker -->
-  <link rel="stylesheet" href="<%=basePath%>plugins/datepicker/datepicker3.css">
+  <link rel="stylesheet" href="<%=basePath%>/plugins/datepicker/datepicker3.css">
   <!-- Daterange picker -->
-  <link rel="stylesheet" href="<%=basePath%>plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="<%=basePath%>/plugins/daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
-  <link rel="stylesheet" href="<%=basePath%>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet" href="<%=basePath%>/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <!-- DATA TABLES -->
-  <link href="<%=basePath%>plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
-  <link href="<%=basePath%>css/shou.css" rel="stylesheet" type="text/css" />
-  <script src="<%=basePath%>js/jquery.1.4.2-min.js" type="text/javascript"></script>
+  <link href="<%=basePath%>/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-	<script type="text/javascript">
-	$(function(){
-		var titHeight=$(".tiphead").height();
-		$(".tipfloat").animate({height:"show"},400);
-		$(".close").click(function(){
-			$(".tipfloat").animate({height:titHeight-50},1000,function(){
-				$(".tipfloat").hide();
-			});
-		});
-	});
-	</script>  
-  <style>
-    .example-modal .modal {
-      position: relative;
-      top: auto;
-      bottom: auto;
-      right: auto;
-      left: auto;
-      display: block;
-      z-index: 1;
-    }
-
-    .example-modal .modal {
-      background: transparent !important;
-    }
-  </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -94,19 +66,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">管理员:${userName}</span>
+              <img src="<%=basePath%>/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs">登录用户</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                <p>${userName}</p>
+                <img src="<%=basePath%>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <p>登录用户</p>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">登出</a>
+                  <a href="<%=basePath%>userLogout.do?userName=<s:property value = '#session.username'/>" class="btn btn-default btn-flat">登出</a>
                 </div>
               </li>
             </ul>
@@ -122,10 +94,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="<%=basePath%>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>管理员</p>
+          <p>登录用户</p>
+          <p><s:property value = '#session.username'/></p>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -151,7 +124,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-tasks"></i> <span>资产证照管理</span>
+            <i class="fa fa-book"></i> <span>资产证照管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -164,14 +137,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
           </ul>
         </li>
-        <li>
-          <a href="<%=basePath%>out_date_item.jsp">
+        <li class = "treeview">
+          <a href="#">
             <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="${timeType==0&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=0"><i class="fa fa-circle-o"></i>已到期设备</a></li>
+            <li class="${timeType==1&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=1"><i class="fa fa-circle-o"></i>7天内到期设备</a></li>
+            <li class="${timeType==2&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=2"><i class="fa fa-circle-o"></i>30天内到期设备</a></li>
+            <li class="${timeType==0&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=0"><i class="fa fa-certificate"></i>已到期、证书</a></li>
+            <li class="${timeType==1&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=1"><i class="fa fa-certificate"></i>7天内到期证书</a></li>
+            <li class="${timeType==2&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=2"><i class="fa fa-certificate"></i>30天内到期证书</a></li>
+            <li class="${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-calendar-check-o"></i>自定义时间内到期设备、证书</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="<%=basePath%>up/uploadfile.do">
+            <i class="fa fa-cloud-upload"></i> <span>数据导入</span>
           </a>
         </li>
-
         <li>
-          <a href="<%=basePath%>user_management.jsp">
+          <a href="<%=basePath%>user/userInfo.do">
             <i class="fa fa-user"></i> <span>用户管理</span>
           </a>
         </li>
@@ -185,39 +174,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>欢迎页面
-        <small>信息管理系统</small>
+      <h1>
+        <small>提示信息</small>
       </h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
-		<div class="callout callout-info">
-		  <h4>欢迎访问!</h4>
-		  <p>欢迎您，${userName}.</p>
+		<div class="callout callout-danger">
+		  <h4>提示信息!</h4>
+		  <h4>${info==null?"请求错误！！！":info } ${result }</h4>
 		</div>
+	    <div class="row">
+	      <div class="col-xs-12">
+
+	      </div><!-- /.col -->
+	    </div><!-- /.row -->
     </section>
     <!-- /.content -->
-    <!-- ./弹窗提示 -->
-	<div class="weiduduan clearfix">
-	<div class="tipfloat">
-		<h2 class="tiphead"><strong>系统提示</strong><span title="关闭" class="close">关闭</span></h2>
-		<div class="ranklist">
-			<ol>
-				<li class="top">
-					<em>01</em><p><a href="out_date_item.jsp" title="#">有5个设备已过期</a></p>
-				</li>
-				<li class="top">
-					<em>02</em><p><a href="out_date_item.jsp" title="#">有3个位置已过期</a></p>
-				</li>
-	
-			</ol>
-		</div>
-	</div>
-	</div> <!-- weiduduan End -->
   </div>
-  
-
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -233,7 +208,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <!-- ./wrapper -->
 
-
 <!-- jQuery 2.1.4 -->
 <script src="<%=basePath%>plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.2 JS -->
@@ -247,14 +221,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src='<%=basePath%>plugins/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
 <script src="<%=basePath%>dist/js/app.min.js" type="text/javascript"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script>
+<!-- AdminLTE for demo purposes
+<script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script> -->
 <!-- page script -->
 <script>
   $(function () {
-    $('#table2017').DataTable();
+    $('#table2017').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false
+    });
   });
-  
 </script>
 </body>
 </html>

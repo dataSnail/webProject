@@ -31,7 +31,7 @@
     
     <init-param>
     	<param-name>allowAuthorityURL</param-name>
-    	<param-value>login.jsp</param-value>
+    	<param-value>/login.jsp,/userLogin.do,/userLogout.do</param-value>
     </init-param>
     
     <init-param>
@@ -41,7 +41,7 @@
     
     <init-param>
     	<param-name>disableFilter</param-name>
-    	<param-value>NONONO</param-value>>
+    	<param-value>Y</param-value>>
     </init-param>
     
     <init-param>

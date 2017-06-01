@@ -22,9 +22,12 @@
 		
 		<action name = "userLogin" class = "com.cnpc.action.LoginAction" method = "userLogin">
 			<result  name = "success">/welcome.jsp</result>
-			<result name = "error">/WEB-INF/info.jsp</result>
+			<result name = "error">/info.jsp</result>
 		</action>
 		
+		<action name = "userLogout" class = "com.cnpc.action.LoginAction" method = "userLogout">
+			<result  name = "success">/login.jsp</result>
+		</action>
 	</package>
 	
 	<package name = "userAction" namespace = "/user" extends = "struts-default">
@@ -48,7 +51,7 @@
 	<package name = "equipAction" namespace = "/equip" extends = "struts-default">
 		<action name = "query" class = "com.cnpc.action.EquipmentAction" method = "queryEquipInfo">
 			<result  name = "success">/WEB-INF/pages/equipment_status.jsp</result>
-			<result  name = "error">/WEB-INF/pages/info.jsp</result>
+			<result  name = "error">/info.jsp</result>
 		</action>
 	</package>
 	
@@ -62,14 +65,14 @@
 	<package name = "outDateAction" namespace = "/outdate" extends = "struts-default">
 		<action name = "query" class = "com.cnpc.action.OutDateAction" method = "queryOutDate">
 			<result  name = "success">/WEB-INF/pages/out_date_item.jsp</result>
-			<result  name = "error">/WEB-INF/pages/info.jsp</result>
+			<result  name = "error">/info.jsp</result>
 		</action>
 	</package>
 	
 	<package name = "uploadAction" namespace = "/up" extends = "struts-default">
 		<action name = "uploadfile" class = "com.cnpc.action.UploadFileAction" method = "uploadFile">
 			<result  name = "success">/WEB-INF/pages/uploadFile.jsp</result>
-			<result  name = "error">/WEB-INF/pages/info.jsp</result>
+			<result  name = "error">/info.jsp</result>
 		</action>
 	</package>
 </struts>

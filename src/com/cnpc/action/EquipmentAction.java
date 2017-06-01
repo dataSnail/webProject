@@ -43,16 +43,16 @@ public class EquipmentAction extends ActionSupport{
 		if (Utils.checkNull(equipType))
 		{
 			return ERROR;
-		}else if("9".equals(equipType)){//TODO 暂时导入接口
-			equipDao.readExcel2DB("E:\\project1\\info.xls");
-			
 		}else if(Utils.isNumeric(equipType)){//判断是否为数字
 			this.setEquipLs(equipDao.getEquipInfo(equipType,1));
 			System.out.println(equipType);
 		}else{
 			return ERROR;
 		}
-		
+//		else if("9".equals(equipType)){//TODO 暂时导入接口
+//			equipDao.readExcel2DB("E:\\project1\\info.xls");
+//			
+//		}
 		return SUCCESS;
 	}
 	

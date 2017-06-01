@@ -47,52 +47,144 @@ public class UploadFileDao extends JdbcDaoSupport {
 //
 //	}
 	
-	public void readExcel2DB(String fileName){
+	public boolean readExcel2DB(String fileName,int type){
 		boolean flag = true;
-		int [] result;
+		int [] result= null;
+		ExcelReader er = new ExcelReader();
+		File f = new File(fileName);
+		final List<ArrayList<Object>> params = Utils.convertCParams(er.readExcel2DB(f));
+		String sql = "insert into certifications (type,area,department,name,label,specification,location,exp_date,responsible_dep,responsible_person,person_pic,notes) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+		try {
+//			this.getJdbcTemplate().getDataSource().getConnection().setAutoCommit(false);
+			result = this.getJdbcTemplate().batchUpdate(sql, new BatchPreparedStatementSetter(){
+		
+				@Override
+				public int getBatchSize() {
+					// TODO Auto-generated method stub
+					return params.size();
+				}
+		
+				@Override
+				public void setValues(PreparedStatement ps, int i)
+						throws SQLException {
+					
+					ps.setString(1, params.get(i).get(0)+"");
+					ps.setString(2, params.get(i).get(1)+"");
+					ps.setString(3, params.get(i).get(2)+"");
+					ps.setString(4, params.get(i).get(3)+"");
+					ps.setString(5, params.get(i).get(4)+"");
+					ps.setString(6, params.get(i).get(5)+"");
+					ps.setString(7, params.get(i).get(6)+"");
+					ps.setString(8, params.get(i).get(7)+"");
+					ps.setString(9, params.get(i).get(8)+"");
+					ps.setString(10, params.get(i).get(9)+"");
+					ps.setString(11, params.get(i).get(10)+"");
+					ps.setString(12, params.get(i).get(11)+"");
+				}
+				
+			});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("readExcel2DB");
+			e.printStackTrace();
+		}
+		//check the result
+		if (result!=null){
+			for(int i = 0;i<result.length;i++)
+			{
+				if(result[i]<0)
+				{
+					System.out.println(i);
+					flag = false;
+				}
+			}			
+		}else{
+			flag = false;
+		}
+
+//		if(flag){
+//			try {
+//				this.getJdbcTemplate().getDataSource().getConnection().commit();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+		System.out.print(flag);
+		return flag;
+	}
+	
+	public boolean readExcel2DBC(String fileName,int type){
+		boolean flag = true;
+		int [] result= null;
 		ExcelReader er = new ExcelReader();
 		File f = new File(fileName);
 		final List<ArrayList<Object>> params = Utils.convertParams(er.readExcel2DB(f));
 		String sql = "insert into equipments (type,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes) values (?,?,?,?,?,?,?,?,?,?,?,?)";
-		result = this.getJdbcTemplate().batchUpdate(sql, new BatchPreparedStatementSetter(){
-	
-			@Override
-			public int getBatchSize() {
-				// TODO Auto-generated method stub
-				return params.size();
-			}
-	
-			@Override
-			public void setValues(PreparedStatement ps, int i)
-					throws SQLException {
-				ps.setString(1, params.get(i).get(0)+"");
-				ps.setString(2, params.get(i).get(1)+"");
-				ps.setString(3, params.get(i).get(2)+"");
-				ps.setString(4, params.get(i).get(3)+"");
-				ps.setString(5, params.get(i).get(4)+"");
-				ps.setString(6, params.get(i).get(5)+"");
-				ps.setString(7, params.get(i).get(6)+"");
-				ps.setString(8, params.get(i).get(7)+"");
-				ps.setString(9, params.get(i).get(8)+"");
-				ps.setString(10, params.get(i).get(9)+"");
-				ps.setString(11, params.get(i).get(10)+"");
-				ps.setString(12, params.get(i).get(11)+"");
-			}
-			
-		});
+		try {
+//			this.getJdbcTemplate().getDataSource().getConnection().setAutoCommit(false);
+			result = this.getJdbcTemplate().batchUpdate(sql, new BatchPreparedStatementSetter(){
 		
-		//check the result
-		for(int i = 0;i<result.length;i++)
-		{
-			if(result[i]<0)
-			{
-				System.out.println(i);
-				flag = false;
-			}
+				@Override
+				public int getBatchSize() {
+					// TODO Auto-generated method stub
+					return params.size();
+				}
+		
+				@Override
+				public void setValues(PreparedStatement ps, int i)
+						throws SQLException {
+					
+					ps.setString(1, params.get(i).get(0)+"");
+					ps.setString(2, params.get(i).get(1)+"");
+					ps.setString(3, params.get(i).get(2)+"");
+					ps.setString(4, params.get(i).get(3)+"");
+					ps.setString(5, params.get(i).get(4)+"");
+					ps.setString(6, params.get(i).get(5)+"");
+					ps.setString(7, params.get(i).get(6)+"");
+					ps.setString(8, params.get(i).get(7)+"");
+					ps.setString(9, params.get(i).get(8)+"");
+					ps.setString(10, params.get(i).get(9)+"");
+					ps.setString(11, params.get(i).get(10)+"");
+					ps.setString(12, params.get(i).get(11)+"");
+				}
+				
+			});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	
+		//check the result
+		if (result!=null){
+			for(int i = 0;i<result.length;i++)
+			{
+				if(result[i]<0)
+				{
+					System.out.println(i);
+					flag = false;
+				}
+			}			
+		}else{
+			flag = false;
+		}
+
+//		if(flag){
+//			try {
+//				this.getJdbcTemplate().getDataSource().getConnection().commit();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 		System.out.print(flag);
+		return flag;
 	}
+//	public static boolean checkParams(ArrayList arr)
+//	{
+//		boolean flag = false;
+//		int countNull = 0;
+//		for(arr.)
+//	}
 	
 	public void testDao()
 	{

@@ -58,19 +58,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">管理员</span>
+              <span class="hidden-xs">登录用户</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                <p>系统管理员</p>
+                <p>登录用户</p>
                 <p><s:property value = '#session.username'/></p>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">登出</a>
+                  <a href="<%=basePath%>userLogout.do?userName=<s:property value = '#session.username'/>" class="btn btn-default btn-flat">登出</a>
                 </div>
               </li>
             </ul>
@@ -137,12 +137,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="${timeType==0&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=0"><i class="fa fa-circle-o"></i>已到期设备</a></li>
-            <li class="${timeType==1&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=1"><i class="fa fa-circle-o"></i>7天内到期设备</a></li>
-            <li class="${timeType==2&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=2"><i class="fa fa-circle-o"></i>30天内到期设备</a></li>
-            <li class="${timeType==0&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=0"><i class="fa fa-certificate"></i>已到期、证书</a></li>
-            <li class="${timeType==1&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=1"><i class="fa fa-certificate"></i>7天内到期证书</a></li>
-            <li class="${timeType==2&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=2"><i class="fa fa-certificate"></i>30天内到期证书</a></li>
+            <li class="${timeType==0&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=0"><i class="fa fa-circle-o"></i>30天内到期设备</a></li>
+            <li class="${timeType==1&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=1"><i class="fa fa-circle-o"></i>60天内到期设备</a></li>
+            <li class="${timeType==2&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=2"><i class="fa fa-circle-o"></i>90天内到期设备</a></li>
+            <li class="${timeType==0&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=0"><i class="fa fa-certificate"></i>30天内到期证书</a></li>
+            <li class="${timeType==1&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=1"><i class="fa fa-certificate"></i>60天内到期证书</a></li>
+            <li class="${timeType==2&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=2"><i class="fa fa-certificate"></i>90天内到期证书</a></li>
             <li class="${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-calendar-check-o"></i>自定义时间内到期设备、证书</a></li>
           </ul>
         </li>
@@ -185,7 +185,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <ul class="nav nav-tabs">
               <li class="active"><a href="#userinfo" data-toggle="tab">用户列表</a></li>
               <li><a href="#adduser" data-toggle="tab">添加用户</a></li>
-              <li><a href="#settings" data-toggle="tab">Settings</a></li>
+              <!-- <li><a href="#settings" data-toggle="tab">Settings</a></li> -->
             </ul>
             
 			<div class="tab-content">
@@ -207,78 +207,94 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        <th>用户管理</th>
 					        <th>备注</th>
 					      </tr>
+					      
+					      <s:iterator value="userinfoLs" id="userinfoLs">
 					      <tr>
-					        <td>admin</td>
-					        <td>张三</td>
+					        <td><s:property value="#userinfoLs.username"/></td>
+					        <td><s:property value="#userinfoLs.realname"/></td>
+					        <s:if test="#userinfoLs.priority[0] == 0">
 					        <td>
-					      <!-- checkbox -->
-					        <label>
-					          <input type="checkbox" class="flat-red" checked disabled>
-					        </label>
+						        <!-- checkbox -->
+						        <label>
+						          <input type="checkbox" class="flat-red" disabled>
+						        </label>
 					        </td>
+					        </s:if>
+					        <s:else>
 					        <td>
-					      <!-- checkbox -->
-					        <label>
-					          <input type="checkbox" class="flat-red" checked disabled>
-					        </label>
+						        <!-- checkbox -->
+						        <label>
+						          <input type="checkbox" class="flat-red" checked disabled>
+						        </label>
 					        </td>
+					        </s:else>
+					        <s:if test="#userinfoLs.priority[1] == 0">
 					        <td>
-					      <!-- checkbox -->
-					        <label>
-					          <input type="checkbox" class="flat-red" checked disabled>
-					        </label>
+						        <!-- checkbox -->
+						        <label>
+						          <input type="checkbox" class="flat-red" disabled>
+						        </label>
 					        </td>
+					        </s:if>
+					        <s:else>
 					        <td>
-					      <!-- checkbox -->
-					        <label>
-					          <input type="checkbox" class="flat-red" checked disabled>
-					        </label>
+						        <!-- checkbox -->
+						        <label>
+						          <input type="checkbox" class="flat-red" checked disabled>
+						        </label>
 					        </td>
+					        </s:else>
+					        <s:if test="#userinfoLs.priority[2] == 0">
 					        <td>
-					      <!-- checkbox -->
-					        <label>
-					          <input type="checkbox" class="flat-red" checked disabled>
-					        </label>
+						        <!-- checkbox -->
+						        <label>
+						          <input type="checkbox" class="flat-red" disabled>
+						        </label>
 					        </td>
-					        <td>管理员</td>
+					        </s:if>
+					        <s:else>
+					        <td>
+						        <!-- checkbox -->
+						        <label>
+						          <input type="checkbox" class="flat-red" checked disabled>
+						        </label>
+					        </td>
+					        </s:else>
+					        <s:if test="#userinfoLs.priority[3] == 0">
+					        <td>
+						        <!-- checkbox -->
+						        <label>
+						          <input type="checkbox" class="flat-red" disabled>
+						        </label>
+					        </td>
+					        </s:if>
+					        <s:else>
+					        <td>
+						        <!-- checkbox -->
+						        <label>
+						          <input type="checkbox" class="flat-red" checked disabled>
+						        </label>
+					        </td>
+					        </s:else>
+					        <s:if test="#userinfoLs.priority[4] == 0">
+					        <td>
+						        <!-- checkbox -->
+						        <label>
+						          <input type="checkbox" class="flat-red" disabled>
+						        </label>
+					        </td>
+					        </s:if>
+					        <s:else>
+					        <td>
+						        <!-- checkbox -->
+						        <label>
+						          <input type="checkbox" class="flat-red" checked disabled>
+						        </label>
+					        </td>
+					        </s:else>
+					        <td><s:property value="#userinfoLs.notes"/></td>
 					      </tr>
-					      <tr>
-					        <td>user1</td>
-					        <td>李四</td>
-					        <td>
-					      <!-- checkbox -->
-					        <label>
-					          <input type="checkbox" class="flat-red" checked disabled>
-					        </label>
-					        </td>
-					        <td>
-					      <!-- checkbox -->
-					        <label>
-					          <input type="checkbox" class="flat-red" disabled>
-					        </label>
-					        </td>
-					        <td>
-					      <!-- checkbox -->
-					        <label>
-					          <input type="checkbox" class="flat-red" disabled>
-					        </label>
-					        </td>
-					        <td>
-					      <!-- checkbox -->
-					        <label>
-					          <input type="checkbox" class="flat-red" disabled>
-					        </label>
-					        </td>
-					        <td>
-					      <!-- checkbox -->
-					        <label>
-					          <input type="checkbox" class="flat-red" disabled>
-					        </label>
-					        </td>
-					        <td>普通用户</td>
-					      </tr>
-					
-					
+						  </s:iterator>
 					    </table>
 					  </div>
 					  <!-- /.box-body -->
@@ -300,21 +316,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        <label for="inputName" class="col-sm-2 control-label">用户名</label>
 				
 				        <div class="col-sm-6">
-				          <input type="text" class="form-control" id="inputName" placeholder="用户名">
+				          <input type="text" class="form-control" name="userinfo.username" placeholder="用户名">
 				        </div>
 				      </div>
 				      <div class="form-group">
 				        <label for="inputEmail" class="col-sm-2 control-label">真实姓名</label>
 				
 				        <div class="col-sm-6">
-				          <input type="text" class="form-control" id="inputEmail" placeholder="真实姓名">
+				          <input type="text" class="form-control" name="userinfo.realname" placeholder="真实姓名">
 				        </div>
 				      </div>
 				      <div class="form-group">
 				        <label for="text" class="col-sm-2 control-label">密码</label>
 				
 				        <div class="col-sm-6">
-				          <input type="password" class="form-control" id="inputEmail" placeholder="密码">
+				          <input type="password" class="form-control" name="userinfo.password" placeholder="密码">
 				        </div>
 				      </div>
 				      <div class="form-group">
@@ -323,19 +339,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        <div class="col-sm-6">
 					        <div class = "form-group">
 						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
-						          <input type="checkbox" name = "c3" class="flat-red">设备管理
+						          <input type="checkbox" name = "userinfo.priority" value = "0" class="flat-red">设备管理
 						        </label>
 						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
-						          <input type="checkbox" name = "c3" class="flat-red">资产证照管理
+						          <input type="checkbox" name = "userinfo.priority" value = "1" class="flat-red">资产证照管理
 						        </label>
 						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
-						          <input type="checkbox" name = "c3" class="flat-red">到期设备管理
+						          <input type="checkbox" name = "userinfo.priority" value = "2" class="flat-red">到期设备管理
 						        </label>
 						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
-						          <input type="checkbox" name = "c3" class="flat-red">数据导入
+						          <input type="checkbox" name = "userinfo.priority" value = "3" class="flat-red">数据导入
 						        </label>
 						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
-						          <input type="checkbox" name = "c3" class="flat-red">用户管理
+						          <input type="checkbox" name = "userinfo.priority" value = "4" class="flat-red">用户管理
 						        </label>
 					    	</div>
 				        </div>
@@ -344,7 +360,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        <label for="inputSkills" class="col-sm-2 control-label">备注</label>
 				
 				        <div class="col-sm-6">
-				          <input type="text" class="form-control" id="inputSkills" placeholder="备注信息">
+				          <input type="text" class="form-control" id="userinfo.notes" placeholder="备注信息">
 				        </div>
 				      </div>
 				      <div class="form-group">
@@ -354,9 +370,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				      </div>
 				    </form>
 				</div><!-- /.tab-pane -->
-				
+				<!--
 	        	<div class="tab-pane" id="settings">
-	        	</div><!-- /.tab-pane -->
+	        	</div> /.tab-pane -->
             </div>
             <!-- /.tab-content -->
           </div>
@@ -397,8 +413,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src='<%=basePath%>plugins/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
 <script src="<%=basePath%>dist/js/app.min.js" type="text/javascript"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script>
+<!-- AdminLTE for demo purposes 
+<script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script>-->
 <!-- iCheck 1.0.1 -->
 <script src="<%=basePath%>plugins/iCheck/icheck.min.js"></script>
 <!-- Page script -->

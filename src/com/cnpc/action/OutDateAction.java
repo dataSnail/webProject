@@ -57,7 +57,6 @@ public class OutDateAction  extends ActionSupport{
 		{
 			return ERROR;
 		}else{
-//			OutDateDao odd = new OutDateDao();
 			OutDateDao odd = (OutDateDao) SpringInit.getApplicationContext().getBean("outdateDao");
 			if(Utils.checkNull(timeType))
 			{

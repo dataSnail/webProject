@@ -21,7 +21,7 @@ public class CertificationDao  extends JdbcDaoSupport {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
 		try {
-			String sql = "select area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from certifications where type = "+certifType+" order by exp_date asc";
+			String sql = "select area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from certifications where type = "+certifType;
 			List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
 			for(Map<String,Object> res:resLs){
 				Certificationinfo ci = new Certificationinfo();
