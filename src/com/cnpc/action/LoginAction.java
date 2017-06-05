@@ -85,7 +85,7 @@ public class LoginAction extends ActionSupport {
 		String userName = this.getUserName();
 		System.out.println(userName+"登出！");
 		HttpServletRequest request = ServletActionContext.getRequest();
-		request.getSession().removeAttribute(userName);
+		request.getSession().removeAttribute("username");
 		request.getSession().removeAttribute("priorityStr");
 		request.getSession().removeAttribute("result");
 		return SUCCESS;

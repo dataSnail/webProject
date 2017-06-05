@@ -67,13 +67,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<%=basePath%>/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">登录用户</span>
+              <span class="hidden-xs">管理员</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <img src="<%=basePath%>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                <p>登录用户</p>
+                <p>管理员</p>
                 <p><s:property value = '#session.username'/></p>
               </li>
               <!-- Menu Footer-->

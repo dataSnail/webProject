@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.cnpc.bean.Userinfo;
+import com.cnpc.utils.MD5Util;
 import com.cnpc.utils.Utils;
 
 
@@ -19,10 +20,14 @@ public class UserDao extends JdbcDaoSupport{
 	public boolean checkUserAndPassword(String username,String password)
 	{
 		boolean result = false;
-		String sql = "select count(0) from users where username = '"+username+"' and password = '"+password+"'";
+		String sql = "select count(0) as num from users where username = '"+username+"' and password = '"+MD5Util.MD5_Encode(password)+"'";
 		List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
-		System.out.println(username+":登录成功！-->"+resLs.size());
-		if(resLs.size() == 1) result = true;
+		if(Integer.parseInt(resLs.get(0).get("num")+"")==1){
+			result = true;
+			System.out.println(username+":登录成功！-->"+resLs.get(0).get("num"));
+		}else{
+			System.out.println(username+":登录失败！-->");
+		}
 		return result;
 	}
 	
@@ -58,7 +63,7 @@ public class UserDao extends JdbcDaoSupport{
 			}
 		}
 		String s = Arrays.toString(prority).replace(" ", "");
-		String sql = "insert ignore into users(username,password,realname,priority,notes) values ('"+userinfo.getUsername()+"','"+userinfo.getPassword()+"','"+userinfo.getRealname()+"','"+s.substring(1,s.length()-1)+"','"+userinfo.getNotes()+"')";
+		String sql = "insert ignore into users(username,password,realname,priority,notes) values ('"+userinfo.getUsername()+"','"+MD5Util.MD5_Encode(userinfo.getPassword())+"','"+userinfo.getRealname()+"','"+s.substring(1,s.length()-1)+"','"+userinfo.getNotes()+"')";
 		int res = this.getJdbcTemplate().update(sql);
 		if (res == 1) result = true;
 		return result;

@@ -22,7 +22,7 @@
 		
 		<action name = "userLogin" class = "com.cnpc.action.LoginAction" method = "userLogin">
 			<result  name = "success">/welcome.jsp</result>
-			<result name = "error">/info.jsp</result>
+			<result name = "error">/login.jsp</result>
 		</action>
 		
 		<action name = "userLogout" class = "com.cnpc.action.LoginAction" method = "userLogout">

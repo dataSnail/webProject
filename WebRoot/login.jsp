@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>用户登录</b></a>
+    <a href="<%=basePath%>login.jsp"><b>用户登录</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -50,11 +50,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <div class="row">
         <div class="col-xs-8">
           <div class = "text-red">${result}</div>
-          <div class="checkbox icheck">
+          <!-- <div class="checkbox icheck">
             <label>
               <input type="checkbox"> 记住密码 
             </label>
-          </div>
+          </div> -->
         </div>
         <!-- /.col -->
         <div class="col-xs-4">

@@ -45,6 +45,6 @@ public class MD5Util {
     //test
     public static void main(String[] args)
     {
-    	System.out.println(MD5_Encode("1234"));
+    	System.out.println(MD5_Encode("user"));
     }
 }

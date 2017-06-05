@@ -14,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <img src="<%=basePath%>/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
-        <p>登录用户</p>
+        <p>管理员</p>
         <p><s:property value = '#session.username'/></p>
       </div>
     </div>

@@ -74,13 +74,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">登录用户</span>
+              <span class="hidden-xs">管理员</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                <p>登录用户</p>
+                <p>管理员</p>
                 <p><s:property value = '#session.username'/></p>
               </li>
               <!-- Menu Footer-->
@@ -105,7 +105,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>登录用户</p>
+          <p>管理员</p>
           <p><s:property value = '#session.username'/></p>
         </div>
       </div>
@@ -259,7 +259,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>plugins/input-mask/jquery.inputmask.extensions.js"></script>
 
 <!-- date-range-picker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script src="<%=basePath%>js/moment.min.js"></script>
 <script src="<%=basePath%>plugins/daterangepicker/daterangepicker.js"></script>
 <!-- Select2 -->
 <script src="<%=basePath%>plugins/select2/select2.full.min.js"></script>

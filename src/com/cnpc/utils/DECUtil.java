@@ -61,9 +61,8 @@ public class DECUtil {
     
     public static void main(String args []){
     	System.out.println("a");
-    	DECUtil de = new DECUtil();
-    	System.out.println(de.getEncryptString("mmily"));
-    	System.out.println(de.getDecryptString("j+GP5dgBLqA="));
+    	System.out.println(DECUtil.getEncryptString("mmily"));
+    	System.out.println(DECUtil.getDecryptString("j+GP5dgBLqA="));
     }
     
 }

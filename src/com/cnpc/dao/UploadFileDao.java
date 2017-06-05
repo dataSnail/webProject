@@ -122,12 +122,14 @@ public class UploadFileDao extends JdbcDaoSupport {
 		final List<ArrayList<Object>> params = Utils.convertParams(er.readExcel2DB(f));
 		String sql = "insert into equipments (type,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes) values (?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
+//			System.out.print(this.getJdbcTemplate());
 //			this.getJdbcTemplate().getDataSource().getConnection().setAutoCommit(false);
-			result = this.getJdbcTemplate().batchUpdate(sql, new BatchPreparedStatementSetter(){
+			BatchPreparedStatementSetter bpss = new BatchPreparedStatementSetter(){
 		
 				@Override
 				public int getBatchSize() {
 					// TODO Auto-generated method stub
+					System.out.println("params.size:"+params.size());
 					return params.size();
 				}
 		
@@ -149,7 +151,8 @@ public class UploadFileDao extends JdbcDaoSupport {
 					ps.setString(12, params.get(i).get(11)+"");
 				}
 				
-			});
+			};
+			result = this.getJdbcTemplate().batchUpdate(sql,bpss);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -176,6 +179,7 @@ public class UploadFileDao extends JdbcDaoSupport {
 //				e.printStackTrace();
 //			}
 //		}
+		System.out.print(this.getJdbcTemplate());
 		System.out.print(flag);
 		return flag;
 	}

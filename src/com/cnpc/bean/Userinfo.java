@@ -30,7 +30,7 @@ public class Userinfo {
 		return notes;
 	}
 	public void setNotes(String notes) {
-		if(Utils.checkNull(notes))
+		if(Utils.checkNull(notes) || "null".equals(notes))
 			this.notes = "无";
 		else
 			this.notes = notes;
