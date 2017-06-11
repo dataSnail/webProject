@@ -29,14 +29,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-    <a href="<%=basePath%>login.jsp"><b>用户登录</b></a>
+<body class="hold-transition login-page" style = "background: url('./images/background.jpg') no-repeat center;background-attachment: fixed;background-size: 100% 100%;">
+  <div class="login-logo" style="width:550px;margin-left: auto;margin-right: auto;">
+    <a href="<%=basePath%>login.jsp"><b>&nbsp;</b></a>
   </div>
+  <div class="login-logo" style="width:550px;margin-left: auto;margin-right: auto;">
+    <a href="<%=basePath%>login.jsp"><b>中石化南京分公司有效期管理系统</b></a>
+  </div>
+<div class="login-box" style = "margin-top:380px">
   <!-- /.login-logo -->
-  <div class="login-box-body">
-    <p class="login-box-msg">用户登录</p>
+  <div class="login-box-body" style = "background:rgba(255, 255, 255, 0)">
+    <p class="login-box-msg">&nbsp;</p>
 
     <form action="userLogin.do" method="post">
       <div class="form-group has-feedback">

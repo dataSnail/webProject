@@ -11,17 +11,21 @@ import java.util.Map;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.cnpc.bean.Certificationinfo;
+import com.cnpc.utils.Utils;
 
 public class CertificationDao  extends JdbcDaoSupport {
 	
 	//按照证书类型查询内容
-	public List<Certificationinfo> getCertificationInfo(String certifType,int page)
+	public List<Certificationinfo> getCertificationInfo(String certifType,String areaName,int page)
 	{
 		List<Certificationinfo> certifyLs = new ArrayList<Certificationinfo>();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
 		try {
-			String sql = "select area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from certifications where type = "+certifType;
+			String sql = "select area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from certifications where type = "+certifType ;
+			if(!Utils.checkNull(areaName)){
+				sql += " and area = '"+areaName+"'";
+			}
 			List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
 			for(Map<String,Object> res:resLs){
 				Certificationinfo ci = new Certificationinfo();

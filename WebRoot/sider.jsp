@@ -21,63 +21,73 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu">
       <li class="header">主菜单</li>
-      <li class="treeview ${equipType>=0?'active':'' }">
+      <s:set name="lasttype" value= "-1" />
+      <s:set name="lastarea" value= "-1" />
+      <s:set name="typeend" value='0'/>
+      <s:set name="areaend" value='0'/>
+      <!-- 设备 证书 head -->
+	<s:iterator value="#session.catalog" id="catalog">
+	
+		<s:if test="#lasttype != #catalog.types_id ">
+			<s:if test="#typeend == 1"><%out.print("</ul></li></ul></li>"); %></s:if>
+			<li class="treeview ${type!= '' && type==catalog.types_id?'active':'' }">
+				<a href="#">
+					<i class="fa fa-tasks"></i> <span>${catalog.types}管理</span>
+					<span class="pull-right-container">
+					<i class="fa fa-angle-left pull-right"></i>
+					</span>
+				</a>
+		    <s:set name="typeend" value= "1" />
+		    <%out.print("<ul class=\"treeview-menu\">"); %>
+		</s:if>
+		
+		<s:if test="#lastarea != #catalog.area_id">
+			<s:if test="#areaend == 1">
+				<s:if test="#lasttype == #catalog.types_id "><%out.print("</ul></li>"); %></s:if>
+			</s:if>
+			<li class = "${areaid==catalog.area_id?'active':'' }"><a><i class="fa fa-circle-o"></i><s:property value="#catalog.area"/></a>
+			<s:set name="areaend" value= "1" />
+			<%out.print("<ul class=\"treeview-menu\">"); %>
+		</s:if>
+		
+		<s:if test="#catalog.types_id == 0">
+			<li class = "${areaid==catalog.area_id && equipType==catalog.types_type_id?'active':'' }"><a href="<%=basePath%>equip/query.do?areaid=${catalog.area_id}&equipType=${catalog.types_type_id}&type=${catalog.types_id}"><i class="fa fa-circle-o"></i><s:property value="#catalog.types_type"/></a></li>
+		</s:if>
+		<s:if test="#catalog.types_id == 1">
+			<li class = "${areaid==catalog.area_id && certifType==catalog.types_type_id?'active':'' }"><a href="<%=basePath%>certif/query.do?areaid=${catalog.area_id}&certifType=${catalog.types_type_id}&type=${catalog.types_id}"><i class="fa fa-circle-o"></i><s:property value="#catalog.types_type"/></a></li>
+		</s:if>
+		<s:set name="lasttype" value= "#catalog.types_id" />
+		<s:set name="lastarea" value= "#catalog.area_id" />
+	</s:iterator>
+	<%out.print("</ul></li></ul></li>"); %>
+      <li class = "treeview ${type==2?'active':'' }">
         <a href="#">
-          <i class="fa fa-tasks"></i> <span>设备设施管理</span>
+          <i class="fa fa-calendar-times-o"></i> <span>到期设备证书</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
-          <li class="${equipType==0?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=0"><i class="fa fa-circle-o"></i> 灭火器管理</a></li>
-          <li class="${equipType==1?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=1"><i class="fa fa-circle-o"></i>流量计管理</a></li>
-          <li class="${equipType==2?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=2"><i class="fa fa-circle-o"></i>安全阀管理</a></li>
-          <li class="${equipType==3?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=3"><i class="fa fa-circle-o"></i>压力表管理</a></li>
-          <li class="${equipType==4?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=4"><i class="fa fa-circle-o"></i>加气机管理</a></li>
-          <li class="${equipType==5?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=5"><i class="fa fa-circle-o"></i>卸气柱管理</a></li>
-          <li class="${equipType==6?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=6"><i class="fa fa-circle-o"></i>储气井管理</a></li>
-          <li class="${equipType==7?'active':'' }"><a href="<%=basePath%>equip/query.do?equipType=7"><i class="fa fa-circle-o"></i>可燃气体报警管理</a></li>
+          <li class="${timeType==0&&etype == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?etype=0&timeType=0&type=2"><i class="fa fa-circle-o"></i>30天内到期设备</a></li>
+          <li class="${timeType==1&&etype == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?etype=0&timeType=1&type=2"><i class="fa fa-circle-o"></i>60天内到期设备</a></li>
+          <li class="${timeType==2&&etype == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?etype=0&timeType=2&type=2"><i class="fa fa-circle-o"></i>90天内到期设备</a></li>
+          <li class="${timeType==0&&etype == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?etype=1&timeType=0&type=2"><i class="fa fa-certificate"></i>30天内到期证书</a></li>
+          <li class="${timeType==1&&etype == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?etype=1&timeType=1&type=2"><i class="fa fa-certificate"></i>60天内到期证书</a></li>
+          <li class="${timeType==2&&etype == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?etype=1&timeType=2&type=2"><i class="fa fa-certificate"></i>90天内到期证书</a></li>
         </ul>
       </li>
-      <li class="treeview">
-        <a href="#">
-          <i class="fa fa-book"></i> <span>资产证照管理</span>
-          <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-        </a>
-        <ul class="treeview-menu">
-          <li class="${certifType==0?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=0"><i class="fa fa-circle-o"></i>成品油经营许可证</a></li>
-          <li class="${certifType==1?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=1"><i class="fa fa-circle-o"></i>商务局批复</a></li>
-          <li class="${certifType==2?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=2"><i class="fa fa-circle-o"></i>食品经营许可证</a></li>
-          <li class="${certifType==3?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=3"><i class="fa fa-circle-o"></i>烟草证</a></li>
-          <li class="${certifType==4?'active':'' }"><a href="<%=basePath%>certif/query.do?certifType=4"><i class="fa fa-circle-o"></i>从业人员健康证</a></li>
-        </ul>
+      <li class="${type==3?'active':'' }">
+        <a href="<%=basePath%>qinfo/query.do?type=3">
+          <i class="fa fa-calendar-check-o"></i> <span>设备证书查询</span>
+        </a>        
       </li>
-      <li class = "treeview ${timeType>=0?'active':'' }">
-        <a href="#">
-          <i class="fa fa-calendar-times-o"></i> <span>到期设备查询</span>
-          <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-        </a>
-        <ul class="treeview-menu">
-          <li class="${timeType==0&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=0"><i class="fa fa-circle-o"></i>30天内到期设备</a></li>
-          <li class="${timeType==1&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=1"><i class="fa fa-circle-o"></i>60天内到期设备</a></li>
-          <li class="${timeType==2&&type == 0?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=0&timeType=2"><i class="fa fa-circle-o"></i>90天内到期设备</a></li>
-          <li class="${timeType==0&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=0"><i class="fa fa-certificate"></i>30天内到期证书</a></li>
-          <li class="${timeType==1&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=1"><i class="fa fa-certificate"></i>60天内到期证书</a></li>
-          <li class="${timeType==2&&type == 1?'active':'' }"><a href="<%=basePath%>outdate/query.do?type=1&timeType=2"><i class="fa fa-certificate"></i>90天内到期证书</a></li>
-          <li class="${timeType==3?'active':'' }"><a href="<%=basePath%>outdate/query.do?timeType=3"><i class="fa fa-calendar-check-o"></i>自定义时间内到期设备、证书</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="<%=basePath%>up/uploadfile.do">
+      <li class="${type==4?'active':'' }">
+        <a href="<%=basePath%>up/uploadfile.do?type=4">
           <i class="fa fa-cloud-upload"></i> <span>数据导入</span>
         </a>
       </li>
-      <li>
-        <a href="<%=basePath%>user/userInfo.do">
+      <li class="${type==5?'active':'' }">
+        <a href="<%=basePath%>user/userInfo.do?type=5">
           <i class="fa fa-user"></i> <span>用户管理</span>
         </a>
       </li>

@@ -1,4 +1,5 @@
 package com.cnpc.action;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -6,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.cnpc.bean.Cataloginfo;
 import com.cnpc.dao.UserDao;
 import com.cnpc.filters.SpringInit;
-import com.cnpc.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class LoginAction extends ActionSupport {
@@ -60,18 +61,32 @@ public class LoginAction extends ActionSupport {
 		if(userDao.checkUserAndPassword(userName, passWord)) 
 		{
 			HttpServletRequest request = ServletActionContext.getRequest();
+			//先清空session
+//			request.getSession().invalidate();
+			Enumeration<?> e=request.getSession().getAttributeNames(); 
+			while(e.hasMoreElements()){ String sessionName=(String)e.nextElement(); 
+			System.out.println("存在的session有："+sessionName); 
+			request.getSession().removeAttribute(sessionName); }
+			
 			request.getSession().setAttribute("username", userName);
-			//获得过期提醒信息
-			List<Map<String,Object>> result = userDao.getOutDateCount();
+			
+			//获得用户目录信息
+			List<Cataloginfo> catalog = userDao.getCatalog(userName);
+			request.getSession().setAttribute("catalog",catalog);
+			
+			//获得用户权限信息
+			String[] userPriorityStr = userDao.getPriorityByUser(userName);
+			request.getSession().setAttribute("priorityStr", userPriorityStr[0]);
+			request.getSession().setAttribute("area_id", userPriorityStr[1]);
+			
+			String outdateAreaId = userPriorityStr[1];
+			//获得过期提醒信息,根据用户的地区
+			List<Map<String,Object>> result = userDao.getOutDateCount(outdateAreaId);
 			
 			for(Map<String,Object> remap : result)
 			{
 				request.getSession().setAttribute(remap.get("outdate")+"", remap.get("num")+"");
 			}
-			
-			//获得用户权限信息
-			String userPriorityStr = userDao.getPriorityByUser(userName);
-			request.getSession().setAttribute("priorityStr", userPriorityStr);
 			
 			return SUCCESS;
 		}else{

@@ -58,13 +58,26 @@
 	<package name = "certifAction" namespace = "/certif" extends = "struts-default">
 		<action name = "query" class = "com.cnpc.action.CertificationAction" method = "queryCertifInfo">
 			<result  name = "success">/WEB-INF/pages/certificationt_status.jsp</result>
-			<result  name = "error">/WEB-INF/pages/info.jsp</result>
+			<result  name = "error">/info.jsp</result>
 		</action>
 	</package>
 	
 	<package name = "outDateAction" namespace = "/outdate" extends = "struts-default">
 		<action name = "query" class = "com.cnpc.action.OutDateAction" method = "queryOutDate">
 			<result  name = "success">/WEB-INF/pages/out_date_item.jsp</result>
+			<result  name = "error">/info.jsp</result>
+		</action>
+	</package>
+	
+	<package name = "outDateActionapi" namespace = "/outdateapi" extends = "json-default">
+		<action name = "queryapi" class = "com.cnpc.action.OutDateAction" method = "queryOutDateAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
+	</package>
+	
+	<package name = "queryInfoAction" namespace = "/qinfo" extends = "struts-default">
+		<action name = "query" class = "com.cnpc.action.QueryinfoAction" method = "queryInfo">
+			<result  name = "success">/WEB-INF/pages/query_item.jsp</result>
 			<result  name = "error">/info.jsp</result>
 		</action>
 	</package>

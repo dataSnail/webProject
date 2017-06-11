@@ -153,9 +153,8 @@ public class UploadFileDao extends JdbcDaoSupport {
 				
 			};
 			result = this.getJdbcTemplate().batchUpdate(sql,bpss);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}catch (Exception e) {
+			System.out.println("数据导入错误，着重查看日期格式readExcel2DBC："+e.getMessage());
 		}
 		//check the result
 		if (result!=null){

@@ -125,12 +125,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					            </div>
 					            <div class="box-footer no-padding">
 					              <ul class="nav nav-stacked">
-					                <li><a href="<%=basePath%>outdate/query.do?type=0&timeType=0">30天内到期设备<span class="pull-right badge bg-red"><s:if test="#session.e30 > 0"><s:property value = '#session.e30'/></s:if><s:else>0</s:else></span></a></li>
-					                <li><a href="<%=basePath%>outdate/query.do?type=0&timeType=1">60天内到期设备<span class="pull-right badge bg-orange"><s:if test="#session.e60 > 0"><s:property value = '#session.e60'/></s:if><s:else>0</s:else></span></a></li>
-					                <li><a href="<%=basePath%>outdate/query.do?type=0&timeType=2">90天内到期设备<span class="pull-right badge bg-light-blue"><s:if test="#session.e90 > 0"><s:property value = '#session.e90'/></s:if><s:else>0</s:else></span></a></li>
-					                <li><a href="<%=basePath%>outdate/query.do?type=1&timeType=0">30天内到期 证书 <span class="pull-right badge bg-red"><s:if test="#session.c30 > 0"><s:property value = '#session.c30'/></s:if><s:else>0</s:else></span></a></li>
-					                <li><a href="<%=basePath%>outdate/query.do?type=1&timeType=1">60天内到期 证书 <span class="pull-right badge bg-orange"><s:if test="#session.c60 > 0"><s:property value = '#session.c60'/></s:if><s:else>0</s:else></span></a></li>
-					                <li><a href="<%=basePath%>outdate/query.do?type=1&timeType=2">90天内到期证书<span class="pull-right badge bg-light-blue"><s:if test="#session.c90 > 0"><s:property value = '#session.c90'/></s:if><s:else>0</s:else></span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?etype=0&timeType=0&type=2">30天内到期设备<span class="pull-right badge bg-red"><s:if test="#session.e30 > 0"><s:property value = '#session.e30'/></s:if><s:else>0</s:else></span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?etype=0&timeType=1&type=2">60天内到期设备<span class="pull-right badge bg-orange"><s:if test="#session.e60 > 0"><s:property value = '#session.e60'/></s:if><s:else>0</s:else></span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?etype=0&timeType=2&type=2">90天内到期设备<span class="pull-right badge bg-light-blue"><s:if test="#session.e90 > 0"><s:property value = '#session.e90'/></s:if><s:else>0</s:else></span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?etype=1&timeType=0&type=2">30天内到期 证书 <span class="pull-right badge bg-red"><s:if test="#session.c30 > 0"><s:property value = '#session.c30'/></s:if><s:else>0</s:else></span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?etype=1&timeType=1&type=2">60天内到期 证书 <span class="pull-right badge bg-orange"><s:if test="#session.c60 > 0"><s:property value = '#session.c60'/></s:if><s:else>0</s:else></span></a></li>
+					                <li><a href="<%=basePath%>outdate/query.do?etype=1&timeType=0&type=2">90天内到期证书<span class="pull-right badge bg-light-blue"><s:if test="#session.c90 > 0"><s:property value = '#session.c90'/></s:if><s:else>0</s:else></span></a></li>
 					              </ul>
 					            </div>
 					</div>

@@ -27,6 +27,7 @@ public class UploadFileAction extends ActionSupport{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private String type="";
 	private String result;
 	private String fileType;
 	private File myFile;
@@ -56,11 +57,20 @@ public class UploadFileAction extends ActionSupport{
 	public void setMyFile(File myFile) {
 		this.myFile = myFile;
 	}
-//fileName=1.xls&fileType=equipment
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	//fileName=1.xls&fileType=equipment
 	public String uploadFile() throws FileNotFoundException
 	{
 		String uploadPath=ServletActionContext.getServletContext().getRealPath("/upload");
-//		System.out.println(uploadPath);
+		System.out.println("type:"+type);
 		if (myFile==null)
 		{
 			return SUCCESS;

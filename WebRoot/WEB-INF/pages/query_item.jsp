@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <small>到期${etype==0?"设备":"证书" }一览表</small>
+        <small>信息查询</small>
       </h1>
     </section>
 
@@ -111,7 +111,92 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <section class="content">
 		<div class="callout callout-info">
 		  <h4>小贴士!</h4>
-		  <p>红色代表此${etype==0?"设备":"证书" }即将到期！</p>
+		  <p>部门可以填入部分关键词进行模糊查询！</p>
+		</div>
+    	<div class = "box box-primary">
+    	<div class = "box-header"></div>
+    	<div class = "box-body">
+		<div class = "row"> 
+		    <form role = "form" action = "" method="POST" enctype="multipart/form-data">
+		    <div class="col-xs-2">
+		    <label>设备种类：</label>
+	            <select class="form-control" name = "etype">
+	            	<s:set name="lasttype" value= "-1" />
+					<s:iterator value="#session.catalog" id="catalog">
+						<s:if test="#lasttype != #catalog.types_id ">
+						    <option value = ${catalog.types_id }>${catalog.types}</option>
+						</s:if>
+						<s:set name="lasttype" value= "#catalog.types_id" />
+					</s:iterator>
+	            </select>
+		    </div>
+		    <div class="col-xs-2">
+		    <label>地区：</label>
+	            <select class="form-control" name = "areaId">
+			      <s:set name="lastarea" value= "-1" />
+				<s:iterator value="#session.catalog" id="catalog">
+					<s:if test="#lastarea != #catalog.area_id">
+						<option value = ${catalog.area_id }>${catalog.area}</option>
+					</s:if>
+					<s:set name="lastarea" value= "#catalog.area_id" />
+				</s:iterator>
+	            </select>
+		    </div>
+		    <div class="col-xs-2">
+		    <label>部门：</label>
+		    	<input type="text" name = "departmentName" class="form-control" value = "">
+		    </div>
+		    <div class="col-xs-3">
+		        <!-- Date yyyy-mm-dd -->
+		        <div class="form-group">
+		          <label>到期日期：</label>
+		
+		          <div class="input-group">
+		            <div class="input-group-addon">
+		              <i class="fa fa-calendar"></i>
+		            </div>
+		            <input type="text" name = "outdate" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+		            
+		            <span class="input-group-btn">
+                      <button type="button" class="btn btn-info btn-flat" id = "queryBt">查询</button>
+                    </span>
+		          </div>
+		          <!-- /.input group -->
+		        </div>
+		       <!-- 
+	          	<div class="form-group">
+		            <div class="radio">
+		              <label>
+		                <input type="radio" name="type" id="optionsRadios1" value="0" checked="">设备
+		              </label>
+		              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		              <label>
+		                <input type="radio" name="type" id="optionsRadios2" value="1">证书
+		              </label>
+		            </div>
+	            </div>-->
+	            </div>
+		       </form>
+		    
+		    <div class="col-xs-1">
+              <!-- Date and time range -->
+              <!--
+              <div class="form-group">
+                <label>快速查询:</label>
+
+                <div class="input-group">
+                  <button type="button" class="btn btn-default pull-right" id="daterange-btn">
+                    <span>
+                      <i class="fa fa-calendar"></i> Date range picker
+                    </span>
+                    <i class="fa fa-caret-down"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- /.form group -->
+		    </div> 
+	    </div>
+		</div>
 		</div>
 
 	    <div class="row">
@@ -119,15 +204,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      
 	        <div class="box box-solid box-info">
 	          <div class="box-header">
-	            <h3 class="box-title">到期${etype==0?"设备":"证书" }一览表</h3>
+	            <h3 class="box-title">信息查询</h3>
 	          </div>
 	          <!-- /.box-header -->
 	          <div class="box-body">
-	            <table id="table2017" class="table table-bordered table-striped">
+	            <table id="tableData" class="table table-bordered table-striped">
 	              <thead>
 	                <tr>
 	                  <th>地区</th>
 	                  <th>部门</th>
+	                  <!-- <th>房间号</th> -->
 	                  <th>规格</th>
 	                  <th>设备标号</th>
 	                  <th>所在位置</th>
@@ -139,66 +225,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                </tr>
 	              </thead>
 	              <tbody id = "tableBody">
-	                <s:iterator value="equipLs" id="equipLs">
-	                <tr>
-	                	<s:if test="#equipLs.status <= 30">
-					    <td class = "text-red"><b><s:property value="#equipLs.area"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.department"/></b></td>
-	                	<!--<td class = "text-red"><b><s:property value="#equipLs.roomId"/></b></td>-->
-	                	<td class = "text-red"><b><s:property value="#equipLs.specification"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.label"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.location"/></b></td>
-	                	<td class = "text-red"><b><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.responsible_dep"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.responsible_person"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.person_pic"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.note"/><small class="label pull-right bg-red">30</small></b></td>
-	                	</s:if>
-	                	
-	                	<s:elseif test="#equipLs.status > 30 && #equipLs.status <= 90 ">
-	                	<s:if test="#equipLs.status <= 60">
-					    <td class = "text-orange"><b><s:property value="#equipLs.area"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.department"/></b></td>
-	                	<!--<td class = "text-orange"><b><s:property value="#equipLs.roomId"/></b></td>-->
-	                	<td class = "text-orange"><b><s:property value="#equipLs.specification"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.label"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.location"/></b></td>
-	                	<td class = "text-orange"><b><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.responsible_dep"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.responsible_person"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.person_pic"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.note"/><small class="label pull-right bg-orange">60</small></b></td>
-	                	</s:if>
-	                	<s:else>
-					    <td class = "text-light-blue"><b><s:property value="#equipLs.area"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.department"/></b></td>
-	                	<!--<td class = "text-light-blue"><b><s:property value="#equipLs.roomId"/></b></td>-->
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.specification"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.label"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.location"/></b></td>
-	                	<td class = "text-light-blue"><b><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.responsible_dep"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.responsible_person"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.person_pic"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.note"/><small class="label pull-right bg-light-blue">90</small></b></td>
-	                	</s:else>
-	                	</s:elseif>
-	                	
-	                	<s:else>
-					    <td><b><s:property value="#equipLs.area"/></b></td>
-	                	<td><b><s:property value="#equipLs.department"/></b></td>
-	                	<!--<td><b><s:property value="#equipLs.roomId"/></b></td>-->
-	                	<td><b><s:property value="#equipLs.specification"/></b></td>
-	                	<td><b><s:property value="#equipLs.label"/></b></td>
-	                	<td><b><s:property value="#equipLs.location"/></b></td>
-	                	<td><b><s:date name="#equipLs.exp_date" format ="yyyy-MM-dd"/></b></td>
-	                	<td><b><s:property value="#equipLs.responsible_dep"/></b></td>
-	                	<td><b><s:property value="#equipLs.responsible_person"/></b></td>
-	                	<td><b><s:property value="#equipLs.person_pic"/></b></td>
-	                	<td><b><s:property value="#equipLs.status"/></b></td>
-	                	</s:else>
-					</tr>
-					</s:iterator>
 	              </tbody>
 	            </table>
 	          </div><!-- /.box-body -->
@@ -249,32 +275,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script>-->
 <!-- page script -->
 <script>
-$(function () {
+var dataTable;
+  $(function () {
 	  
 	$(".select2").select2();
-    $('#table2017').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": false,
-        "info": true,
-        "autoWidth": false,
-        "iDisplayLength":50,
-        "oLanguage": {
-        	"sLengthMenu": "每页显示 _MENU_ 条记录",
-        	"sZeroRecords": "抱歉， 没有找到",
-        	"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-        	"sInfoEmpty": "没有数据",
-        	"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-        	"oPaginate": {
-        	"sFirst": "首页",
-        	"sPrevious": "前一页",
-        	"sNext": "后一页",
-        	"sLast": "尾页"
-        	},
-        	"sZeroRecords": "没有检索到数据"
-        	},
-    });
     //Datemask yyyy-mm-dd
     $("#datemask").inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"});
     //Money Euro
@@ -298,6 +302,106 @@ $(function () {
         }
         );
   });
+  
+  $(document).ready(function(){
+  	  $("#queryBt").click(function(){
+  		  var dateTime = $("*[name='outdate']").val();
+  		  var typeVal = $("select[name=etype]").val();
+  		  var areaVal = $("select[name=areaId]").val();
+  		  var department = encodeURI($("*[name='departmentName']").val());
+  		  var urlstr = "<%=basePath%>outdateapi/queryapi.do?timeType=3&outdate="+dateTime+"&etype="+typeVal+"&areaId="+areaVal+"&departmentName="+department;
+  		  if(typeVal==0){
+  			dataTable = $('#tableData').DataTable({
+  		        "paging": true,
+  		        "lengthChange": false,
+  		        "searching": false,
+  		        "ordering": true,
+  		        "info": true,
+  		        "autoWidth": false,
+  		        "iDisplayLength":50,
+  		        "retrieve": true,
+  		        "sLoadingRecords" : "载入中...",
+  		        "columns":[
+  			                  { "data": "area"},
+  			                  { "data": "department"},
+  			                  //{ "data": "roomId"},
+  			                  { "data": "specification"},
+  			                  { "data": "label"},
+  			                  { "data": "location"},
+  			                  { "data": "exp_date",
+  			                	"render" : function(data){
+  			                		return (1900+data.year)+"-"+(data.month+1)+"-"+data.date
+  			                	} 
+  			                  },
+  			                  { "data": "responsible_dep"},
+  			                  { "data": "responsible_person"},
+  			                  { "data": "person_pic"},
+  			                  { "data": "note"}
+  			              ],
+  		        "oLanguage": {
+  		        	"sLengthMenu": "每页显示 _MENU_ 条记录",
+  		        	"sZeroRecords": "抱歉， 没有找到",
+  		        	"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+  		        	"sInfoEmpty": "没有数据",
+  		        	"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+  		        	"oPaginate": {
+  		        	"sFirst": "首页",
+  		        	"sPrevious": "前一页",
+  		        	"sNext": "后一页",
+  		        	"sLast": "尾页"
+  		        	},
+  		        	"sZeroRecords": "没有检索到数据"
+  		        	},
+  		    });
+  		  }
+  		  if(typeVal==1){
+  			dataTable = $('#tableData').DataTable({
+  		        "paging": true,
+  		        "lengthChange": false,
+  		        "searching": false,
+  		        "ordering": true,
+  		        "info": true,
+  		        "autoWidth": false,
+  		        "iDisplayLength":50,
+  		        "retrieve": true,
+  		        "sLoadingRecords" : "载入中...",
+  		        "columns":[
+  			                  { "data": "department"},
+  			                  { "data": "name"},
+  			                  //{ "data": "roomId"},
+  			                  { "data": "label"},
+  			                  { "data": "specification"},
+  			                  { "data": "location"},
+  			                  { "data": "exp_date",
+  			                	"render" : function(data){
+  			                		return (1900+data.year)+"-"+(data.month+1)+"-"+data.date
+  			                	} 
+  			                  },
+  			                  { "data": "responsible_dep"},
+  			                  { "data": "responsible_person"},
+  			                  { "data": "person_pic"},
+  			                  { "data": "note"}
+  			              ],
+  		        "oLanguage": {
+  		        	"sLengthMenu": "每页显示 _MENU_ 条记录",
+  		        	"sZeroRecords": "抱歉， 没有找到",
+  		        	"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+  		        	"sInfoEmpty": "没有数据",
+  		        	"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+  		        	"oPaginate": {
+  		        	"sFirst": "首页",
+  		        	"sPrevious": "前一页",
+  		        	"sNext": "后一页",
+  		        	"sLast": "尾页"
+  		        	},
+  		        	"sZeroRecords": "没有检索到数据"
+  		        	},
+  		    });
+  		  }
+  		  urlstr = encodeURI(urlstr);
+  		  dataTable.ajax.url(urlstr).load();
+  	  });
+  	});
 </script>
 </body>
 </html>

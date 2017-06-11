@@ -79,7 +79,10 @@ public class Equipmentinfo {
 		return exp_date;
 	}
 	public void setExp_date(Date exp_date) {
-		this.exp_date = exp_date;
+		if(exp_date==null){
+			exp_date= new Date();
+		}else
+			this.exp_date = exp_date;
 	}
 	public String getResponsible_dep() {
 		return responsible_dep;

@@ -125,7 +125,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                <tr>
 	                  <th>地区</th>
 	                  <th>部门</th>
-	                  <th>房间号</th>
+	                  <!-- <th>房间号</th> -->
 	                  <th>规格</th>
 	                  <th>设备标号</th>
 	                  <th>所在位置</th>
@@ -142,7 +142,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	<s:if test="#equipLs.status <= 0">
 					    <td class = "text-red"><b><s:property value="#equipLs.area"/></b></td>
 	                	<td class = "text-red"><b><s:property value="#equipLs.department"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#equipLs.roomId"/></b></td>
+	                	<!--<td class = "text-red"><b><s:property value="#equipLs.roomId"/></b></td>-->
 	                	<td class = "text-red"><b><s:property value="#equipLs.specification"/></b></td>
 	                	<td class = "text-red"><b><s:property value="#equipLs.label"/></b></td>
 	                	<td class = "text-red"><b><s:property value="#equipLs.location"/></b></td>
@@ -157,7 +157,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	<s:if test="#equipLs.status <= 60">
 					    <td class = "text-orange"><b><s:property value="#equipLs.area"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#equipLs.department"/></b></td>
-	                	<td class = "text-orange"><b><s:property value="#equipLs.roomId"/></b></td>
+	                	<!--<td class = "text-orange"><b><s:property value="#equipLs.roomId"/></b></td>-->
 	                	<td class = "text-orange"><b><s:property value="#equipLs.specification"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#equipLs.label"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#equipLs.location"/></b></td>
@@ -170,7 +170,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	<s:else>
 					    <td class = "text-light-blue"><b><s:property value="#equipLs.area"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#equipLs.department"/></b></td>
-	                	<td class = "text-light-blue"><b><s:property value="#equipLs.roomId"/></b></td>
+	                	<!--<td class = "text-light-blue"><b><s:property value="#equipLs.roomId"/></b></td>-->
 	                	<td class = "text-light-blue"><b><s:property value="#equipLs.specification"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#equipLs.label"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#equipLs.location"/></b></td>
@@ -185,7 +185,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	<s:else>
 					    <td><b><s:property value="#equipLs.area"/></b></td>
 	                	<td><b><s:property value="#equipLs.department"/></b></td>
-	                	<td><b><s:property value="#equipLs.roomId"/></b></td>
+	                	<!--<td><b><s:property value="#equipLs.roomId"/></b></td>-->
 	                	<td><b><s:property value="#equipLs.specification"/></b></td>
 	                	<td><b><s:property value="#equipLs.label"/></b></td>
 	                	<td><b><s:property value="#equipLs.location"/></b></td>

@@ -20,13 +20,17 @@ import com.cnpc.utils.Utils;
 
 public class EquipInfoDao extends JdbcDaoSupport {
 	
-	public List<Equipmentinfo> getEquipInfo(String type,int page)
+	public List<Equipmentinfo> getEquipInfo(String areaid,String type,int page)
 	{
 		List<Equipmentinfo> equipLs = new ArrayList<Equipmentinfo>();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
 		try {
-			String sql = "select area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where type = "+type;//+"  limit "+10*(page-1)+","+10*page
+			String sql = "select area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where type = "+type ;//+"  limit "+10*(page-1)+","+10*page
+			if(!Utils.checkNull(areaid)){
+				sql += " and area = '"+areaid+"'";
+			}
+			
 			List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
 			for(Map<String,Object> res:resLs){
 				Equipmentinfo ei = new Equipmentinfo();
