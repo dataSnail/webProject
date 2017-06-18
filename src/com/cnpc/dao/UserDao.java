@@ -147,6 +147,15 @@ public class UserDao extends JdbcDaoSupport{
 		return catalogLs;
 	}
 	
+	
+	public int updateUserPasswordByUsername(String username,String newpassword){
+		int result = -1;
+		if(Utils.checkNull(username)) return result;
+		String sql = "update users set password = '"+MD5Util.MD5_Encode(newpassword)+"'";
+		result = this.getJdbcTemplate().update(sql);
+		return result;
+	}
+	
 	//初始化地区列表
 	public Map<String,String> initAreaID()
 	{

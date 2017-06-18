@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="login-logo" style="width:550px;margin-left: auto;margin-right: auto;">
     <a href="<%=basePath%>login.jsp"><b>中石化南京分公司有效期管理系统</b></a>
   </div>
-<div class="login-box" style = "margin-top:380px">
+<div class="login-box" style = "margin-top:20%">
   <!-- /.login-logo -->
   <div class="login-box-body" style = "background:rgba(255, 255, 255, 0)">
     <p class="login-box-msg">&nbsp;</p>

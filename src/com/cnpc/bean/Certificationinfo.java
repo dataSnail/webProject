@@ -3,7 +3,7 @@ package com.cnpc.bean;
 import java.util.Date;
 
 public class Certificationinfo {
-	
+	private String id;
 	private int type;
 	private String area;
 	private String department;
@@ -18,6 +18,13 @@ public class Certificationinfo {
 	private String note;
 	private String status;//与当前时间比，间隔的天数
 	
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public int getType() {
 		return type;
 	}

@@ -19,14 +19,20 @@ import com.cnpc.utils.ExcelReader;
 import com.cnpc.utils.Utils;
 
 public class EquipInfoDao extends JdbcDaoSupport {
-	
+	/**
+	 * 获得设备信息
+	 * @param areaid
+	 * @param type
+	 * @param page
+	 * @return
+	 */
 	public List<Equipmentinfo> getEquipInfo(String areaid,String type,int page)
 	{
 		List<Equipmentinfo> equipLs = new ArrayList<Equipmentinfo>();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
 		try {
-			String sql = "select area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where type = "+type ;//+"  limit "+10*(page-1)+","+10*page
+			String sql = "select id,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where type = "+type ;//+"  limit "+10*(page-1)+","+10*page
 			if(!Utils.checkNull(areaid)){
 				sql += " and area = '"+areaid+"'";
 			}
@@ -34,6 +40,7 @@ public class EquipInfoDao extends JdbcDaoSupport {
 			List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
 			for(Map<String,Object> res:resLs){
 				Equipmentinfo ei = new Equipmentinfo();
+				ei.setId(res.get("id")+"");
 				ei.setArea(res.get("area")+"");
 				ei.setDepartment(res.get("department")+"");
 				ei.setRoomId(res.get("room")+"");
@@ -56,6 +63,72 @@ public class EquipInfoDao extends JdbcDaoSupport {
 
 	}
 	
+	/**
+	 * 根据@param equipinfo中id 更新设备信息
+	 * @param equipinfo
+	 * @return
+	 */
+	public int updateEquipmentById(Equipmentinfo equipinfo)
+	{
+		int result = -1;
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		if(equipinfo==null) return result;
+		
+		String sql = "update equipments set specification = '"+equipinfo.getSpecification()+"',label = '"+equipinfo.getLabel()+"',location = '"+equipinfo.getLocation()+"',exp_date = '"+df.format(equipinfo.getExp_date())+"',responsible_dep = '"+equipinfo.getResponsible_dep()+"',responsible_person = '"+equipinfo.getResponsible_person()+"',person_pic = '"+equipinfo.getPerson_pic()+"',notes = '"+equipinfo.getNote()+"' where id = "+equipinfo.getId();
+		
+		result = this.getJdbcTemplate().update(sql);
+		
+		System.out.println(result);
+		
+		return result;
+	}
+	/**
+	 * 按照id获得设备信息
+	 * @param equipId
+	 * @return
+	 */
+	public Map<String,Object> getEquipInfoById(String equipId)
+	{
+		Equipmentinfo ei = new Equipmentinfo();
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		Map<String,Object> resMap = null;
+		Date now = new Date();
+		if(Utils.checkNull(equipId)){
+			return null;
+		}
+		String sql = "select id,area,department,room,specification,label,location,DATE_FORMAT(exp_date,'%Y-%m-%d') as exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where id = "+equipId;
+		
+		resMap = this.getJdbcTemplate().queryForMap(sql);
+//			if(resMap!=null){
+//				ei.setId(resMap.get("id")+"");
+//				ei.setArea(resMap.get("area")+"");
+//				ei.setDepartment(resMap.get("department")+"");
+//				ei.setRoomId(resMap.get("room")+"");
+//				ei.setSpecification(resMap.get("specification")+"");
+//				ei.setLabel(resMap.get("label")+"");
+//				ei.setLocation(resMap.get("location")+"");
+//				ei.setExp_date(df.parse(resMap.get("exp_date")+""));
+//				ei.setResponsible_dep(resMap.get("responsible_dep")+"");
+//				ei.setResponsible_person(resMap.get("responsible_person")+"");
+//				ei.setPerson_pic(resMap.get("person_pic")+"");
+//				ei.setNote(resMap.get("notes")+"");
+//				ei.setStatus(Double.toString(Math.ceil((ei.getExp_date().getTime()-now.getTime())/(24*60*60*1000.0))));
+//			} 
+		return resMap;
+
+	}
+	/**
+	 * 根据id删除设备信息
+	 * @param equipId
+	 * @return
+	 */
+	public int deleteEquipInfoById(String equipId){
+		int result = -1;
+		String sql = "delete from equipments where id = "+equipId;
+		result = this.getJdbcTemplate().update(sql);
+		
+		return result;
+	}
 	
 	public void readExcel2DB(String fileName){
 		boolean flag = true;

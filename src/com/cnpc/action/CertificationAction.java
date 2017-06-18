@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONObject;
+
 import org.apache.struts2.ServletActionContext;
 
 import com.cnpc.bean.Certificationinfo;
@@ -22,10 +24,21 @@ public class CertificationAction extends ActionSupport{
 	private String certifType = "";
 	private String certifName = "";
 	private String areaid = "";
+	private String id = "";
 	private String type = "";
 	private List<Certificationinfo> certifLs = null;
 	private CertificationDao certiDao = (CertificationDao) SpringInit.getApplicationContext().getBean("certifDao");
+	private JSONObject jsonResult;
+	private Certificationinfo certifyinfo;
 	
+	public JSONObject getJsonResult() {
+		return jsonResult;
+	}
+
+	public void setJsonResult(JSONObject jsonResult) {
+		this.jsonResult = jsonResult;
+	}
+
 	public List<Certificationinfo> getCertifLs() {
 		return certifLs;
 	}
@@ -43,7 +56,22 @@ public class CertificationAction extends ActionSupport{
 	}
 
 	
-	
+	public Certificationinfo getCertifyinfo() {
+		return certifyinfo;
+	}
+
+	public void setCertifyinfo(Certificationinfo certifyinfo) {
+		this.certifyinfo = certifyinfo;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getAreaid() {
 		return areaid;
 	}
@@ -93,6 +121,9 @@ public class CertificationAction extends ActionSupport{
 			String areaName = "";
 			if(!"-1".equals(user_area_id)){//不是管理员，按照所在区域查询
 				areaName = Utils.areaIdMapName.get(user_area_id);
+			}else{//是管理员，但是areaid不为空					
+				if(!Utils.checkNull(areaid))
+					areaName = Utils.areaIdMapName.get(areaid);
 			}
 			this.setCertifLs(certiDao.getCertificationInfo(certifType,areaName,1));
 			this.setCertifName(Utils.equipCertiIdMapName.get(certifType));
@@ -103,4 +134,43 @@ public class CertificationAction extends ActionSupport{
 		
 		return SUCCESS;
 	}
+	
+	public String updateAPI()
+	{
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("status", -1);//更新状态标记
+		certifyinfo = this.getCertifyinfo();
+		System.out.println("id::::"+certifyinfo.getId());
+		int result = certiDao.updateCertifyById(certifyinfo);
+		jsonObj.put("status", result);//更新状态标记
+		jsonResult = jsonObj;
+		return SUCCESS;
+	}
+	
+	
+	public String getCertifyInfoByIdAPI()
+	{
+		JSONObject jsonObj = new JSONObject();
+		id = this.getId();
+		System.out.println("ID:"+id);
+		
+		jsonObj = JSONObject.fromObject(certiDao.getCertifyInfoById(id));
+		jsonObj.put("type", 1);//类型是证书
+		jsonResult = jsonObj;
+		this.setCertifName(certifName);
+		
+		return SUCCESS;
+	}
+	
+	public String deleteAPI(){
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("status", -1);//更新状态标记
+		id = this.getId();
+		System.out.println("删除证书id::::"+id);
+		int result = certiDao.deleteCertifyInfoById(id);
+		jsonObj.put("status", result);//更新状态标记
+		jsonResult = jsonObj;
+		return SUCCESS;
+	}
+	
 }

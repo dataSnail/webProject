@@ -16,23 +16,24 @@ import com.cnpc.utils.Utils;
 
 public class OutDateDao extends JdbcDaoSupport{
 
-	public List<Equipmentinfo> getOutDateInfo(String timeType,String type,String outdate,String area,String department)
+	public List<Equipmentinfo> getEquipInfo(String timeType,String outdate,String area,String department)
 	{
 		List<Equipmentinfo> equipLs = new ArrayList<Equipmentinfo>();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
-		String sql;
+		String sql = "select id,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where 1=1 ";
+
 		try {
-			//查询设备
-			if ("0".equals(type))
-			{
-				sql = "select area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where 1=1 ";
-			}else if ("1".equals(type))//查询证书
-			{
-				sql = "select area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from certifications where 1=1 "; 
-			}else{
-				return equipLs;//返回空
-			}
+//			//查询设备
+//			if ("0".equals(type))
+//			{
+//				sql = "select id,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where 1=1 ";
+//			}else if ("1".equals(type))//查询证书
+//			{
+//				sql = "select id,area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from certifications where 1=1 "; 
+//			}else{
+//				return equipLs;//返回空
+//			}
 			//时间限制
 			if(timeType.equals("0"))//30过期
 			{
@@ -59,6 +60,7 @@ public class OutDateDao extends JdbcDaoSupport{
 			List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
 			for(Map<String,Object> res:resLs){
 				Equipmentinfo ei = new Equipmentinfo();
+				ei.setId(res.get("id")+"");
 				ei.setArea(res.get("area")+"");
 				ei.setDepartment(res.get("department")+"");
 				ei.setRoomId(res.get("room")+"");
@@ -87,7 +89,7 @@ public class OutDateDao extends JdbcDaoSupport{
 		List<Certificationinfo> certifyLs = new ArrayList<Certificationinfo>();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
-		String sql = "select area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from certifications where 1=1 "; 
+		String sql = "select id,area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from certifications where 1=1 "; 
 		try {
 			//时间限制
 			if(timeType.equals("0"))//30过期
@@ -115,6 +117,7 @@ public class OutDateDao extends JdbcDaoSupport{
 			List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
 			for(Map<String,Object> res:resLs){
 				Certificationinfo ci = new Certificationinfo();
+				ci.setId(res.get("id")+"");
 				ci.setArea(res.get("area")+"");
 				ci.setDepartment(res.get("department")+"");
 				ci.setName(res.get("name")+"");

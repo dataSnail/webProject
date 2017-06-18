@@ -5,6 +5,7 @@ import java.util.Date;
 import com.cnpc.utils.Utils;
 
 public class Equipmentinfo {
+	private String id;
 	private String area;
 	private String department;
 	private String roomId;
@@ -18,6 +19,12 @@ public class Equipmentinfo {
 	private String note;
 	private String status;//与当前时间比，间隔的天数
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getStatus() {
 		return status;
 	}

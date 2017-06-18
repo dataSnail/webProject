@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONObject;
+
 import org.apache.struts2.ServletActionContext;
 
 import com.cnpc.bean.Cataloginfo;
@@ -23,10 +25,12 @@ public class EquipmentAction extends ActionSupport{
 	private String equipType = "";
 	private String equipName = "";
 	private String areaid = "";//查询的地区id，要跟用户的地区id对比
+	private String id="";//设备或者证书的id
 	private String type = "";
 	private List<Equipmentinfo> equipLs = null;
 	private EquipInfoDao equipDao = (EquipInfoDao) SpringInit.getApplicationContext().getBean("equipDao");
-
+	private JSONObject jsonResult;
+	private Equipmentinfo equipinfo;
 	public List<Equipmentinfo> getEquipLs() {
 		return equipLs;
 	}
@@ -68,6 +72,30 @@ public class EquipmentAction extends ActionSupport{
 		this.type = type;
 	}
 
+	public JSONObject getJsonResult() {
+		return jsonResult;
+	}
+
+	public void setJsonResult(JSONObject jsonResult) {
+		this.jsonResult = jsonResult;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Equipmentinfo getEquipinfo() {
+		return equipinfo;
+	}
+
+	public void setEquipinfo(Equipmentinfo equipinfo) {
+		this.equipinfo = equipinfo;
+	}
+
 	public String queryEquipInfo()
 	{
 		equipType = this.getEquipType();
@@ -94,6 +122,9 @@ public class EquipmentAction extends ActionSupport{
 			{
 				if(!"-1".equals(user_area_id)){//不是管理员，按照所在区域查询
 					areaName = Utils.areaIdMapName.get(areaid);
+				}else{//是管理员，但是areaid不为空				
+					if(!Utils.checkNull(areaid))
+						areaName = Utils.areaIdMapName.get(areaid);
 				}
 			}
 			this.setEquipLs(equipDao.getEquipInfo(areaName,equipType,1));
@@ -107,7 +138,48 @@ public class EquipmentAction extends ActionSupport{
 //		}
 		return SUCCESS;
 	}
+	/**
+	 * 根据id获得设备信息
+	 * @return
+	 */
+	public String getEquipInfoByIdAPI()
+	{
+		JSONObject jsonObj = new JSONObject();
+		id = this.getId();
+		System.out.println("ID:"+id);
+		
+		jsonObj = JSONObject.fromObject(equipDao.getEquipInfoById(id));
+		jsonObj.put("type", 0);//类型是设备
+		jsonResult = jsonObj;
+		this.setEquipName(equipName);
+		
+		return SUCCESS;
+	}
+	/**
+	 * 按照id更新设备信息
+	 * @return
+	 */
+	public String updateAPI()
+	{
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("status", -1);//更新状态标记
+		equipinfo = this.getEquipinfo();
+		System.out.println("id::::"+equipinfo.getId());
+		int result = equipDao.updateEquipmentById(equipinfo);
+		jsonObj.put("status", result);//更新状态标记
+		jsonResult = jsonObj;
+		return SUCCESS;
+	}
 	
-	
+	public String deleteAPI(){
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("status", -1);//更新状态标记
+		id = this.getId();
+		System.out.println("删除id::::"+id);
+		int result = equipDao.deleteEquipInfoById(id);
+		jsonObj.put("status", result);//更新状态标记
+		jsonResult = jsonObj;
+		return SUCCESS;
+	}
 	
 }

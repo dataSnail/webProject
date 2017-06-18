@@ -46,48 +46,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
-  <header class="main-header">
-    <!-- Logo -->
-    <a href="<%=basePath%>welcome.jsp" class="logo">
-      <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini">MS</span>
-      <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>管理系统</b></span>
-    </a>
-    <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">管理员</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="<%=basePath%>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                <p>管理员</p>
-                <p><s:property value = '#session.username'/></p>
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-right">
-                  <a href="<%=basePath%>userLogout.do?userName=<s:property value = '#session.username'/>" class="btn btn-default btn-flat">登出</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+  <!-- 顶部导航栏 -->
+  <jsp:include page="../../header.jsp"/>
   <!-- Left side column. contains the logo and sidebar -->
 <jsp:include page="../../sider.jsp"></jsp:include>
 
@@ -135,6 +95,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                  <th>责任人(电话)</th>
 	                  <th>负责办理人(电话)</th>
 	                  <th>备注</th>
+	                  <th>操作</th>
 	                </tr>
 	              </thead>
 	              <tbody>
@@ -152,6 +113,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	<td class = "text-red"><b><s:property value="#certifLs.responsible_person"/></b></td>
 	                	<td class = "text-red"><b><s:property value="#certifLs.person_pic"/></b></td>
 	                	<td class = "text-red"><b><s:property value="#certifLs.note"/><small class="label pull-right bg-red">30</small></b></td>
+	                	<td><button type = 'button' class = 'btn btn-info' data-toggle='modal' data-target='#modal-info' style = 'padding:1px 3px' onclick = 'editRow(<s:property value="#certifLs.id"/>,1)'><i class = 'fa fa-edit'></i></button>&nbsp;<button type = 'button' class = 'btn btn-info'  style = 'padding:1px 3px' onclick = 'deleteRow(<s:property value="#certifLs.id"/>,1)' ><i class = 'fa  fa-trash'></i></button></td>
 	                	</s:if>
 	                	
 	                	<s:elseif test="#certifLs.status > 30 && #certifLs.status <= 90">
@@ -167,6 +129,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	<td class = "text-orange"><b><s:property value="#certifLs.responsible_person"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#certifLs.person_pic"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#certifLs.note"/><small class="label pull-right bg-orange">60</small></b></td>
+	                	<td><button type = 'button' class = 'btn btn-info' data-toggle='modal' data-target='#modal-info' style = 'padding:1px 3px' onclick = 'editRow(<s:property value="#certifLs.id"/>,1)'><i class = 'fa fa-edit'></i></button>&nbsp;<button type = 'button' class = 'btn btn-info'  style = 'padding:1px 3px' onclick = 'deleteRow(<s:property value="#certifLs.id"/>,1)' ><i class = 'fa  fa-trash'></i></button></td>
 	                	</s:if>
 	                	<s:else>
 					    <td class = "text-light-blue"><b><s:property value="#certifLs.area"/></b></td>
@@ -180,6 +143,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	<td class = "text-light-blue"><b><s:property value="#certifLs.responsible_person"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#certifLs.person_pic"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#certifLs.note"/><small class="label pull-right bg-light-blue">90</small></b></td>
+	                	<td><button type = 'button' class = 'btn btn-info' data-toggle='modal' data-target='#modal-info' style = 'padding:1px 3px' onclick = 'editRow(<s:property value="#certifLs.id"/>,1)'><i class = 'fa fa-edit'></i></button>&nbsp;<button type = 'button' class = 'btn btn-info'  style = 'padding:1px 3px' onclick = 'deleteRow(<s:property value="#certifLs.id"/>,1)' ><i class = 'fa  fa-trash'></i></button></td>
 	                	</s:else>
 	                	</s:elseif>
 	                	
@@ -195,6 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	<td><b><s:property value="#certifLs.responsible_person"/></b></td>
 	                	<td><b><s:property value="#certifLs.person_pic"/></b></td>
 	                	<td><b><s:property value="#certifLs.note"/></b></td>
+	                	<td><button type = 'button' class = 'btn btn-info' data-toggle='modal' data-target='#modal-info' style = 'padding:1px 3px' onclick = 'editRow(<s:property value="#certifLs.id"/>,1)'><i class = 'fa fa-edit'></i></button>&nbsp;<button type = 'button' class = 'btn btn-info'  style = 'padding:1px 3px' onclick = 'deleteRow(<s:property value="#certifLs.id"/>,1)' ><i class = 'fa  fa-trash'></i></button></td>
 	                	</s:else>
 					</tr>
 					</s:iterator>
@@ -209,6 +174,120 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+	<div class="modal modal-info fade in" id="modal-info" style="display: none; padding-right: 17px;">
+		<div class="modal-dialog" style = "margin-top:10%">
+			<div class="modal-content">
+				<div class="box box-solid box-info">
+					<div class="box-header">
+		            <h3 class="box-title">信息修改</h3>
+		            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  	<span aria-hidden="true">×</span></button>
+		          	</div>
+					<!-- form start -->
+					<form class="form-horizontal" id = "editForm" action = "" method = "POST">
+						<div class="box-body">
+							<div class="form-group">
+								<input type = "text" id = "edit_type" name = "" style = "display:none;"></input>
+								<input type = "text" id = "edit_id" name = "equipinfo.id" style = "display:none;"></input>
+							  <label for="inputEmail3" class="col-sm-2 control-label" id = "edit_area_label">地区：</label>
+							  <div class="col-sm-4">
+							    <input type="email" class="form-control" id="edit_area" name = "equipinfo.area" disabled>
+							  </div>
+							  <label for="inputEmail3" class="col-sm-2 control-label">部门：</label>
+							  <div class="col-sm-4">
+							    <input type="email" class="form-control" id="edit_dep" name = "equipinfo.department" disabled>
+							  </div>
+							</div>
+							<div class="form-group">
+							  <label for="inputEmail3" class="col-sm-2 control-label">规格</label>
+							  <div class="col-sm-10">
+							    <input type="email" class="form-control" id="edit_spe" name = "equipinfo.specification">
+							  </div>
+							</div>
+							<div class="form-group">
+							  <label for="inputEmail3" class="col-sm-2 control-label" id = "edit_label_label">设备标号</label>
+							  <div class="col-sm-10">
+							    <input type="email" class="form-control" id="edit_lab" name = "equipinfo.label">
+							  </div>
+							</div>
+							<div class="form-group">
+							  <label for="inputEmail3" class="col-sm-2 control-label">所在位置</label>
+							  <div class="col-sm-10">
+							    <input type="email" class="form-control" id="edit_loc"  name = "equipinfo.location">
+							  </div>
+							</div>
+							<div class="form-group">
+							  <label for="inputEmail3" class="col-sm-2 control-label">有效期</label>
+							  <div class="col-sm-10">
+							  <div class="input-group date">
+							  	<div class="input-group-addon">
+				                  <i class="fa fa-calendar"></i>
+				                </div>
+							    <input type="text" class="form-control pull-right" id="datepicker"  name = "equipinfo.exp_date">
+							  </div>
+							  </div>
+							</div>
+							<div class="form-group">
+							  <label for="inputEmail3" class="col-sm-2 control-label">责任部门</label>
+							  <div class="col-sm-10">
+							    <input type="email" class="form-control" id="edit_res_dep"  name = "equipinfo.responsible_dep">
+							  </div>
+							</div>
+							<div class="form-group">
+							  <label for="inputEmail3" class="col-sm-2 control-label">责任人</label>
+							  <div class="col-sm-10">
+							    <input type="email" class="form-control" id="edit_res_per"  name = "equipinfo.responsible_person">
+							  </div>
+							</div>
+							<div class="form-group">
+							  <label for="inputEmail3" class="col-sm-2 control-label">负责办理人</label>
+							  <div class="col-sm-10">
+							    <input type="email" class="form-control" id="edit_person"  name = "equipinfo.person_pic">
+							  </div>
+							</div>
+							<div class="form-group">
+							  <label for="inputEmail3" class="col-sm-2 control-label">备注</label>
+							  <div class="col-sm-10">
+							    <input type="email" class="form-control" id="edit_note"  name = "equipinfo.note">
+							  </div>
+							</div>
+						</div>
+						  <!-- /.box-body -->
+						<div class="box-footer">
+						  <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancel</button>
+						  <button type="button" class="btn btn-info pull-right" onclick = "editButtonClick();">确认修改</button>
+						  <label class="text-red pull-right" id = "edit_result"></label>
+						</div>
+					<!-- /.box-footer -->
+					</form>
+				</div>
+			  </div>
+			  <!-- /.modal-content -->
+		</div>
+	</div>
+	
+	<div class="modal fade in" id="modal-default" style="display: none; padding-right: 17px;">
+	  <div class="modal-dialog" style = "margin-top:15%">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick ="javascript: $('#modal-default').hide();">
+	          <span aria-hidden="true">×</span></button>
+	        <h4 class="modal-title" id = "modal_title_text"></h4>
+	      </div>
+	      <div class="modal-body">
+	      	<input type = "text" id = "confirm_id" style = "display:none;"></input>
+	      	<input type = "text" id = "confirm_type" style = "display:none;"></input>
+	        <p id = "modal_info_text"></p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" onclick ="javascript: $('#modal-default').hide();" >取消</button>
+	        <button type="button" class="btn btn-primary" onclick = "confirmDelete()">确认</button>
+	      </div>
+	    </div>
+	    <!-- /.modal-content -->
+	  </div>
+	  <!-- /.modal-dialog -->
+	</div>
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
       <b>Version</b> 0.1
@@ -238,6 +317,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>dist/js/app.min.js" type="text/javascript"></script>
 <!-- AdminLTE for demo purposes 
 <script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script>-->
+<script src="<%=basePath%>plugins/datepicker/bootstrap-datepicker.js"></script>
+
 <!-- page script -->
 <script>
   $(function () {
@@ -265,6 +346,122 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	},
     });
   });
+  
+  function editButtonClick(){//编辑提交
+	  $("#edit_result").text("");
+	  var row_type = $("#edit_type").val(); 
+	  var row_id = $("#edit_id").val();
+		var row_area = $("#edit_area").val();
+		var row_department = $("#edit_dep").val();
+		var row_specification = $("#edit_spe").val();
+		var row_label = $("#edit_lab").val();
+		var row_location = $("#edit_loc").val();
+		var row_exp_date = $("#datepicker").val();
+		var row_responsible_dep = $("#edit_res_dep").val();
+		var row_responsible_person = $("#edit_res_per").val();
+		var row_person_pic = $("#edit_person").val();
+		var row_note = $("#edit_note").val();
+		if(row_type==1){
+			$.getJSON({
+				url:"<%=basePath%>certifapi/updateapi.do",
+				type:"post",
+				data:{"certifyinfo.id":row_id,
+					"certifyinfo.area":row_area,
+					"certifyinfo.department":row_department,
+					"certifyinfo.specification":row_specification,
+					"certifyinfo.label":row_label,
+					"certifyinfo.location":row_location,
+					"certifyinfo.exp_date":row_exp_date,
+					"certifyinfo.responsible_dep":row_responsible_dep,
+					"certifyinfo.responsible_person":row_responsible_person,
+					"certifyinfo.person_pic":row_person_pic,
+					"certifyinfo.note":row_note
+				},
+				success:function(data){
+					if (data.status>0){
+						$("#edit_result").text("修改成功！");
+					}else{
+						$("#edit_result").text("修改失败！");
+					}
+				}
+				
+			});
+		}else{
+			alert("设备类型错误！请联系管理员！");
+		}
+		
+	};
+  function editRow(dataId,type){//编辑按钮
+	  $("#edit_result").text("");
+	  $("#edit_id").val(dataId);
+	  if(type==1){
+		  $("#edit_area_label").text("片区");
+		  $("#edit_label_label").text("证号");
+		  $.getJSON({ url: '<%=basePath%>certifapi/queryapi.do?id='+dataId, success: function(data){
+			  $("#edit_type").val(data.type);
+			  $("#edit_area").val(data.department);
+			  $("#edit_dep").val(data.name);
+			  $("#edit_spe").val(data.specification);
+			  $("#edit_lab").val(data.label);
+			  $("#edit_loc").val(data.location);
+			  $("#datepicker").val(data.exp_date);
+			  $("#edit_res_dep").val(data.responsible_dep);
+			  $("#edit_res_per").val(data.responsible_person);
+			  $("#edit_person").val(data.person_pic);
+			  $("#edit_note").val(data.notes);
+		  }});
+	  }else{
+		  alert("设备类型错误！请联系管理员！");
+	  }
+  };  
+  //Date picker
+  $('#datepicker').datepicker({
+    format: 'yyyy-mm-dd',
+    autoclose: true
+  });
+  
+  function deleteRow(dataId,type){//编辑按钮
+		$("#modal_title_text").text("确认操作");
+		$("#modal_info_text").text("确认删除此条信息？此操作不可逆！");
+	  if(type==0 || type == 1){
+		$("#confirm_id").val(dataId);
+		$("#confirm_type").val(type);
+		$("#modal-default").show();
+	  }else{
+		  alert("设备类型错误！请联系管理员！");
+	  }
+	};
+
+	function confirmDelete(){
+	$("#modal-default").hide();
+	var id = $("#confirm_id").val();
+	var type = $("#confirm_type").val();
+	if(type == 0){//设备
+		$.getJSON({ url: '<%=basePath%>equipapi/deleteapi.do?id='+id, success: function(data){
+			$("#modal_title_text").text("提示信息");
+			if(data.status>0){
+				$("#modal_info_text").text("删除成功，刷新显示最新数据！");
+			}else{
+				$("#modal_info_text").text("删除失败！");
+			}
+			$("#confirm_type").val(3);
+			$("#modal-default").show();
+		}});
+	 }else if(type == 1){//证书
+		$.getJSON({ url: '<%=basePath%>certifapi/deleteapi.do?id='+id, success: function(data){
+			$("#modal_title_text").text("提示信息");
+			if(data.status>0){
+				$("#modal_info_text").text("删除成功，刷新显示最新数据！");
+			}else{
+				$("#modal_info_text").text("删除失败！请刷新数据！");
+			}
+			$("#confirm_type").val(3);
+			$("#modal-default").show();
+		}});
+	 }else{
+		 $("#modal-default").hide();
+	 }
+	}
 </script>
 </body>
 </html>

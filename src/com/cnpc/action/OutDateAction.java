@@ -122,7 +122,11 @@ public class OutDateAction  extends ActionSupport{
 				return ERROR;
 			}else if(Utils.isNumeric(timeType))
 			{
-				this.setEquipLs(odd.getOutDateInfo(timeType,etype,outdate,user_area_id,""));
+				if("0".equals(etype)){//设备
+					this.setEquipLs(odd.getEquipInfo(timeType,outdate,user_area_id,""));
+				}else if("1".equals(etype)){//证书
+					this.setCertifLs(odd.getCertification(timeType,outdate,user_area_id,""));
+				}
 				System.out.println(timeType+""+etype+""+outdate);
 				return SUCCESS;
 			}else{
@@ -172,14 +176,14 @@ public class OutDateAction  extends ActionSupport{
 				JSONObject jsonObj = new JSONObject();
 				Map<String, List<?>> map = new HashMap<String, List<?>>();
 				if("0".equals(etype)){//设备
-					map.put("data", odd.getOutDateInfo(timeType,etype,outdateTime,area,department));
-				}else{
+					map.put("data", odd.getEquipInfo(timeType,outdateTime,area,department));
+				}else{//证书
 					map.put("data", odd.getCertification(timeType,outdateTime,area,department));
 				}
 				jsonObj = JSONObject.fromObject(map);
 				System.out.println("查询类型："+timeType+",设备证件类型："+etype+"过期日期："+outdateTime);
 				jsonResult = jsonObj;
-				System.out.println(jsonResult);
+//				System.out.println(jsonResult);
 				return SUCCESS;
 			}else{
 				return ERROR;

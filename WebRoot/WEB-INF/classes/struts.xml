@@ -47,21 +47,45 @@
 			<result  name = "success">/WEB-INF/pages/user_management.jsp</result>
 		</action>
 	</package>
-	
+	<package name = "userActionapi" namespace = "/userapi" extends = "json-default">
+		<action name = "updateapi" class = "com.cnpc.action.UserAction" method = "updateAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
+	</package>
 	<package name = "equipAction" namespace = "/equip" extends = "struts-default">
 		<action name = "query" class = "com.cnpc.action.EquipmentAction" method = "queryEquipInfo">
 			<result  name = "success">/WEB-INF/pages/equipment_status.jsp</result>
 			<result  name = "error">/info.jsp</result>
 		</action>
 	</package>
-	
+	<package name = "equipActionapi" namespace = "/equipapi" extends = "json-default">
+		<action name = "updateapi" class = "com.cnpc.action.EquipmentAction" method = "updateAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
+		<action name = "deleteapi" class = "com.cnpc.action.EquipmentAction" method = "deleteAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
+		<action name = "queryapi" class = "com.cnpc.action.EquipmentAction" method = "getEquipInfoByIdAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
+	</package>
 	<package name = "certifAction" namespace = "/certif" extends = "struts-default">
 		<action name = "query" class = "com.cnpc.action.CertificationAction" method = "queryCertifInfo">
 			<result  name = "success">/WEB-INF/pages/certificationt_status.jsp</result>
 			<result  name = "error">/info.jsp</result>
 		</action>
 	</package>
-	
+	<package name = "certifActionapi" namespace = "/certifapi" extends = "json-default">
+		<action name = "updateapi" class = "com.cnpc.action.CertificationAction" method = "updateAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
+		<action name = "queryapi" class = "com.cnpc.action.CertificationAction" method = "getCertifyInfoByIdAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
+		<action name = "deleteapi" class = "com.cnpc.action.CertificationAction" method = "deleteAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
+	</package>
 	<package name = "outDateAction" namespace = "/outdate" extends = "struts-default">
 		<action name = "query" class = "com.cnpc.action.OutDateAction" method = "queryOutDate">
 			<result  name = "success">/WEB-INF/pages/out_date_item.jsp</result>
