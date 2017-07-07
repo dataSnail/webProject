@@ -18,7 +18,12 @@ import com.cnpc.utils.Utils;
 public class UserDao extends JdbcDaoSupport{
 
 
-	
+	/**
+	 * 检查用户名密码是否正确
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	public boolean checkUserAndPassword(String username,String password)
 	{
 		boolean result = false;
@@ -26,13 +31,17 @@ public class UserDao extends JdbcDaoSupport{
 		List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
 		if(Integer.parseInt(resLs.get(0).get("num")+"")==1){
 			result = true;
-			System.out.println(username+":登录成功！-->"+resLs.get(0).get("num"));
+			System.out.println(username+":验证成功！-->"+resLs.get(0).get("num"));
 		}else{
-			System.out.println(username+":登录失败！-->");
+			System.out.println(username+":验证失败！-->");
 		}
 		return result;
 	}
-	
+	/**
+	 * 获得用户信息
+	 * @param username
+	 * @return
+	 */
 	public List<Userinfo> getUserinfo(String username)
 	{
 		String sql = "select username,realname,priority,notes from users";
@@ -52,26 +61,47 @@ public class UserDao extends JdbcDaoSupport{
 		}
 		return userinfoLs;
 	}
-	
-	public boolean addUser(Userinfo userinfo)
+	/**
+	 * 添加用户
+	 * @param userinfo
+	 * @return
+	 */
+	public int addUser(Userinfo userinfo)
 	{
-		boolean result = false;
-		String[] prority = {"0","0","0","0","0"};
+		int result = -1;
+		String[] prority = {"1","1","1","0","0"};//默认有设备管理、资产证照、过期设备查看权限，转由用户的地区信息控制显示
 		if(userinfo.getPriority() != null)
 		{
-			for (String p : userinfo.getPriority())
+			
+			for (String p : userinfo.getPriority()[0].split(","))
 			{
-				prority[Integer.parseInt(p)] = "1";
+				if(!Utils.checkNull(p)){
+					prority[Integer.parseInt(p)] = "1";
+				}
 			}
 		}
 		String s = Arrays.toString(prority).replace(" ", "");
-		String sql = "insert ignore into users(username,password,realname,priority,notes) values ('"+userinfo.getUsername()+"','"+MD5Util.MD5_Encode(userinfo.getPassword())+"','"+userinfo.getRealname()+"','"+s.substring(1,s.length()-1)+"','"+userinfo.getNotes()+"')";
-		int res = this.getJdbcTemplate().update(sql);
-		if (res == 1) result = true;
+		String sql = "insert ignore into users(username,password,realname,area_id,priority,notes) values ('"+userinfo.getUsername()+"','"+MD5Util.MD5_Encode(userinfo.getPassword())+"','"+userinfo.getRealname()+"',"+userinfo.getAreaId()+",'"+s.substring(1,s.length()-1)+"','"+userinfo.getNotes()+"')";
+		result = this.getJdbcTemplate().update(sql);
 		return result;
 	}
+	/**
+	 * 根据用户名，删除用户
+	 * @param username
+	 * @return
+	 */
+	public int deleteUser(String username){
+		int result = -1;
+		String sql = "delete from users where username = '"+username+"'";
+		result = this.getJdbcTemplate().update(sql);
+		return result;
+	}	
 	
-	//查询过期提醒情况
+	/**
+	 * 查询过期提醒情况
+	 * @param outDateAreaId
+	 * @return
+	 */
 	public List<Map<String,Object>> getOutDateCount(String outDateAreaId)
 	{
 		List<Map<String,Object>> resultLs;
@@ -82,19 +112,19 @@ public class UserDao extends JdbcDaoSupport{
 			sqle += " and area = '"+Utils.areaIdMapName.get(outDateAreaId)+"'";
 			sqlc += " and area = '"+Utils.areaIdMapName.get(outDateAreaId)+"'";
 		}
-		
 		sqle += " ) a GROUP BY outdate";
 		sqlc += " ) a GROUP BY outdate";
-//		String sqle = "SELECT outdate,count(0) as num FROM (SELECT CASE WHEN datediff(exp_date,NOW()) <= 30 THEN 'e30' WHEN  datediff(exp_date,NOW()) <= 60 THEN 'e60' ELSE 'e90' END as outdate FROM equipments WHERE area = "+Utils.areaIdMapName.get(outDateAreaId)+" and datediff(exp_date,NOW()) <=90 ) a GROUP BY outdate";
-//		String sqlc = "SELECT outdate,count(0) as num FROM (SELECT CASE WHEN datediff(exp_date,NOW()) <= 30 THEN 'c30' WHEN  datediff(exp_date,NOW()) <= 60 THEN 'c60' ELSE 'c90' END as outdate FROM certifications WHERE area = "+Utils.areaIdMapName.get(outDateAreaId)+" and datediff(exp_date,NOW()) <=90 ) a GROUP BY outdate";
-		
 		resultLs = this.getJdbcTemplate().queryForList(sqle);
 		resultLs.addAll(this.getJdbcTemplate().queryForList(sqlc));
 		
 		return resultLs;
 	}
 	
-	//查询用户权限信息
+	/**
+	 * 查询用户权限信息
+	 * @param username
+	 * @return
+	 */
 	public String[] getPriorityByUser(String username)
 	{
 		String[] resultStr = new String[2];
@@ -120,7 +150,11 @@ public class UserDao extends JdbcDaoSupport{
 	}
 	
 	
-	//获得用户目录
+	/**
+	 * 获得用户目录
+	 * @param username
+	 * @return
+	 */
 	public List<Cataloginfo> getCatalog(String username){
 		List<Cataloginfo> catalogLs = new ArrayList<Cataloginfo>();
 		String user_area = "";
@@ -147,16 +181,24 @@ public class UserDao extends JdbcDaoSupport{
 		return catalogLs;
 	}
 	
-	
+	/**
+	 * 
+	 * @param username
+	 * @param newpassword
+	 * @return
+	 */
 	public int updateUserPasswordByUsername(String username,String newpassword){
 		int result = -1;
 		if(Utils.checkNull(username)) return result;
-		String sql = "update users set password = '"+MD5Util.MD5_Encode(newpassword)+"'";
+		String sql = "update users set password = '"+MD5Util.MD5_Encode(newpassword)+"' where username = '"+username+"'";
 		result = this.getJdbcTemplate().update(sql);
 		return result;
 	}
 	
-	//初始化地区列表
+	/**
+	 * 初始化地区列表
+	 * @return
+	 */
 	public Map<String,String> initAreaID()
 	{
 		String sql = "SELECT DISTINCT area_id,area FROM catalog";

@@ -9,8 +9,10 @@ import org.apache.struts2.ServletActionContext;
 import net.sf.json.JSONObject;
 
 import com.cnpc.bean.Userinfo;
+import com.cnpc.dao.OperationLogDao;
 import com.cnpc.dao.UserDao;
 import com.cnpc.filters.SpringInit;
+import com.cnpc.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class UserAction extends ActionSupport{
@@ -20,6 +22,7 @@ public class UserAction extends ActionSupport{
 	 */
 	private static final long serialVersionUID = 1L;
 	private UserDao userDao = (UserDao) SpringInit.getApplicationContext().getBean("userDao");
+	private OperationLogDao LogDao = (OperationLogDao) SpringInit.getApplicationContext().getBean("logDao");
 	private String type="";
 	List<Userinfo> userinfoLs;
 	Userinfo userinfo;
@@ -72,13 +75,18 @@ public class UserAction extends ActionSupport{
 		this.userinfo = userinfo;
 	}
 
-	public String addUser()
+	public String addUserAPI()
 	{
-		System.out.println("添加用户！");
-		
-		if(this.getUserinfo()!=null){
-			userDao.addUser(this.getUserinfo());
-		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("status", -1);
+		String userName = (String) request.getSession().getAttribute("username");
+		userinfo = this.getUserinfo();
+		int result = userDao.addUser(this.getUserinfo());
+		jsonObj.put("status", result);//更新状态标记
+		Object[] obj = {userName,"添加用户："+(result>0?"成功":"失败"),userinfo.getUsername()};
+		LogDao.insertLog(obj);
+		jsonResult = jsonObj;
 		return SUCCESS;
 	}
 	
@@ -91,8 +99,13 @@ public class UserAction extends ActionSupport{
 	{
 		return SUCCESS;
 	}
-	
-	public String updateAPI(){
+	/**
+	 * 更新用户信息(密码修改)
+	 * status: -1:错误；-2密码错误；1：修改成功
+	 * @return
+	 */
+	public String updateUserAPI(){
+		HttpServletRequest request = ServletActionContext.getRequest();
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("status", -1);//更新状态标记
 		userinfo = this.getUserinfo();
@@ -102,9 +115,9 @@ public class UserAction extends ActionSupport{
 			String new_password = this.getNewpassword();
 			int result = userDao.updateUserPasswordByUsername(userinfo.getUsername(),new_password);
 			jsonObj.put("status", result);//更新状态标记
-			
+			Object[] obj = {userinfo.getUsername(),"修改密码："+(result>0?"成功":"失败"),userinfo.getUsername()};
+			LogDao.insertLog(obj);
 			//退出此用户
-			HttpServletRequest request = ServletActionContext.getRequest();
 			request.getSession().removeAttribute("username");
 			request.getSession().removeAttribute("priorityStr");
 			request.getSession().removeAttribute("result");
@@ -115,5 +128,44 @@ public class UserAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
-	
+	/**
+	 * 删除用户
+	 * @return
+	 */
+	public String deleteUserAPI(){
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("status", -1);//更新状态标记
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String userName = (String) request.getSession().getAttribute("username");
+		userinfo = this.getUserinfo();
+		if(!Utils.checkNull(userName)&&!Utils.checkNull(userinfo.getUsername())){
+			int result = userDao.deleteUser(userinfo.getUsername());
+//			System.out.println(userinfo.getUsername());
+			Object[] obj = {userName,"删除用户："+(result>0?"成功":"失败"),userinfo.getUsername()};
+			LogDao.insertLog(obj);
+			jsonObj.put("status", result);//更新状态标记
+		}
+		jsonResult = jsonObj;
+		return SUCCESS;
+	}
+	/**
+	 * 重置用户密码
+	 * @return
+	 */
+	public String resetPasswordAPI(){
+		HttpServletRequest request = ServletActionContext.getRequest();
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("status", -1);//更新状态标记
+		String userName = (String) request.getSession().getAttribute("username");//操作用户名
+		userinfo = this.getUserinfo();
+		if(!Utils.checkNull(userName)&&!Utils.checkNull(userinfo.getUsername())){
+			int result = userDao.updateUserPasswordByUsername(userinfo.getUsername(),"123456");
+//			System.out.println(userinfo.getUsername());
+			Object[] obj = {userName,"重置密码："+(result>0?"成功":"失败"),userinfo.getUsername()};
+			LogDao.insertLog(obj);
+			jsonObj.put("status", result);//更新状态标记
+		}
+		jsonResult = jsonObj;
+		return SUCCESS;
+	}
 }

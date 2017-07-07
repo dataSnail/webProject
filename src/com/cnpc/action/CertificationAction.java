@@ -10,6 +10,7 @@ import org.apache.struts2.ServletActionContext;
 
 import com.cnpc.bean.Certificationinfo;
 import com.cnpc.dao.CertificationDao;
+import com.cnpc.dao.OperationLogDao;
 import com.cnpc.filters.SpringInit;
 import com.cnpc.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
@@ -28,6 +29,7 @@ public class CertificationAction extends ActionSupport{
 	private String type = "";
 	private List<Certificationinfo> certifLs = null;
 	private CertificationDao certiDao = (CertificationDao) SpringInit.getApplicationContext().getBean("certifDao");
+	private OperationLogDao LogDao = (OperationLogDao) SpringInit.getApplicationContext().getBean("logDao");
 	private JSONObject jsonResult;
 	private Certificationinfo certifyinfo;
 	
@@ -96,7 +98,10 @@ public class CertificationAction extends ActionSupport{
 		this.certifName = certifName;
 	}
 
-	//按照类型查询证书内容
+	/**
+	 * 按照类型查询证书内容
+	 * @return
+	 */
 	public String queryCertifInfo()
 	{
 		certifType = this.getCertifType();
@@ -135,15 +140,25 @@ public class CertificationAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
+	/**
+	 * 根据id，更新证书信息
+	 * @return
+	 */
 	public String updateAPI()
 	{
+		HttpServletRequest request = ServletActionContext.getRequest();
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("status", -1);//更新状态标记
-		certifyinfo = this.getCertifyinfo();
-		System.out.println("id::::"+certifyinfo.getId());
-		int result = certiDao.updateCertifyById(certifyinfo);
-		jsonObj.put("status", result);//更新状态标记
-		jsonResult = jsonObj;
+		String userName = request.getSession().getAttribute("username")+"";
+		if(!Utils.checkNull(userName)){
+			certifyinfo = this.getCertifyinfo();
+			System.out.println("id::::"+certifyinfo.getId());
+			int result = certiDao.updateCertifyById(certifyinfo);
+			Object[] obj = {userName,"更新证书："+(result>0?"成功":"失败"),certifyinfo.getId()};
+			LogDao.insertLog(obj);
+			jsonObj.put("status", result);//更新状态标记
+			jsonResult = jsonObj;
+		}
 		return SUCCESS;
 	}
 	
@@ -152,8 +167,7 @@ public class CertificationAction extends ActionSupport{
 	{
 		JSONObject jsonObj = new JSONObject();
 		id = this.getId();
-		System.out.println("ID:"+id);
-		
+//		System.out.println("ID:"+id);
 		jsonObj = JSONObject.fromObject(certiDao.getCertifyInfoById(id));
 		jsonObj.put("type", 1);//类型是证书
 		jsonResult = jsonObj;
@@ -161,15 +175,24 @@ public class CertificationAction extends ActionSupport{
 		
 		return SUCCESS;
 	}
-	
+	/**
+	 * 根据页面信息删除相关证书
+	 * @return
+	 */
 	public String deleteAPI(){
+		HttpServletRequest request = ServletActionContext.getRequest();
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("status", -1);//更新状态标记
-		id = this.getId();
-		System.out.println("删除证书id::::"+id);
-		int result = certiDao.deleteCertifyInfoById(id);
-		jsonObj.put("status", result);//更新状态标记
-		jsonResult = jsonObj;
+		String userName = request.getSession().getAttribute("username")+"";
+		if(!Utils.checkNull(userName)){
+			id = this.getId();
+//			System.out.println("删除证书id::::"+id);
+			int result = certiDao.deleteCertifyInfoById(id);
+			Object[] obj = {userName,"删除证书："+(result>0?"成功":"失败"),id};
+			LogDao.insertLog(obj);
+			jsonObj.put("status", result);//更新状态标记
+			jsonResult = jsonObj;
+		}
 		return SUCCESS;
 	}
 	

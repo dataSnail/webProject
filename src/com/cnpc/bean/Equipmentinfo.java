@@ -6,6 +6,7 @@ import com.cnpc.utils.Utils;
 
 public class Equipmentinfo {
 	private String id;
+	private String typeName;
 	private String area;
 	private String department;
 	private String roomId;
@@ -17,6 +18,7 @@ public class Equipmentinfo {
 	private String responsible_person;
 	private String person_pic;
 	private String note;
+	private String outDateFlag;//不过期标志，优先于过期日期
 	private String status;//与当前时间比，间隔的天数
 	
 	public String getId() {
@@ -126,6 +128,18 @@ public class Equipmentinfo {
 			this.note = "无";
 		else
 			this.note = note;
+	}
+	public String getTypeName() {
+		return typeName;
+	}
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+	public String getOutDateFlag() {
+		return outDateFlag;
+	}
+	public void setOutDateFlag(String outDateFlag) {
+		this.outDateFlag = outDateFlag;
 	}
 	
 }

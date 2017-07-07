@@ -32,11 +32,11 @@ public class EquipInfoDao extends JdbcDaoSupport {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
 		try {
-			String sql = "select id,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where type = "+type ;//+"  limit "+10*(page-1)+","+10*page
+			String sql = "select id,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,out_date_flag,notes from equipments where type = "+type ;//+"  limit "+10*(page-1)+","+10*page
 			if(!Utils.checkNull(areaid)){
 				sql += " and area = '"+areaid+"'";
 			}
-			
+			sql += " order by type,area,department asc";
 			List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
 			for(Map<String,Object> res:resLs){
 				Equipmentinfo ei = new Equipmentinfo();
@@ -52,6 +52,7 @@ public class EquipInfoDao extends JdbcDaoSupport {
 				ei.setResponsible_person(res.get("responsible_person")+"");
 				ei.setPerson_pic(res.get("person_pic")+"");
 				ei.setNote(res.get("notes")+"");
+				ei.setOutDateFlag(res.get("out_date_flag")+"");
 				ei.setStatus(Double.toString(Math.ceil((ei.getExp_date().getTime()-now.getTime())/(24*60*60*1000.0))));
 				equipLs.add(ei);
 			}
@@ -98,6 +99,7 @@ public class EquipInfoDao extends JdbcDaoSupport {
 		}
 		String sql = "select id,area,department,room,specification,label,location,DATE_FORMAT(exp_date,'%Y-%m-%d') as exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where id = "+equipId;
 		
+		sql += " order by type,area,department asc";
 		resMap = this.getJdbcTemplate().queryForMap(sql);
 //			if(resMap!=null){
 //				ei.setId(resMap.get("id")+"");

@@ -21,7 +21,7 @@ public class OutDateDao extends JdbcDaoSupport{
 		List<Equipmentinfo> equipLs = new ArrayList<Equipmentinfo>();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
-		String sql = "select id,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where 1=1 ";
+		String sql = "select id,type,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where 1=1 ";
 
 		try {
 //			//查询设备
@@ -61,6 +61,7 @@ public class OutDateDao extends JdbcDaoSupport{
 			for(Map<String,Object> res:resLs){
 				Equipmentinfo ei = new Equipmentinfo();
 				ei.setId(res.get("id")+"");
+				ei.setTypeName(Utils.equipCertiIdMapName.get(res.get("type")+""));
 				ei.setArea(res.get("area")+"");
 				ei.setDepartment(res.get("department")+"");
 				ei.setRoomId(res.get("room")+"");
@@ -89,7 +90,7 @@ public class OutDateDao extends JdbcDaoSupport{
 		List<Certificationinfo> certifyLs = new ArrayList<Certificationinfo>();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
-		String sql = "select id,area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from certifications where 1=1 "; 
+		String sql = "select id,type,area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from certifications where 1=1 "; 
 		try {
 			//时间限制
 			if(timeType.equals("0"))//30过期
@@ -118,6 +119,7 @@ public class OutDateDao extends JdbcDaoSupport{
 			for(Map<String,Object> res:resLs){
 				Certificationinfo ci = new Certificationinfo();
 				ci.setId(res.get("id")+"");
+				ci.setTypeName(Utils.equipCertiIdMapName.get(res.get("type")+""));
 				ci.setArea(res.get("area")+"");
 				ci.setDepartment(res.get("department")+"");
 				ci.setName(res.get("name")+"");

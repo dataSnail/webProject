@@ -48,10 +48,20 @@
 		</action>
 	</package>
 	<package name = "userActionapi" namespace = "/userapi" extends = "json-default">
-		<action name = "updateapi" class = "com.cnpc.action.UserAction" method = "updateAPI">
+		<action name = "updateapi" class = "com.cnpc.action.UserAction" method = "updateUserAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
+		<action name = "addapi" class = "com.cnpc.action.UserAction" method = "addUserAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
+		<action name = "deleteapi" class = "com.cnpc.action.UserAction" method = "deleteUserAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
+		<action name = "resetpwapi" class = "com.cnpc.action.UserAction" method = "resetPasswordAPI">
 			<result  type = "json"><param name="root">jsonResult</param></result>
 		</action>
 	</package>
+	
 	<package name = "equipAction" namespace = "/equip" extends = "struts-default">
 		<action name = "query" class = "com.cnpc.action.EquipmentAction" method = "queryEquipInfo">
 			<result  name = "success">/WEB-INF/pages/equipment_status.jsp</result>

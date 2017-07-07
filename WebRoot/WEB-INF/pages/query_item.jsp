@@ -77,66 +77,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<div class = "box-header"></div>
     	<div class = "box-body">
 		<div class = "row"> 
-		    <form role = "form" action = "" method="POST" enctype="multipart/form-data">
-		    <div class="col-xs-2">
-		    <label>设备种类：</label>
-	            <select class="form-control" name = "etype">
-	            	<s:set name="lasttype" value= "-1" />
+		<form role = "form" action = "" method="POST" enctype="multipart/form-data">
+			<div class="col-xs-2">
+				<label>设备种类：</label>
+				<select class="form-control" name = "etype">
+			       	<s:set name="lasttype" value= "-1" />
 					<s:iterator value="#session.catalog" id="catalog">
-						<s:if test="#lasttype != #catalog.types_id ">
-						    <option value = ${catalog.types_id }>${catalog.types}</option>
-						</s:if>
-						<s:set name="lasttype" value= "#catalog.types_id" />
-					</s:iterator>
-	            </select>
-		    </div>
-		    <div class="col-xs-2">
-		    <label>地区：</label>
-	            <select class="form-control" name = "areaId">
-			      <s:set name="lastarea" value= "-1" />
-				<s:iterator value="#session.catalog" id="catalog">
-					<s:if test="#lastarea != #catalog.area_id">
-						<option value = ${catalog.area_id }>${catalog.area}</option>
+					<s:if test="#lasttype != #catalog.types_id ">
+					    <option value = ${catalog.types_id }>${catalog.types}</option>
 					</s:if>
-					<s:set name="lastarea" value= "#catalog.area_id" />
-				</s:iterator>
-	            </select>
-		    </div>
-		    <div class="col-xs-2">
-		    <label>部门：</label>
-		    	<input type="text" name = "departmentName" class="form-control" value = "">
-		    </div>
-		    <div class="col-xs-3">
-		        <!-- Date yyyy-mm-dd -->
-		        <div class="form-group">
-		          <label>到期日期：</label>
-		
-		          <div class="input-group">
-		            <div class="input-group-addon">
-		              <i class="fa fa-calendar"></i>
-		            </div>
-		            <input type="text" name = "outdate" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
-		            
-		            <span class="input-group-btn">
-                      <button type="button" class="btn btn-info btn-flat" id = "queryBt">查询</button>
-                    </span>
-		          </div>
-		          <!-- /.input group -->
-		        </div>
-		       <!-- 
-	          	<div class="form-group">
-		            <div class="radio">
-		              <label>
-		                <input type="radio" name="type" id="optionsRadios1" value="0" checked="">设备
-		              </label>
-		              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		              <label>
-		                <input type="radio" name="type" id="optionsRadios2" value="1">证书
-		              </label>
-		            </div>
-	            </div>-->
-	            </div>
-		       </form>
+					<s:set name="lasttype" value= "#catalog.types_id" />
+					</s:iterator>
+				</select>
+			</div>
+			<div class="col-xs-2">
+			<label>地区：</label>
+				<select class="form-control" name = "areaId">
+				    <s:set name="lastarea" value= "-1" />
+					<s:iterator value="#session.catalog" id="catalog">
+						<s:if test="#lastarea != #catalog.area_id">
+							<option value = ${catalog.area_id }>${catalog.area}</option>
+						</s:if>
+						<s:set name="lastarea" value= "#catalog.area_id" />
+					</s:iterator>
+				</select>
+			</div>
+			<div class="col-xs-2">
+			<label>部门：</label>
+				<input type="text" name = "departmentName" class="form-control" value = "">
+			</div>
+			<div class="col-xs-3">
+			    <!-- Date yyyy-mm-dd -->
+				<div class="form-group">
+					<label>到期日期：</label>
+				
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-calendar"></i>
+						</div>
+					    <input type="text" name = "outdate" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+					  
+						<span class="input-group-btn">
+						     <button type="button" class="btn btn-info btn-flat" id = "queryBt">查询</button>
+						</span>
+					</div>
+				<!-- /.input group -->
+				</div>
+			</div>
+		</form>
 		    
 		    <div class="col-xs-1">
               <!-- Date and time range -->
@@ -341,7 +329,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>dist/js/demo.js" type="text/javascript"></script>-->
 <!-- page script -->
 <script>
-var dataTable;
+var currentDate = new Date();
+var dataTable = $('#tableData').DataTable({
+      "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "iDisplayLength":50,
+        "retrieve": true,
+        "sLoadingRecords" : "载入中...",
+        "columns":[ {"title":"地区"},{"title":"部门"},{"title":"类型"},{"title":"规格"},
+                    {"title":"设备标号"},{"title":"所在位置"},{"title":"有效期"},{"title":"责任部门"},
+                    {"title":"责任人"},{"title":"负责人"},{"title":"备注"},{"title":"操作"}],
+        "oLanguage": {
+	        	"sLengthMenu": "每页显示 _MENU_ 条记录",
+	        	"sZeroRecords": "抱歉， 没有找到",
+	        	"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+	        	"sInfoEmpty": "没有数据",
+	        	"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+	        	"oPaginate": {
+	        	"sFirst": "首页",
+	        	"sPrevious": "前一页",
+	        	"sNext": "后一页",
+	        	"sLast": "尾页"
+	        	},
+	        	"sZeroRecords": "没有检索到数据"
+	        	},
+	    });
   $(function () {
 	  
 	$(".select2").select2();
@@ -393,39 +409,158 @@ var dataTable;
   		        "sLoadingRecords" : "载入中...",
   		        "columns":[
   			                  { "data": "area",
-  		                  		"title":"地区"
+  		                  		"title":"地区",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
   		                  	  },
   			                  { "data": "department",
-    		                    "title":"部门"
+    		                    "title":"部门",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
     		  		          },
-  			                  //{ "data": "roomId"},
+  			                  { "data": "typeName",
+      		                    "title":"类型",
+    			                	"render":function(data,type,row){
+    			                		if(row.status<=30){
+    			                			return "<b class = 'text-red'>"+data+"</b>";
+    			                		}else if(row.status>30 && row.status<=60){
+    			                			return "<b class = 'text-orange'>"+data+"</b>";
+    			                		}else if(row.status>60 && row.status<=90){
+    			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+    			                		}else{
+    			                			return "<b>"+data+"</b>";
+    			                		}
+    			                	}
+      		  		          },
   			                  { "data": "specification",
-    		                    "title":"规格"
+    		                    "title":"规格",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
     		  		          },
   			                  { "data": "label",
-      		                    "title":"设备标号"
+      		                    "title":"设备标号",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
       		                  },
   			                  { "data": "location",
-        		                "title":"所在位置"
+        		                "title":"所在位置",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
         		              },
   			                  { "data": "exp_date",
             		            "title":"有效期",
-  			                	"render" : function(data){
-  			                		//根据日期修改显示颜色
-  			                		return (1900+data.year)+"-"+(data.month+1)+"-"+data.date
-  			                	} 
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
+  			                		}else{
+  			                			return "<b>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
+  			                		}
+  			                	}
   			                  },
   			                  { "data": "responsible_dep",
-      		                    "title":"责任部门"
+      		                    "title":"责任部门",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
       		                  },
   			                  { "data": "responsible_person",
-      		                    "title":"责任人(电话)"
+      		                    "title":"责任人(电话)",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
       		                  },
   			                  { "data": "person_pic",
-            		            "title":"负责办理人(电话)"
+            		            "title":"负责办理人(电话)",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
             		          },
   			                  { "data": "note",
-                		        "title":"备注"
+                		        "title":"备注",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
                 		      },
   			                  { "data": "id",
                     		    "title":"操作",
@@ -464,40 +599,160 @@ var dataTable;
   		        "sLoadingRecords" : "载入中...",
   		        "columns":[
   			                  { "data": "department",
-  			                	"title":"片区"
+  			                	"title":"片区",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
   			                  },
   			                  { "data": "name",
-  			                	  "title":"部门"
+  			                	  "title":"部门",
+    			                	"render":function(data,type,row){
+      			                		if(row.status<=30){
+      			                			return "<b class = 'text-red'>"+data+"</b>";
+      			                		}else if(row.status>30 && row.status<=60){
+      			                			return "<b class = 'text-orange'>"+data+"</b>";
+      			                		}else if(row.status>60 && row.status<=90){
+      			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+      			                		}else{
+      			                			return "<b>"+data+"</b>";
+      			                		}
+      			                	}
   			                  },
-  			                  //{ "data": "roomId"},
+  			                  { "data": "typeName",
+        		                    "title":"类型",
+      			                	"render":function(data,type,row){
+      			                		if(row.status<=30){
+      			                			return "<b class = 'text-red'>"+data+"</b>";
+      			                		}else if(row.status>30 && row.status<=60){
+      			                			return "<b class = 'text-orange'>"+data+"</b>";
+      			                		}else if(row.status>60 && row.status<=90){
+      			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+      			                		}else{
+      			                			return "<b>"+data+"</b>";
+      			                		}
+      			                	}
+        		  		          },
   			                  { "data": "label",
-      		                    "title":"证号"
+      		                    "title":"证号",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
       		                  },
   			                  { "data": "specification",
-      		                    "title":"规格"
+      		                    "title":"规格",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
       		  		          },
   			                  { "data": "location",
-          		                "title":"所在位置"
+          		                "title":"所在位置",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
           		              },
   			                  { "data": "exp_date",
   			                	"title":"有效期",
-  			                	"render" : function(data){
-  			                		return (1900+data.year)+"-"+(data.month+1)+"-"+data.date
-  			                	} 
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
+  			                		}else{
+  			                			return "<b>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
+  			                		}
+  			                	}
   			                  },
   			                  { "data": "responsible_dep",
-        		                    "title":"责任部门"
-        		                  },
-    			                  { "data": "responsible_person",
-        		                    "title":"责任人(电话)"
-        		                  },
-    			                  { "data": "person_pic",
-              		            "title":"负责办理人(电话)"
+       		                    "title":"责任部门",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
+       		                  },
+   			                  { "data": "responsible_person",
+       		                    "title":"责任人(电话)",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
+       		                  },
+   			                  { "data": "person_pic",
+              		            "title":"负责办理人(电话)",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
               		          },
   			                  { "data": "note",
-                  		        "title":"备注"
+                  		        "title":"备注",
+  			                	"render":function(data,type,row){
+  			                		if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+data+"</b>";
+  			                		}else if(row.status>30 && row.status<=60){
+  			                			return "<b class = 'text-orange'>"+data+"</b>";
+  			                		}else if(row.status>60 && row.status<=90){
+  			                			return "<b class = 'text-light-blue'>"+data+"</b>";
+  			                		}else{
+  			                			return "<b>"+data+"</b>";
+  			                		}
+  			                	}
                   		      },
-    			                  { "data": "id",
+   			                  { "data": "id",
                       		    "title":"操作",
                       		    "render":function(data){
                       		    	return "<button type = 'button' class = 'btn btn-info' data-toggle='modal' data-target='#modal-info' style = 'padding:1px 3px' onclick = 'editRow("+data+",1)'><i class = 'fa fa-edit'></i></button>&nbsp;<button type = 'button' class = 'btn btn-info'  style = 'padding:1px 3px' onclick = 'deleteRow("+data+",1)' ><i class = 'fa  fa-trash'></i></button>"

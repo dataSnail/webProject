@@ -89,6 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                  <th>地区</th>
 	                  ${etype==0?"":"<th>片区</th>"}
 	                  <th>部门</th>
+	                  <th>类型</th>
 	                  <th>${etype==0?"规格":"证号"}</th>
 	                  <th>${etype==0?"设备标号":"规格"}</th>
 	                  <th>所在位置</th>
@@ -108,6 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    <td class = "text-red"><b><s:property value="#equipLs.area"/></b></td>
 	                	<td class = "text-red"><b><s:property value="#equipLs.department"/></b></td>
 	                	<!--<td class = "text-red"><b><s:property value="#equipLs.roomId"/></b></td>-->
+	                	<td class = "text-red"><b><s:property value="#equipLs.typeName"/></b></td>
 	                	<td class = "text-red"><b><s:property value="#equipLs.specification"/></b></td>
 	                	<td class = "text-red"><b><s:property value="#equipLs.label"/></b></td>
 	                	<td class = "text-red"><b><s:property value="#equipLs.location"/></b></td>
@@ -124,6 +126,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    <td class = "text-orange"><b><s:property value="#equipLs.area"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#equipLs.department"/></b></td>
 	                	<!--<td class = "text-orange"><b><s:property value="#equipLs.roomId"/></b></td>-->
+	                	<td class = "text-orange"><b><s:property value="#equipLs.typeName"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#equipLs.specification"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#equipLs.label"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#equipLs.location"/></b></td>
@@ -138,6 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    <td class = "text-light-blue"><b><s:property value="#equipLs.area"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#equipLs.department"/></b></td>
 	                	<!--<td class = "text-light-blue"><b><s:property value="#equipLs.roomId"/></b></td>-->
+	                	<td class = "text-light-blue"><b><s:property value="#equipLs.typeName"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#equipLs.specification"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#equipLs.label"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#equipLs.location"/></b></td>
@@ -154,6 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    <td><b><s:property value="#equipLs.area"/></b></td>
 	                	<td><b><s:property value="#equipLs.department"/></b></td>
 	                	<!--<td><b><s:property value="#equipLs.roomId"/></b></td>-->
+	                	<td><b><s:property value="#equipLs.typeName"/></b></td>
 	                	<td><b><s:property value="#equipLs.specification"/></b></td>
 	                	<td><b><s:property value="#equipLs.label"/></b></td>
 	                	<td><b><s:property value="#equipLs.location"/></b></td>
@@ -174,7 +179,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	<s:if test="#certifLs.status <= 30">
 					    <td class = "text-red"><b><s:property value="#certifLs.area"/></b></td>
 	                	<td class = "text-red"><b><s:property value="#certifLs.department"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#certifLs.name"/></b></td> 
+	                	<td class = "text-red"><b><s:property value="#certifLs.name"/></b></td>
+	                	<td class = "text-red"><b><s:property value="#certifLs.typeName"/></b></td>
 	                	<td class = "text-red"><b><s:property value="#certifLs.specification"/></b></td>
 	                	<td class = "text-red"><b><s:property value="#certifLs.label"/></b></td>
 	                	<td class = "text-red"><b><s:property value="#certifLs.location"/></b></td>
@@ -190,7 +196,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	<s:if test="#certifLs.status <= 60">
 					    <td class = "text-orange"><b><s:property value="#certifLs.area"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#certifLs.department"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#certifLs.name"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#certifLs.name"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#certifLs.typeName"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#certifLs.specification"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#certifLs.label"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#certifLs.location"/></b></td>
@@ -205,6 +212,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    <td class = "text-light-blue"><b><s:property value="#certifLs.area"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#certifLs.department"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#certifLs.name"/></b></td>
+	                	<td class = "text-light-blue"><b><s:property value="#certifLs.typeName"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#certifLs.specification"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#certifLs.label"/></b></td>
 	                	<td class = "text-light-blue"><b><s:property value="#certifLs.location"/></b></td>
@@ -221,6 +229,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    <td><b><s:property value="#certifLs.area"/></b></td>
 	                	<td><b><s:property value="#certifLs.department"/></b></td>
 	                	<td><b><s:property value="#certifLs.name"/></b></td>
+	                	<td><b><s:property value="#certifLs.typeName"/></b></td>
 	                	<td><b><s:property value="#certifLs.specification"/></b></td>
 	                	<td><b><s:property value="#certifLs.label"/></b></td>
 	                	<td><b><s:property value="#certifLs.location"/></b></td>

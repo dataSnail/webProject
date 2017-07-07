@@ -16,7 +16,7 @@
 
 	<bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">       
 	    <property name="driver" value="com.mysql.jdbc.Driver" />      
-	    <property name="driverUrl" value="jdbc:mysql://223.3.94.145:3306/cnpcdb?rewriteBatchedStatements=true&amp;useUnicode=true&amp;characterEncoding=UTF-8" />      
+	    <property name="driverUrl" value="jdbc:mysql://223.3.66.128:3306/cnpcdb?rewriteBatchedStatements=true&amp;useUnicode=true&amp;characterEncoding=UTF-8" />      
 	    <property name="user" value="root" />      
 	    <property name="password" value="root@123" /> 
 	    <property name="houseKeepingTestSql" value="select CURRENT_DATE"/>
@@ -54,6 +54,12 @@
 	</bean>
 	
 	<bean id = "userDao" class = "com.cnpc.dao.UserDao">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"></ref>
+		</property>
+	</bean>
+	
+	<bean id = "logDao" class = "com.cnpc.dao.OperationLogDao">
 		<property name="jdbcTemplate">
 			<ref bean="jdbcTemplate"></ref>
 		</property>

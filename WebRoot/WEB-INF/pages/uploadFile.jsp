@@ -72,38 +72,161 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <section class="content">
 		<div class="callout callout-info">
 		  <h4>小贴士!</h4>
-		  <p>红色代表此设备即将到期！</p>
+		  <p>可以选择使用<b>文件批量导入</b>功能导入多条信息，也可以选择使用<b>单条信息导入</b>功能导入一条信息！</p>
 		</div>
-	        <!-- Date yyyy-mm-dd -->
-        <div class="box box-primary">
-			<div class="box-header with-border">
-              <h3 class="box-title">导入文件</h3>
-            </div>
-            <form role = "form" action = "" method="POST" enctype="multipart/form-data">
-            <div class = "box-body">
-            <div class = "form-group">
-	          <label>上传文件：</label>
-	             <s:file name="myFile" label="文件"></s:file>
-          	</div>
-          	<div class="form-group">
-	            <div class="radio">
-	              <label>
-	                <input type="radio" name="fileType" id="optionsRadios1" value="equipment" checked="">设备文件格式
-	              </label>
-	            </div>
-	            <div class="radio">
-	              <label>
-	                <input type="radio" name="fileType" id="optionsRadios2" value="certification">证书文件格式
-	              </label>
-	            </div>
-            </div>
-            </div>
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary">上传并导入系统</button><label>${result }</label>
-              </div>
-            </form>
-        </div>
-
+	
+      <div class="row">
+        <div class="col-md-12">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#fileupload" data-toggle="tab">文件批量导入</a></li>
+              <li><a href="#addinfo" data-toggle="tab">单条信息导入</a></li>
+            </ul>
+            <div class="tab-content">
+            <div class="active tab-pane" id="fileupload">
+		        <div class="box">
+		            <form role = "form" action = "" method="POST" enctype="multipart/form-data">
+		            <div class = "box-body">
+			        	<div class = "form-group">
+			        		<label>模板下载:</label>
+		              	</div>
+		              	<div>
+			              	<a href="<%=basePath%>upload/equipmentTemplate.xls"><i class="fa fa-wrench"></i>&nbsp;&nbsp;设备模板下载</a>
+			              	&nbsp;&nbsp;&nbsp;&nbsp;
+			              	<a href="<%=basePath%>upload/certificationTemplate.xls"><i class="fa fa-wrench">&nbsp;&nbsp;证书模板下载</i></a>
+		              	</div>
+		        	<div class = "form-group">
+		        	<label>&nbsp;</label>
+	              	</div>
+		            <div class = "form-group">
+			          <label>上传文件：</label>
+			             <s:file name="myFile" label="文件"></s:file>
+		          	</div>
+		          	<div class="form-group">
+			            <div class="radio">
+			              <label>
+			                <input type="radio" name="fileType" id="optionsRadios1" value="equipment" checked="">设备文件格式
+			              </label>
+			            </div>
+			            <div class="radio">
+			              <label>
+			                <input type="radio" name="fileType" id="optionsRadios2" value="certification">证书文件格式
+			              </label>
+			            </div>
+		            </div>
+		            </div>
+		            <div class="box-footer">
+		                <button type="submit" class="btn btn-primary">上传并导入系统</button><label>${result }</label>
+		              </div>
+		            </form>
+		        </div>
+			</div>
+			
+			<div class="tab-pane" id="addinfo">
+					<!-- form start -->
+					<form class="form-horizontal" id = "editForm" action = "" method = "POST">
+						<div class="form-group">
+					    <label class="col-sm-1 control-label">设备种类：</label>
+					    <div class="col-sm-3">
+				            <select class="form-control" name = "etype">
+				            	<s:set name="lasttype" value= "-1" />
+								<s:iterator value="#session.catalog" id="catalog">
+									<s:if test="#lasttype != #catalog.types_id ">
+									    <option value = ${catalog.types_id }>${catalog.types}</option>
+									</s:if>
+									<s:set name="lasttype" value= "#catalog.types_id" />
+								</s:iterator>
+				            </select>
+				        </div>
+						</div>
+					
+						<div class="form-group">
+							<input type = "text" id = "edit_type" name = "" style = "display:none;"></input>
+						  <label for="inputEmail3" class="col-sm-1 control-label" id = "edit_area_label">地区：</label>
+						  <div class="col-sm-3">
+				            <select class="form-control" name = "equipinfo.area">
+						      <s:set name="lastarea" value= "-1" />
+							<s:iterator value="#session.catalog" id="catalog">
+								<s:if test="#lastarea != #catalog.area_id">
+									<option value = ${catalog.area_id }>${catalog.area}</option>
+								</s:if>
+								<s:set name="lastarea" value= "#catalog.area_id" />
+							</s:iterator>
+				            </select>
+						  </div>
+						</div>
+						<div class="form-group">
+						  <label for="inputEmail3" class="col-sm-1 control-label">部门：</label>
+						  <div class="col-sm-3">
+						    <input type="email" class="form-control" id="edit_dep" name = "equipinfo.department">
+						  </div>
+						</div>
+						<div class="form-group">
+						  <label for="inputEmail3" class="col-sm-1 control-label">规格：</label>
+						  <div class="col-sm-3">
+						    <input type="email" class="form-control" id="edit_spe" name = "equipinfo.specification" >
+						  </div>
+						</div>
+						<div class="form-group">
+						  <label for="inputEmail3" class="col-sm-1 control-label" id = "edit_label_label">设备标号：</label>
+						  <div class="col-sm-3">
+						    <input type="email" class="form-control" id="edit_lab" name = "equipinfo.label">
+						  </div>
+						</div>
+						<div class="form-group">
+						  <label for="inputEmail3" class="col-sm-1 control-label">所在位置：</label>
+						  <div class="col-sm-3">
+						    <input type="email" class="form-control" id="edit_loc"  name = "equipinfo.location">
+						  </div>
+						</div>
+						<div class="form-group">
+						  <label for="inputEmail3" class="col-sm-1 control-label">有效期：</label>
+						  <div class="col-sm-3">
+						  <div class="input-group date">
+						  	<div class="input-group-addon">
+			                  <i class="fa fa-calendar"></i>
+			                </div>
+						    <input type="text" class="form-control pull-right" id="datepicker"  name = "equipinfo.exp_date" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+						  </div>
+						  </div>
+						</div>
+						<div class="form-group">
+						  <label for="inputEmail3" class="col-sm-1 control-label">责任部门：</label>
+						  <div class="col-sm-3">
+						    <input type="email" class="form-control" id="edit_res_dep"  name = "equipinfo.responsible_dep">
+						  </div>
+						</div>
+						<div class="form-group">
+						  <label for="inputEmail3" class="col-sm-1 control-label">责任人：</label>
+						  <div class="col-sm-3">
+						    <input type="email" class="form-control" id="edit_res_per"  name = "equipinfo.responsible_person">
+						  </div>
+						</div>
+						<div class="form-group">
+						  <label for="inputEmail3" class="col-sm-1 control-label">负责办理人：</label>
+						  <div class="col-sm-3">
+						    <input type="email" class="form-control" id="edit_person"  name = "equipinfo.person_pic">
+						  </div>
+						</div>
+						<div class="form-group">
+						  <label for="inputEmail3" class="col-sm-1 control-label">备注：</label>
+						  <div class="col-sm-3">
+						    <input type="email" class="form-control" id="edit_note"  name = "equipinfo.note">
+						  </div>
+						</div>
+				      <div class="form-group">
+				        <div class="col-sm-offset-1 col-sm-3">
+				          <button type="button" class="btn btn-danger" onclick = "">添加设备</button>
+				        </div>
+				      </div>
+					<!-- /.box-footer -->
+					</form>
+			</div>
+		</div>
+		  </div>
+		</div>
+	</div>
+			
     </section>
     <!-- /.content -->
   </div>
@@ -151,51 +274,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   $(function () {
 	  
 	$(".select2").select2();
-    $('#table2017').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "iDisplayLength":50,
-        "oLanguage": {
-        	"sLengthMenu": "每页显示 _MENU_ 条记录",
-        	"sZeroRecords": "抱歉， 没有找到",
-        	"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-        	"sInfoEmpty": "没有数据",
-        	"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-        	"oPaginate": {
-        	"sFirst": "首页",
-        	"sPrevious": "前一页",
-        	"sNext": "后一页",
-        	"sLast": "尾页"
-        	},
-        	"sZeroRecords": "没有检索到数据"
-        	},
-    });
     //Datemask yyyy-mm-dd
     $("#datemask").inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"});
     //Money Euro
     $("[data-mask]").inputmask();
-    
-    //Date range as a button
-    $('#daterange-btn').daterangepicker(
-        {
-          ranges: {
-            '今天': [moment()],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-          },
-          startDate: moment().subtract(29, 'days'),
-          endDate: moment()
-        },
-        function (start, end) {
-          $('#daterange-btn span').html(start.format('yyyy-mm-dd') + ' - ' + end.format('MMMM D, YYYY'));
-        }
-        );
   });
 </script>
 </body>

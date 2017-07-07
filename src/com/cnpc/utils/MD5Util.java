@@ -45,6 +45,6 @@ public class MD5Util {
     //test
     public static void main(String[] args)
     {
-    	System.out.println(MD5_Encode("pukoutest"));
+    	System.out.println(MD5_Encode("qxyktest"));
     }
 }

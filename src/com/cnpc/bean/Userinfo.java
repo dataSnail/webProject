@@ -5,6 +5,7 @@ import com.cnpc.utils.Utils;
 public class Userinfo {
 	private String username;
 	private String realname;
+	private String areaId;
 	private String password;
 	private String[] priority;
 	private String notes;
@@ -40,6 +41,12 @@ public class Userinfo {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getAreaId() {
+		return areaId;
+	}
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
 	}
 	
 }

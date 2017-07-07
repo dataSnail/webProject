@@ -291,7 +291,7 @@ public class Utils {
 		put("1","certif/query.do");
 		put("2","outdate/query.do");
 		put("3","up/uploadfile.do");
-		put("4","user");
+		put("4","user/");
 		}
 	};
 	

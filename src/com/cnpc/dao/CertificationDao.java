@@ -27,6 +27,7 @@ public class CertificationDao  extends JdbcDaoSupport {
 			if(!Utils.checkNull(areaName)){
 				sql += " and area = '"+areaName+"'";
 			}
+			sql += " order by type,area,department asc";
 			List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
 			for(Map<String,Object> res:resLs){
 				Certificationinfo ci = new Certificationinfo();

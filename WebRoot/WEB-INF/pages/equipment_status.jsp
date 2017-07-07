@@ -70,7 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <div class="box box-solid box-info">
 	        
 	          <div class="box-header">
-	            <h3 class="box-title">${equipType==0?'灭火器':equipType==1?'流量计':equipType==2?'安全阀':equipType==3?'压力表':equipType==4?'加气机':equipType==5?'卸气柱':equipType==6?'储气井':'可燃气体报警'}信息列表</h3>
+	            <h3 class="box-title"><b>${equipName}</b>信息列表</h3>
 	            <!-- <div class = "pull-right">
 	            	<a href = "#" class="text-muted">
 	            	<i class="fa fa-upload">点击导入Excel表格</i>

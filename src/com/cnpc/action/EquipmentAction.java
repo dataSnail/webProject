@@ -8,9 +8,9 @@ import net.sf.json.JSONObject;
 
 import org.apache.struts2.ServletActionContext;
 
-import com.cnpc.bean.Cataloginfo;
 import com.cnpc.bean.Equipmentinfo;
 import com.cnpc.dao.EquipInfoDao;
+import com.cnpc.dao.OperationLogDao;
 import com.cnpc.filters.SpringInit;
 import com.cnpc.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
@@ -25,10 +25,11 @@ public class EquipmentAction extends ActionSupport{
 	private String equipType = "";
 	private String equipName = "";
 	private String areaid = "";//查询的地区id，要跟用户的地区id对比
-	private String id="";//设备或者证书的id
+	private String id="";//设备的id
 	private String type = "";
 	private List<Equipmentinfo> equipLs = null;
 	private EquipInfoDao equipDao = (EquipInfoDao) SpringInit.getApplicationContext().getBean("equipDao");
+	private OperationLogDao LogDao = (OperationLogDao) SpringInit.getApplicationContext().getBean("logDao");
 	private JSONObject jsonResult;
 	private Equipmentinfo equipinfo;
 	public List<Equipmentinfo> getEquipLs() {
@@ -96,6 +97,10 @@ public class EquipmentAction extends ActionSupport{
 		this.equipinfo = equipinfo;
 	}
 
+	/**
+	 * 查询设备，要根据用户所属的地区
+	 * @return
+	 */
 	public String queryEquipInfo()
 	{
 		equipType = this.getEquipType();
@@ -128,14 +133,11 @@ public class EquipmentAction extends ActionSupport{
 				}
 			}
 			this.setEquipLs(equipDao.getEquipInfo(areaName,equipType,1));
+			this.setEquipName(Utils.equipCertiIdMapName.get(equipType));
 			System.out.println("areaid: "+areaid+" equipType: "+equipType);
 		}else{
 			return ERROR;
 		}
-//		else if("9".equals(equipType)){//TODO 暂时导入接口
-//			equipDao.readExcel2DB("E:\\project1\\info.xls");
-//			
-//		}
 		return SUCCESS;
 	}
 	/**
@@ -146,13 +148,11 @@ public class EquipmentAction extends ActionSupport{
 	{
 		JSONObject jsonObj = new JSONObject();
 		id = this.getId();
-		System.out.println("ID:"+id);
-		
+//		System.out.println("ID:"+id);
 		jsonObj = JSONObject.fromObject(equipDao.getEquipInfoById(id));
 		jsonObj.put("type", 0);//类型是设备
 		jsonResult = jsonObj;
 		this.setEquipName(equipName);
-		
 		return SUCCESS;
 	}
 	/**
@@ -161,24 +161,39 @@ public class EquipmentAction extends ActionSupport{
 	 */
 	public String updateAPI()
 	{
+		HttpServletRequest request = ServletActionContext.getRequest();
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("status", -1);//更新状态标记
-		equipinfo = this.getEquipinfo();
-		System.out.println("id::::"+equipinfo.getId());
-		int result = equipDao.updateEquipmentById(equipinfo);
-		jsonObj.put("status", result);//更新状态标记
-		jsonResult = jsonObj;
+		String userName = request.getSession().getAttribute("username")+"";
+		if(!Utils.checkNull(userName)){
+			equipinfo = this.getEquipinfo();
+			System.out.println("id::::"+equipinfo.getId());
+			int result = equipDao.updateEquipmentById(equipinfo);
+			Object[] obj = {userName,"更新设备："+(result>0?"成功":"失败"),equipinfo.getId()};
+			LogDao.insertLog(obj);
+			jsonObj.put("status", result);//更新状态标记
+			jsonResult = jsonObj;
+		}
 		return SUCCESS;
 	}
-	
+	/**
+	 * 根据信息删除相关设备
+	 * @return
+	 */
 	public String deleteAPI(){
+		HttpServletRequest request = ServletActionContext.getRequest();
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("status", -1);//更新状态标记
-		id = this.getId();
-		System.out.println("删除id::::"+id);
-		int result = equipDao.deleteEquipInfoById(id);
-		jsonObj.put("status", result);//更新状态标记
-		jsonResult = jsonObj;
+		String userName = request.getSession().getAttribute("username")+"";
+		if(!Utils.checkNull(userName)){
+			id = this.getId();
+//			System.out.println("删除id::::"+id);
+			int result = equipDao.deleteEquipInfoById(id);
+			Object[] obj = {userName,"删除设备："+(result>0?"成功":"失败"),id};
+			LogDao.insertLog(obj);
+			jsonObj.put("status", result);//更新状态标记
+			jsonResult = jsonObj;
+		}
 		return SUCCESS;
 	}
 	

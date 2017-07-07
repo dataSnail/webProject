@@ -86,6 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        <th>数据导入</th>
 					        <th>用户管理</th>
 					        <th>备注</th>
+					        <th>操作</th>
 					      </tr>
 					      
 					      <s:iterator value="userinfoLs" id="userinfoLs">
@@ -173,6 +174,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        </td>
 					        </s:else>
 					        <td><s:property value="#userinfoLs.notes"/></td>
+					        <td><button type = 'button' class = 'btn btn-danger'  style = 'padding:1px 3px' onclick = 'deleteUser("<s:property value="#userinfoLs.username"/>")' ><i class = 'fa  fa-trash'></i></button>
+					        <button type = 'button' class = 'btn btn-info'  style = 'padding:1px 3px' onclick = 'resetPassword("<s:property value="#userinfoLs.username"/>")' ><i class = 'fa fa-lock'></i></button>
+					        </td>
 					      </tr>
 						  </s:iterator>
 					    </table>
@@ -182,8 +186,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    <ul class="pagination pagination-sm no-margin pull-right">
 					      <li><a href="#">&laquo;</a></li>
 					      <li><a href="#">1</a></li>
-					      <li><a href="#">2</a></li>
-					      <li><a href="#">3</a></li>
 					      <li><a href="#">&raquo;</a></li>
 					    </ul>
 					  </div>
@@ -196,29 +198,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        <label for="inputName" class="col-sm-2 control-label">用户名</label>
 				
 				        <div class="col-sm-6">
-				          <input type="text" class="form-control" name="userinfo.username" placeholder="用户名">
+				          <input type="text" class="form-control" id="username" placeholder="用户名">
 				        </div>
 				      </div>
 				      <div class="form-group">
 				        <label for="inputEmail" class="col-sm-2 control-label">真实姓名</label>
 				
 				        <div class="col-sm-6">
-				          <input type="text" class="form-control" name="userinfo.realname" placeholder="真实姓名">
+				          <input type="text" class="form-control" id="realname" placeholder="真实姓名">
 				        </div>
 				      </div>
 				      <div class="form-group">
 				        <label for="text" class="col-sm-2 control-label">密码</label>
 				
 				        <div class="col-sm-6">
-				          <input type="password" class="form-control" name="userinfo.password" placeholder="密码">
+				          <input type="password" class="form-control" id="password" placeholder="密码">
 				        </div>
 				      </div>
+				      <div class="form-group">
+				        <label for="text" class="col-sm-2 control-label">管辖地区</label>
+				
+				        <div class="col-sm-6">
+			            <select class="form-control" name = "areaId" id = "areaId">
+					      <s:set name="lastarea" value= "-1" />
+						<s:iterator value="#session.catalog" id="catalog">
+							<s:if test="#lastarea != #catalog.area_id">
+								<option value = ${catalog.area_id }>${catalog.area}</option>
+							</s:if>
+							<s:set name="lastarea" value= "#catalog.area_id" />
+						</s:iterator>
+			            </select>
+				        </div>
+				      </div>    
 				      <div class="form-group">
 				        <label for="inputExperience" class="col-sm-2 control-label">权限</label>
 				
 				        <div class="col-sm-6">
 					        <div class = "form-group">
-						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
+						        <!-- <label>&nbsp;&nbsp;&nbsp;&nbsp;
 						          <input type="checkbox" name = "userinfo.priority" value = "0" class="flat-red">设备管理
 						        </label>
 						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -226,12 +243,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						        </label>
 						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
 						          <input type="checkbox" name = "userinfo.priority" value = "2" class="flat-red">到期设备管理
+						        </label>-->
+						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
+						          <input type="checkbox" id = "priority" name = "priority" value = "3" class="flat-red">数据导入
 						        </label>
 						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
-						          <input type="checkbox" name = "userinfo.priority" value = "3" class="flat-red">数据导入
-						        </label>
-						        <label>&nbsp;&nbsp;&nbsp;&nbsp;
-						          <input type="checkbox" name = "userinfo.priority" value = "4" class="flat-red">用户管理
+						          <input type="checkbox" id = "priority" name = "priority" value = "4" class="flat-red">用户管理
 						        </label>
 					    	</div>
 				        </div>
@@ -240,19 +257,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        <label for="inputSkills" class="col-sm-2 control-label">备注</label>
 				
 				        <div class="col-sm-6">
-				          <input type="text" class="form-control" name="userinfo.notes" placeholder="备注信息">
+				          <input type="text" class="form-control" id="notes" placeholder="备注信息">
 				        </div>
 				      </div>
 				      <div class="form-group">
 				        <div class="col-sm-offset-2 col-sm-6">
-				          <button type="submit" class="btn btn-danger">添加用户</button>
+				          <button type="button" class="btn btn-danger" onclick = "addUserClick()">添加用户</button>
+				          <input type="reset" style="display:none;" /> 
 				        </div>
 				      </div>
 				    </form>
 				</div><!-- /.tab-pane -->
-				<!--
-	        	<div class="tab-pane" id="settings">
-	        	</div> /.tab-pane -->
             </div>
             <!-- /.tab-content -->
           </div>
@@ -265,6 +280,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </section>
     <!-- /.content -->
   </div>
+  
+  
+	<div class="modal fade in" id="modal-default" style="display: none; padding-right: 17px;">
+	  <div class="modal-dialog" style = "margin-top:15%">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick ="javascript: $('#modal-default').hide();">
+	          <span aria-hidden="true">×</span></button>
+	        <h4 class="modal-title" id = "modal_title_text"></h4>
+	      </div>
+	      <div class="modal-body">
+	      	<input type = "text" id = "confirm_id" style = "display:none;"></input>
+	      	<input type = "text" id = "confirm_type" style = "display:none;"></input>
+	        <p id = "modal_info_text"></p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" onclick ="javascript: $('#modal-default').hide();" >取消</button>
+	        <button type="button" class="btn btn-primary" id= "confirmBtn">确认</button>
+	      </div>
+	    </div>
+	    <!-- /.modal-content -->
+	  </div>
+	  <!-- /.modal-dialog -->
+	</div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -306,6 +345,118 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       radioClass: 'iradio_flat-green'
     });
   });
+  
+function addUserClick(){
+	var username =$("#username").val();
+	var realname = $("#realname").val();
+	var password = $("#password").val();
+	var areaid = $("#areaId").val();
+	var priority = "";
+	
+	var obj=document.getElementsByName("priority");
+	$("#confirmBtn").unbind("click");
+	$("#confirmBtn").click(function(){
+		$("#modal-default").hide();
+	});
+	
+	for(var i=0; i<obj.length; i++){ 
+		if(obj[i].checked) priority+=obj[i].value+','; //如果选中，将value添加到变量s中 
+		} 
+	//alert(priority);
+	var notes = $("#notes").val();
+	//检查用户名
+	if($.trim(username)=="" || $.trim(realname)=="" ||$.trim(password)==""){
+		$("#modal_title_text").text("提示信息");
+		$("#modal_info_text").text("除备注和权限外，其他信息不能为空！");
+		$("#modal-default").show();
+		return;
+	}
+	
+	
+	$.getJSON({ url: '<%=basePath%>userapi/addapi.do',
+		type:"post",
+		data:{
+			"userinfo.username":username,
+			"userinfo.realname":realname,
+			"userinfo.password":password,
+			"userinfo.areaId":areaid,
+			"userinfo.priority":priority,
+			"userinfo.notes":notes
+		},
+		success: function(data){
+		$("#modal_title_text").text("提示信息");
+		if(data.status>0){
+			$("#modal_info_text").text("用户添加成功！");
+			$("input[type=reset]").trigger("click");
+		}else{
+			$("#modal_info_text").text("用户添加失败，请检查信息填写是否有误！");
+		}
+		$("#modal-default").show();
+	}});
+};
+function deleteUser(dataId){//编辑按钮
+	$("#modal_title_text").text("删除用户");
+	$("#modal_info_text").text("确认删除此条用户信息？此操作不可逆！");
+	$("#confirm_id").val(dataId);
+	$("#confirmBtn").unbind("click");
+	var username = $("#confirm_id").val();
+	$("#confirmBtn").click(function(){
+		//alert($("#confirm_id").val());
+		$.getJSON({ url: '<%=basePath%>userapi/deleteapi.do', 
+			type:"post",
+			data:{"userinfo.username":username},
+			success: function(data){
+			$("#modal_title_text").text("提示信息");
+			if(data.status>0){
+				$("#modal_info_text").text("删除成功，刷新显示最新数据！");
+				$("#confirmBtn").unbind("click");
+				$("#confirmBtn").click(function(){
+					$("#modal-default").hide();
+				});
+			}else{
+				$("#modal_info_text").text("删除失败！");
+				$("#confirmBtn").unbind("click");
+				$("#confirmBtn").click(function(){
+					$("#modal-default").hide();
+				});
+			}
+			$("#modal-default").show();
+		}});
+	});
+	$("#modal-default").show();
+};
+
+function resetPassword(username){
+	$("#modal_title_text").text("重置密码");
+	$("#modal_info_text").text("确认重置此用户密码？");
+	//$("#confirm_id").val(dataId);
+	$("#confirmBtn").unbind("click");
+	//var username = $("#confirm_id").val();
+	$("#confirmBtn").click(function(){
+		$.getJSON({ url: '<%=basePath%>userapi/resetpwapi.do', 
+			type:"post",
+			data:{"userinfo.username":username},
+			success: function(data){
+			$("#modal_title_text").text("提示信息");
+			if(data.status>0){
+				$("#modal_info_text").text("密码重置成功，重置密码为123456！");
+				$("#confirmBtn").unbind("click");
+				$("#confirmBtn").click(function(){
+					$("#modal-default").hide();
+				});
+			}else{
+				$("#modal_info_text").text("密码重置失败！");
+				$("#confirmBtn").unbind("click");
+				$("#confirmBtn").click(function(){
+					$("#modal-default").hide();
+				});
+			}
+			$("#modal-default").show();
+		}});
+	});
+	$("#modal-default").show();
+}
+
 </script>
 </body>
 </html>

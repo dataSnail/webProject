@@ -113,19 +113,24 @@ function modifyPassword(type){
 		if(password.length<1){
 			result = false;
 			$("#password_label").text("密码为空！");
+			return;
 		}
 		if(password1.length<6){
 			result = false;
 			$("#password_label1").text("密码需大于6位！");
-		}
-		if(password2.length<6){
-			result = false;
-			$("#password_label2").text("密码需大于6位！");
+			return;
 		}
 		if(password1!=password2){
 			result = false;
 			$("#password_label1").text("密码不一致！");
 			$("#password_label2").text("密码不一致！");
+			return;
+		}
+		if(password==password1){
+			result = false;
+			$("#password_label1").text("与原密码相同！");
+			$("#password_label2").text("与原密码相同！");
+			return;
 		}
 		
 		if(result){
@@ -139,7 +144,7 @@ function modifyPassword(type){
 				success:function(data){
 					if (data.status>0){
 						$("#password_result").text("修改成功！请重新登录！");
-						
+						location.href="<%=basePath%>login.jsp";
 					}else if(data.status==-2){
 						$("#password_result").text("原密码错误！");
 					}else{

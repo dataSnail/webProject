@@ -71,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <div class="box box-solid box-info">
 	        
 	          <div class="box-header">
-	            <h3 class="box-title">${certifName}信息列表</h3>
+	            <h3 class="box-title"><b>${certifName}</b>信息列表</h3>
 	            <!-- <div class = "pull-right">
 	            	<a href = "#" class="text-muted">
 	            	<i class="fa fa-upload">点击导入Excel表格</i>
@@ -120,7 +120,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	<s:if test="#certifLs.status <= 60">
 					    <td class = "text-orange"><b><s:property value="#certifLs.area"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#certifLs.department"/></b></td>
-	                	<td class = "text-red"><b><s:property value="#certifLs.name"/></b></td>
+	                	<td class = "text-orange"><b><s:property value="#certifLs.name"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#certifLs.specification"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#certifLs.label"/></b></td>
 	                	<td class = "text-orange"><b><s:property value="#certifLs.location"/></b></td>
