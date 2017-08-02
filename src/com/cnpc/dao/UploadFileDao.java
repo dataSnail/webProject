@@ -47,12 +47,13 @@ public class UploadFileDao extends JdbcDaoSupport {
 //
 //	}
 	
-	public boolean readExcel2DB(String fileName,int type){
+	public boolean readExcel2DB(String fileName,int type,String area_id){
 		boolean flag = true;
 		int [] result= null;
 		ExcelReader er = new ExcelReader();
 		File f = new File(fileName);
-		final List<ArrayList<Object>> params = Utils.convertCParams(er.readExcel2DB(f));
+		final List<ArrayList<Object>> params = Utils.convertCParams(er.readExcel2DB(f),area_id);
+		
 		String sql = "insert into certifications (type,area,department,name,label,specification,location,exp_date,responsible_dep,responsible_person,person_pic,notes) values (?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 //			this.getJdbcTemplate().getDataSource().getConnection().setAutoCommit(false);
@@ -114,12 +115,12 @@ public class UploadFileDao extends JdbcDaoSupport {
 		return flag;
 	}
 	
-	public boolean readExcel2DBC(String fileName,int type){
+	public boolean readExcel2DBC(String fileName,int type,String area_id){
 		boolean flag = true;
 		int [] result= null;
 		ExcelReader er = new ExcelReader();
 		File f = new File(fileName);
-		final List<ArrayList<Object>> params = Utils.convertParams(er.readExcel2DB(f));
+		final List<ArrayList<Object>> params = Utils.convertParams(er.readExcel2DB(f),area_id);
 		String sql = "insert into equipments (type,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes) values (?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 //			System.out.print(this.getJdbcTemplate());

@@ -69,6 +69,9 @@
 		</action>
 	</package>
 	<package name = "equipActionapi" namespace = "/equipapi" extends = "json-default">
+		<action name = "addapi" class = "com.cnpc.action.EquipmentAction" method = "addEquipInfoAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
 		<action name = "updateapi" class = "com.cnpc.action.EquipmentAction" method = "updateAPI">
 			<result  type = "json"><param name="root">jsonResult</param></result>
 		</action>
@@ -76,6 +79,9 @@
 			<result  type = "json"><param name="root">jsonResult</param></result>
 		</action>
 		<action name = "queryapi" class = "com.cnpc.action.EquipmentAction" method = "getEquipInfoByIdAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
+		<action name = "outdateflagapi" class = "com.cnpc.action.EquipmentAction" method = "outDateFlagAPI">
 			<result  type = "json"><param name="root">jsonResult</param></result>
 		</action>
 	</package>
@@ -86,6 +92,9 @@
 		</action>
 	</package>
 	<package name = "certifActionapi" namespace = "/certifapi" extends = "json-default">
+		<action name = "addapi" class = "com.cnpc.action.CertificationAction" method = "addCertifyInfoAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
 		<action name = "updateapi" class = "com.cnpc.action.CertificationAction" method = "updateAPI">
 			<result  type = "json"><param name="root">jsonResult</param></result>
 		</action>
@@ -95,11 +104,16 @@
 		<action name = "deleteapi" class = "com.cnpc.action.CertificationAction" method = "deleteAPI">
 			<result  type = "json"><param name="root">jsonResult</param></result>
 		</action>
+		<action name = "outdateflagapi" class = "com.cnpc.action.CertificationAction" method = "outDateFlagAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
 	</package>
 	<package name = "outDateAction" namespace = "/outdate" extends = "struts-default">
 		<action name = "query" class = "com.cnpc.action.OutDateAction" method = "queryOutDate">
 			<result  name = "success">/WEB-INF/pages/out_date_item.jsp</result>
 			<result  name = "error">/info.jsp</result>
+		</action>
+		<action name = "downloadfile" class = "com.cnpc.action.OutDateAction" method = "downloadFile">
 		</action>
 	</package>
 	
@@ -113,6 +127,22 @@
 		<action name = "query" class = "com.cnpc.action.QueryinfoAction" method = "queryInfo">
 			<result  name = "success">/WEB-INF/pages/query_item.jsp</result>
 			<result  name = "error">/info.jsp</result>
+		</action>
+		<action name = "sta" class = "com.cnpc.action.QueryinfoAction" method = "statistic">
+			<result  name = "success">/WEB-INF/pages/statistic.jsp</result>
+			<result  name = "error">/info.jsp</result>
+		</action>
+		<action name = "special" class = "com.cnpc.action.QueryinfoAction" method = "specialItem">
+			<result  name = "success">/WEB-INF/pages/special_item.jsp</result>
+			<result  name = "error">/info.jsp</result>
+		</action>
+	</package>
+	<package name = "apiAction" namespace = "/api" extends = "json-default">
+		<action name = "statistic" class = "com.cnpc.action.QueryinfoAction" method = "StatisticAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
+		</action>
+		<action name = "special" class = "com.cnpc.action.QueryinfoAction" method = "SpeicalAPI">
+			<result  type = "json"><param name="root">jsonResult</param></result>
 		</action>
 	</package>
 	

@@ -21,7 +21,7 @@ public class OutDateDao extends JdbcDaoSupport{
 		List<Equipmentinfo> equipLs = new ArrayList<Equipmentinfo>();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
-		String sql = "select id,type,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where 1=1 ";
+		String sql = "select id,type,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,out_date_flag,notes from equipments where 1=1 ";
 
 		try {
 //			//查询设备
@@ -37,15 +37,15 @@ public class OutDateDao extends JdbcDaoSupport{
 			//时间限制
 			if(timeType.equals("0"))//30过期
 			{
-				 sql += " and datediff(exp_date,NOW()) <= 30 ";
+				 sql += " and datediff(exp_date,NOW()) <= 30 and out_date_flag !=1";
 			}else if(timeType.equals("1"))//60天内过期
 			{
-				sql += " and datediff(exp_date,NOW()) > 30 and datediff(exp_date,NOW()) <= 60 ";
+				sql += " and datediff(exp_date,NOW()) > 30 and datediff(exp_date,NOW()) <= 60 and out_date_flag !=1";
 			}else if(timeType.equals("2")){//90天过期
-				sql += " and datediff(exp_date,NOW()) > 60 and datediff(exp_date,NOW()) <= 90 ";
+				sql += " and datediff(exp_date,NOW()) > 60 and datediff(exp_date,NOW()) <= 90 and out_date_flag !=1";
 			}else if (timeType.equals("3")){//自定义
 				if(!Utils.checkNull(outdate)){
-					sql += " and exp_date <= '"+outdate+"' ";
+					sql += " and exp_date <= '"+outdate+"' and out_date_flag !=1";
 				}
 				if(!Utils.checkNull(department)){
 					sql += " and department like '%"+department+"%' ";
@@ -72,6 +72,7 @@ public class OutDateDao extends JdbcDaoSupport{
 				ei.setResponsible_dep(res.get("responsible_dep")+"");
 				ei.setResponsible_person(res.get("responsible_person")+"");
 				ei.setPerson_pic(res.get("person_pic")+"");
+				ei.setOutDateFlag(res.get("out_date_flag")+"");
 				ei.setNote(res.get("notes")+"");
 				ei.setStatus(Double.toString(Math.ceil((ei.getExp_date().getTime()-now.getTime())/(24*60*60*1000.0))));
 				equipLs.add(ei);
@@ -90,20 +91,20 @@ public class OutDateDao extends JdbcDaoSupport{
 		List<Certificationinfo> certifyLs = new ArrayList<Certificationinfo>();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
-		String sql = "select id,type,area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from certifications where 1=1 "; 
+		String sql = "select id,type,area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,out_date_flag,notes from certifications where 1=1 "; 
 		try {
 			//时间限制
 			if(timeType.equals("0"))//30过期
 			{
-				 sql += " and datediff(exp_date,NOW()) <= 30 ";
+				 sql += " and datediff(exp_date,NOW()) <= 30 and out_date_flag !=1";
 			}else if(timeType.equals("1"))//60天内过期
 			{
-				sql += " and datediff(exp_date,NOW()) > 30 and datediff(exp_date,NOW()) <= 60 ";
+				sql += " and datediff(exp_date,NOW()) > 30 and datediff(exp_date,NOW()) <= 60 and out_date_flag !=1";
 			}else if(timeType.equals("2")){//90天过期
-				sql += " and datediff(exp_date,NOW()) > 60 and datediff(exp_date,NOW()) <= 90 ";
+				sql += " and datediff(exp_date,NOW()) > 60 and datediff(exp_date,NOW()) <= 90 and out_date_flag !=1";
 			}else if (timeType.equals("3")){//自定义
 				if(!Utils.checkNull(outdate)){
-					sql += " and exp_date <= '"+outdate+"' ";
+					sql += " and exp_date <= '"+outdate+"' and out_date_flag !=1";
 				}
 				if(!Utils.checkNull(department)){
 					sql += " and name like '%"+department+"%' ";
@@ -130,6 +131,7 @@ public class OutDateDao extends JdbcDaoSupport{
 				ci.setResponsible_dep(res.get("responsible_dep")+"");
 				ci.setResponsible_person(res.get("responsible_person")+"");
 				ci.setPerson_pic(res.get("person_pic")+"");
+				ci.setOutDateFlag(res.get("out_date_flag")+"");
 				ci.setNote(res.get("notes")+"");
 				ci.setStatus(Double.toString(Math.ceil((ci.getExp_date().getTime()-now.getTime())/(24*60*60*1000.0))));
 				certifyLs.add(ci);
@@ -152,6 +154,37 @@ public class OutDateDao extends JdbcDaoSupport{
 		return 0;
 	}
 	
+	public List<Map<String, Object>> getInfoMap(String type,String outdate,String area,String department){
+		String sql = "";
+		if("0".equals(type)){
+			sql = "select id,type,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from equipments where 1=1 ";
+			if(!Utils.checkNull(outdate)){
+				sql += " and exp_date <= '"+outdate+"' ";
+			}
+			if(!Utils.checkNull(department)){
+				sql += " and department like '%"+department+"%' ";
+			}
+			if(!Utils.checkNull(area)){
+				if(!"-1".equals(area))//管理员
+					sql += " and area = '"+Utils.areaIdMapName.get(area)+"' ";
+			}
+		}else if("1".equals(type)){
+			sql = "select id,type,area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes from certifications where 1=1 "; 
+			if(!Utils.checkNull(outdate)){
+				sql += " and exp_date <= '"+outdate+"' ";
+			}
+			if(!Utils.checkNull(department)){
+				sql += " and name like '%"+department+"%' ";
+			}
+			if(!Utils.checkNull(area)){
+				if(!"-1".equals(area))//管理员
+					sql += " and area = '"+Utils.areaIdMapName.get(area)+"' ";
+			}
+		}
+		sql += " order by exp_date asc";
+		List<Map<String,Object>> resLs = this.getJdbcTemplate().queryForList(sql);
+		return resLs;
+	}
 	
 	
 	public static void main(String [] args)

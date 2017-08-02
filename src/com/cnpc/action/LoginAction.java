@@ -74,6 +74,10 @@ public class LoginAction extends ActionSupport {
 			List<Cataloginfo> catalog = userDao.getCatalog(userName);
 			request.getSession().setAttribute("catalog",catalog);
 			
+			//获得用户的设备类型
+			List<Cataloginfo> catalog2 = userDao.getEquipCertiStr(userName);
+			request.getSession().setAttribute("equipCertiStr",catalog2);
+			
 			//获得用户权限信息
 			String[] userPriorityStr = userDao.getPriorityByUser(userName);
 			request.getSession().setAttribute("priorityStr", userPriorityStr[0]);

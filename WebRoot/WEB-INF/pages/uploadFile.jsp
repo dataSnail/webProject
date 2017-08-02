@@ -126,9 +126,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<!-- form start -->
 					<form class="form-horizontal" id = "editForm" action = "" method = "POST">
 						<div class="form-group">
-					    <label class="col-sm-1 control-label">设备种类：</label>
+					    <label class="col-sm-1 control-label">类型：</label>
 					    <div class="col-sm-3">
-				            <select class="form-control" name = "etype">
+				            <select class="form-control" name = "etype" id = "etype" onchange="etypePickChange()">
 				            	<s:set name="lasttype" value= "-1" />
 								<s:iterator value="#session.catalog" id="catalog">
 									<s:if test="#lasttype != #catalog.types_id ">
@@ -144,7 +144,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<input type = "text" id = "edit_type" name = "" style = "display:none;"></input>
 						  <label for="inputEmail3" class="col-sm-1 control-label" id = "edit_area_label">地区：</label>
 						  <div class="col-sm-3">
-				            <select class="form-control" name = "equipinfo.area">
+				            <select class="form-control" name = "area" id = "area">
 						      <s:set name="lastarea" value= "-1" />
 							<s:iterator value="#session.catalog" id="catalog">
 								<s:if test="#lastarea != #catalog.area_id">
@@ -156,28 +156,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						  </div>
 						</div>
 						<div class="form-group">
+				        <label class="col-sm-1 control-label" id = "typeLabel">设备种类：</label>
+				        <div class="col-sm-3">
+				        	<select class="form-control" name = "type" id = "type">
+				        	<s:set name="lastetype" value= "-1" />
+							<s:iterator value="#session.equipCertiStr" id="equipCertiStr">
+								<s:if test="#lastetype != #equipCertiStr.types_type_id">
+				        		<option value = ${equipCertiStr.types_type_id}>(${equipCertiStr.types})${equipCertiStr.types_type}</option>
+				        		</s:if>
+				        		<s:set name="lastetype" value= "#equipCertiStr.types_type_id" />
+				        		</s:iterator>
+				        	</select>
+				        </div>
+						</div>
+						<div class="form-group" id = "pianDiv" style = "display:none;">
+						  <label for="inputEmail3" class="col-sm-1 control-label">片区：</label>
+						  <div class="col-sm-3">
+						    <input type="email" class="form-control" id="edit_pian">
+						  </div>
+						  <label class="control-label text-red pull-left" id = "pian_label">*</label>
+						</div>
+						<div class="form-group">
 						  <label for="inputEmail3" class="col-sm-1 control-label">部门：</label>
 						  <div class="col-sm-3">
-						    <input type="email" class="form-control" id="edit_dep" name = "equipinfo.department">
+						    <input type="email" class="form-control" id="edit_dep">
 						  </div>
+						  <label class="control-label text-red pull-left" id = "dep_label">*</label>
 						</div>
 						<div class="form-group">
 						  <label for="inputEmail3" class="col-sm-1 control-label">规格：</label>
 						  <div class="col-sm-3">
 						    <input type="email" class="form-control" id="edit_spe" name = "equipinfo.specification" >
 						  </div>
+						  <label class="control-label text-red pull-left" id = "spe_label">*</label>
 						</div>
 						<div class="form-group">
-						  <label for="inputEmail3" class="col-sm-1 control-label" id = "edit_label_label">设备标号：</label>
+						  <label for="inputEmail3" class="col-sm-1 control-label" id = "editLabel">设备标号：</label>
 						  <div class="col-sm-3">
 						    <input type="email" class="form-control" id="edit_lab" name = "equipinfo.label">
 						  </div>
+						  <label class="control-label text-red pull-left" id = "label_label">*</label>
 						</div>
 						<div class="form-group">
-						  <label for="inputEmail3" class="col-sm-1 control-label">所在位置：</label>
+						  <label for="inputEmail3" class="col-sm-1 control-label" id = "locLabel">所在位置：</label>
 						  <div class="col-sm-3">
 						    <input type="email" class="form-control" id="edit_loc"  name = "equipinfo.location">
 						  </div>
+						  <label class="control-label text-red pull-left" id = "loc_label">*</label>
 						</div>
 						<div class="form-group">
 						  <label for="inputEmail3" class="col-sm-1 control-label">有效期：</label>
@@ -186,37 +211,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						  	<div class="input-group-addon">
 			                  <i class="fa fa-calendar"></i>
 			                </div>
-						    <input type="text" class="form-control pull-right" id="datepicker"  name = "equipinfo.exp_date" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+						    <input type="text" class="form-control pull-right" id="datepicker"  name = "exp_date" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
 						  </div>
 						  </div>
+						  <label class="control-label text-red pull-left" id = "datepicker_label">*</label>
 						</div>
 						<div class="form-group">
 						  <label for="inputEmail3" class="col-sm-1 control-label">责任部门：</label>
 						  <div class="col-sm-3">
 						    <input type="email" class="form-control" id="edit_res_dep"  name = "equipinfo.responsible_dep">
 						  </div>
+						  <label class="control-label text-red pull-left" id = "res_dep_label">*</label>
 						</div>
 						<div class="form-group">
 						  <label for="inputEmail3" class="col-sm-1 control-label">责任人：</label>
 						  <div class="col-sm-3">
 						    <input type="email" class="form-control" id="edit_res_per"  name = "equipinfo.responsible_person">
 						  </div>
+						  <label class="control-label text-red pull-left" id = "res_per_label">*</label>
 						</div>
 						<div class="form-group">
 						  <label for="inputEmail3" class="col-sm-1 control-label">负责办理人：</label>
 						  <div class="col-sm-3">
 						    <input type="email" class="form-control" id="edit_person"  name = "equipinfo.person_pic">
 						  </div>
+						  <label class="control-label text-red pull-left" id = "person_label">*</label>
 						</div>
 						<div class="form-group">
 						  <label for="inputEmail3" class="col-sm-1 control-label">备注：</label>
 						  <div class="col-sm-3">
 						    <input type="email" class="form-control" id="edit_note"  name = "equipinfo.note">
 						  </div>
+						  <label class="control-label text-red pull-left" id = "note_label"></label>
 						</div>
 				      <div class="form-group">
 				        <div class="col-sm-offset-1 col-sm-3">
-				          <button type="button" class="btn btn-danger" onclick = "">添加设备</button>
+				          <button type="button" class="btn btn-danger" onclick = "javascript:addItem()" id = "addBtn">添加设备</button>
 				        </div>
 				      </div>
 					<!-- /.box-footer -->
@@ -230,6 +260,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </section>
     <!-- /.content -->
   </div>
+	<div class="modal fade in" id="modal-default" style="display: none; padding-right: 17px;">
+	  <div class="modal-dialog" style = "margin-top:15%">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick ="javascript: $('#modal-default').hide();">
+	          <span aria-hidden="true">×</span></button>
+	        <h4 class="modal-title" id = "modal_title_text"></h4>
+	      </div>
+	      <div class="modal-body">
+	      	<input type = "text" id = "confirm_id" style = "display:none;"></input>
+	      	<input type = "text" id = "confirm_type" style = "display:none;"></input>
+	        <p id = "modal_info_text"></p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" onclick ="javascript: $('#modal-default').hide();" >取消</button>
+	        <button type="button" class="btn btn-primary" onclick = "javascript: $('#modal-default').hide();">确认</button>
+	      </div>
+	    </div>
+	    <!-- /.modal-content -->
+	  </div>
+	  <!-- /.modal-dialog -->
+	</div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -278,7 +330,210 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     $("#datemask").inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"});
     //Money Euro
     $("[data-mask]").inputmask();
+    
   });
+  
+function addItem(){
+	var submitflag = true;
+	$("#dep_label").text("*");
+	$("#spe_label").text("*");
+	$("#label_label").text("*");
+	$("#loc_label").text("*");
+	$("#datepicker_label").text("*");
+	$("#res_dep_label").text("*");
+	$("#res_per_label").text("*");
+	$("#person_label").text("*");
+	$("#note_label").text("");
+	
+	var itemType = $("#etype").val();
+	var area = $("#area").val();
+	var type = $("#type").val();
+	var dep = $("#edit_dep").val();
+	var name = $("#edit_pian").val();
+	var spe = $("#edit_spe").val();
+	var label = $("#edit_lab").val();
+	var loc = $("#edit_loc").val();
+	var exp_date = $("#datepicker").val();
+	var res_dep = $("#edit_res_dep").val();
+	var res_per = $("#edit_res_per").val();
+	var person = $("#edit_person").val();
+	var note = $("#edit_note").val();
+	
+	if(dep.length<1){
+		submitflag = false;
+		$("#dep_label").text("* 部门不能为空！");
+	}
+	if(spe.length<1){
+		submitflag = false;
+		$("#spe_label").text("* 规格不能为空！");
+	}
+	if(label.length<1){
+		$("#label_label").text("* 设备标号不能为空！");
+	}
+	if(loc.length<1){
+		submitflag = false;
+		$("#loc_label").text("* 所在位置不能为空！");
+	}
+	if(!dateIsValid(exp_date)){
+		submitflag = false;
+		$("#datepicker_label").text("* 日期格式不正确！");
+	}
+	if(res_dep.length<1){
+		submitflag = false;
+		$("#res_dep_label").text("* 责任部门不能为空！");
+	}
+	if(res_per.length<1){
+		submitflag = false;
+		$("#res_per_label").text("* 责任人不能为空！");
+	}
+	if(person.length<1){
+		submitflag = false;
+		$("#person_label").text("* 负责办理人不能为空！");
+	}
+	if(!submitflag) return;
+	if(itemType==0){
+		$.getJSON({url:'<%=basePath%>equipapi/addapi.do',
+			type:"post",
+			data:{
+				"type":type,
+				"equipinfo.area":area,
+				"equipinfo.department":dep,
+				"equipinfo.specification":spe,
+				"equipinfo.label":label,
+				"equipinfo.location":loc,
+				"equipinfo.exp_date":exp_date,
+				"equipinfo.responsible_dep":res_dep,
+				"equipinfo.responsible_person":res_per,
+				"equipinfo.person_pic":person,
+				"equipinfo.note":note
+			},
+			success:function(data){
+				$("#modal_title_text").text("提示信息");
+				if(data.status>0){
+					$("#modal_info_text").text("信息添加成功！");
+				}else{
+					$("#modal_info_text").text("信息添加失败，请检查信息填写是否有误！");
+				}
+				$("#modal-default").show();
+			}
+		});
+	}else if(itemType==1){
+		if(name.length<1){
+			submitflag = false;
+			$("#pian_label").text("* 片区内容不能为空！");
+			return;
+		}
+		$.getJSON({url:'<%=basePath%>certifapi/addapi.do',
+			type:"post",
+			data:{
+				"type":type,
+				"certifyinfo.area":area,
+				"certifyinfo.department":dep,
+				"certifyinfo.specification":spe,
+				"certifyinfo.name":name,
+				"certifyinfo.label":label,
+				"certifyinfo.location":loc,
+				"certifyinfo.exp_date":exp_date,
+				"certifyinfo.responsible_dep":res_dep,
+				"certifyinfo.responsible_person":res_per,
+				"certifyinfo.person_pic":person,
+				"certifyinfo.note":note
+			},
+			success:function(data){
+				$("#modal_title_text").text("提示信息");
+				if(data.status>0){
+					$("#modal_info_text").text("信息添加成功！");
+				}else{
+					$("#modal_info_text").text("信息添加失败，请检查信息填写是否有误！");
+				}
+				$("#modal-default").show();
+			}
+		});
+	}else{
+		alert("[up]系统错误！请联系管理员！");
+	}
+	
+	
+};
+
+function dateIsValid(str){
+    var  reg  =  /^(\d{4})-(\d{2})-(\d{2})$/;    
+    var  r  =  str.match(reg);    
+    if(r==null)return  false;    
+    r[2]=r[2]-1;    
+    var  d=  new  Date(r[1],  r[2],r[3]);    
+    if(d.getFullYear()!=r[1])return  false;    
+    if(d.getMonth()!=r[2])return  false;    
+    if(d.getDate()!=r[3])return  false;    
+    return  true; 
+};
+
+function etypePickChange(){
+	var selectedValue = $("select[id=etype]").val();
+	if(selectedValue==0){
+		var flag = true;
+		var flag2 = true;
+		$("#typeLabel").text("设备种类：");
+		$("#locLabel").text("所在位置：");
+		$("#editLabel").text("设备标号：");
+		$("#addBtn").text("添加设备");
+		$("#pianDiv").hide();
+		$("select[id=area] option").each(function(){
+			   if($(this).val() >= 10){
+				   $(this).hide();
+			   }else{
+				   $(this).show();
+				   if(flag){
+				   	$(this)[0].selected = true;
+				   	flag = false;
+				   }
+			   }
+			  });
+		$("select[id=type] option").each(function(){
+			   if($(this).text().indexOf("(证书)") >= 0){
+				   $(this).hide();
+			   }else{
+				   $(this).show();
+				   if(flag2){
+				   	$(this)[0].selected = true;
+				   	flag2 = false;
+				   }
+			   }
+			  });
+	}else if(selectedValue==1){
+		var flag = true;
+		var flag2 = true;
+		$("#pianDiv").show();
+		$("#typeLabel").text("证书种类：");
+		$("#locLabel").text("存放位置：");
+		$("#editLabel").text("证书规格：");
+		$("#addBtn").text("添加证书");
+		$("select[id=area] option").each(function(){
+			   if($(this).val() < 10){
+				   $(this).hide();
+			   }else{
+				   $(this).show();
+				   if(flag){
+				   	$(this)[0].selected = true;
+				   	flag = false;
+				   }
+			   }
+			  });
+		$("select[id=type] option").each(function(){
+			   if($(this).text().indexOf("(设备)") >= 0){
+				   $(this).hide();
+			   }else{
+				   $(this).show();
+				   if(flag2){
+					   	$(this)[0].selected = true;
+					   	flag2 = false;
+					   }
+			   }
+			  });
+	}else{
+		alert("[oneUp]系统错误！");
+	}
+};
 </script>
 </body>
 </html>

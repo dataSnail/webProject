@@ -1,5 +1,7 @@
 package com.cnpc.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.cnpc.bean.Certificationinfo;
@@ -85,6 +88,44 @@ public class CertificationDao  extends JdbcDaoSupport {
 		int result = -1;
 		String sql = "delete from certifications where id = "+certifyId;
 		result = this.getJdbcTemplate().update(sql);
+		return result;
+	}
+	
+	public int updateOutdateFlag(String id,String flag,String area){
+		int result = -1;
+		String sql = "update certifications set out_date_flag = '"+flag+"' where id = "+id;
+		if(!Utils.checkNull(area)){
+			if(!"-1".equals(area)){
+				sql += " and area = '"+Utils.areaIdMapName.get(area)+"'";
+			}
+			result = this.getJdbcTemplate().update(sql);
+		}
+		return result;
+	}
+	
+	
+	public int addCertificationInfo(final Certificationinfo certifyinfo){
+		int result = -1;
+		final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String sql = "insert into certifications(type,area,department,name,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,out_date_flag,notes) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		result = this.getJdbcTemplate().update(sql, new PreparedStatementSetter(){
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, certifyinfo.getTypeName());
+				ps.setString(2, Utils.areaIdMapName.get(certifyinfo.getArea()));
+				ps.setString(3, certifyinfo.getDepartment());
+				ps.setString(4, certifyinfo.getName());
+				ps.setString(5, certifyinfo.getSpecification());
+				ps.setString(6, certifyinfo.getLabel());
+				ps.setString(7, certifyinfo.getLocation());
+				ps.setString(8, df.format(certifyinfo.getExp_date()));
+				ps.setString(9, certifyinfo.getResponsible_dep());
+				ps.setString(10, certifyinfo.getResponsible_person());
+				ps.setString(11, certifyinfo.getPerson_pic());
+				ps.setString(12, "0");//certifyinfo.getOutDateFlag()
+				ps.setString(13, certifyinfo.getNote());
+			}
+		});
 		return result;
 	}
 	

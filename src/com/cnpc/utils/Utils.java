@@ -194,7 +194,7 @@ public class Utils {
 			return -1;
 	}
 	
-	public static List<ArrayList<Object>> convertParams(List<List<Object>> params)
+	public static List<ArrayList<Object>> convertParams(List<List<Object>> params,String area_id)
 	{
 		int type = -1;
 		String area = "";
@@ -217,7 +217,11 @@ public class Utils {
 				if(i==skipLine) continue;
 				
 				ao.add(type);
-				ao.add(area);
+				if(!area_id.equals("-1")){//不是管理员，导入信息强制改为所管辖地区
+					ao.add(Utils.areaIdMapName.get(area_id));
+				}else{
+					ao.add(area);//是管理员，导入信息按照所写的地区
+				}
 				if(params.get(i).get(0).equals("")&&!lastDepartment.equals(""))
 				{
 					//TODO return false;
@@ -237,7 +241,7 @@ public class Utils {
 		
 		return llo;
 	}
-	public static List<ArrayList<Object>> convertCParams(List<List<Object>> params)
+	public static List<ArrayList<Object>> convertCParams(List<List<Object>> params,String area_id)
 	{
 		int type = -1;
 		String area = "";
@@ -260,7 +264,11 @@ public class Utils {
 				if(i==skipLine) continue;//类型下面必带表头，跳过
 				
 				ao.add(type);
-				ao.add(area);
+				if(!area_id.equals("-1")){//不是管理员，导入信息强制改为所管辖地区
+					ao.add(Utils.areaIdMapName.get(area_id));
+				}else{
+					ao.add(area);//是管理员，导入信息按照所写的地区
+				}
 				if(params.get(i).get(0).equals("")&&!lastDepartment.equals(""))
 				{
 					//TODO return false;

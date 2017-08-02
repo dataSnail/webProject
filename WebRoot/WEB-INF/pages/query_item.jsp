@@ -77,8 +77,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<div class = "box-header"></div>
     	<div class = "box-body">
 		<div class = "row"> 
-		<form role = "form" action = "" method="POST" enctype="multipart/form-data">
-			<div class="col-xs-2">
+		<form role = "form" action = "" method="POST" enctype="multipart/form-data" id = "queryForm">
+			<div class="col-xs-1">
 				<label>设备种类：</label>
 				<select class="form-control" name = "etype">
 			       	<s:set name="lasttype" value= "-1" />
@@ -115,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="input-group-addon">
 							<i class="fa fa-calendar"></i>
 						</div>
-					    <input type="text" name = "outdate" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
+					    <input type="text" name = "outdate" id = "outdate" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask>
 					  
 						<span class="input-group-btn">
 						     <button type="button" class="btn btn-info btn-flat" id = "queryBt">查询</button>
@@ -123,6 +123,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				<!-- /.input group -->
 				</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="form-group">
+					<label>快速选择</label>
+					<select class="form-control" id = "quickPick" onchange="quickPickChange()">
+						<option value = -1 >--请选择--</option>
+						<option value = 0 >已过期</option>
+						<option value = 1 >30天内过期</option>
+						<option value = 2 >60天内过期</option>
+						<option value = 3 >90天内过期</option>
+					</select>
+			    </div>
+			</div>
+			<div class="col-xs-1">
+				<div class="form-group">
+					<label>&nbsp;</label>
+					<span class="input-group-btn">
+					     <button type="button" class="btn btn-info btn-flat" id = "downloadBtn">导出信息</button>
+					</span>
+			    </div>
 			</div>
 		</form>
 		    
@@ -286,6 +306,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  <!-- /.modal-dialog -->
 	</div>	
 	
+	<div class="modal modal-info fade in" id="modal-outdate" style="display: none; padding-right: 17px;">
+		<div class="modal-dialog" style = "margin-top:20%;width:350px">
+			<div class="modal-content">
+				<div class="box box-solid box-info">
+					<div class="box-header">
+		            <h3 class="box-title">过期提示</h3>
+		            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  	<span aria-hidden="true">×</span></button>
+		          	</div>
+					<!-- form start -->
+					<form class="form-horizontal" id = "outdateFlagForm" action = "" method = "POST">
+					<input type = "text" id = "confirm_outid" style = "display:none;"></input>
+					<input type = "text" id = "confirm_outtype" style = "display:none;"></input>
+						<div class="box-body">
+						  <div class="col-sm-10">
+							<div class="form-group">
+		 	            <div class="radio">
+		 	              <label>
+		 	                <input type="radio" name="odflag" id="odflag1" value="1" checked=""><b><span class = 'text-red'>不再</span>提醒过期</b>
+		 	              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		 	              <label>
+		 	                <input type="radio" name="odflag" id="odflag2" value="0"><b><span class = 'text-red'>按日期</span>提醒过期</b>
+		 	              </label>
+		 	            </div>
+							  </div>
+							</div>
+							</div>
+						  <!-- /.box-body -->
+						<div class="box-footer">
+						  <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancel</button>
+						  <button type="button" class="btn btn-info pull-right" onclick = "outdateSubmit();">确认修改</button>
+						  <label class="text-red pull-right" id = "outdate_result"></label>
+						</div>
+					<!-- /.box-footer -->
+					</form>
+				</div>
+			  </div>
+			  <!-- /.modal-content -->
+		</div>
+	</div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -319,7 +379,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>plugins/input-mask/jquery.inputmask.extensions.js"></script>
 
 <!-- date-range-picker -->
-<script src="<%=basePath%>js/moment.min.js"></script> -->
+<script src="<%=basePath%>js/moment.min.js"></script>
 <script src="<%=basePath%>plugins/daterangepicker/daterangepicker.js"></script>
 <script src="<%=basePath%>plugins/datepicker/bootstrap-datepicker.js"></script>
 
@@ -365,23 +425,6 @@ var dataTable = $('#tableData').DataTable({
     $("#datemask").inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"});
     //Money Euro
     $("[data-mask]").inputmask();
-    //Date range as a button
-    $('#daterange-btn').daterangepicker(
-        {
-          ranges: {
-            '今天': [moment()],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-          },
-          startDate: moment().subtract(29, 'days'),
-          endDate: moment()
-        },
-        function (start, end) {
-          $('#daterange-btn span').html(start.format('yyyy-mm-dd') + ' - ' + end.format('MMMM D, YYYY'));
-        }
-        );
   });
   //Date picker
   $('#datepicker').datepicker({
@@ -389,8 +432,23 @@ var dataTable = $('#tableData').DataTable({
     autoclose: true
   });
   $(document).ready(function(){
+	  $("#downloadBtn").click(function(){
+		var dateTime = $("*[name='outdate']").val();
+		var typeVal = $("select[name=etype]").val();
+		var areaVal = $("select[name=areaId]").val();
+		var department = encodeURI($("*[name='departmentName']").val());
+		var urlstr = "<%=basePath%>outdate/downloadfile.do?timeType=3&outdate="+dateTime+"&etype="+typeVal+"&areaId="+areaVal+"&departmentName="+department;
+		document.getElementById('queryForm').action = urlstr;
+		document.getElementById('queryForm').submit();
+	  });
+	  
+	  
 	  $("#queryBt").click(function(){
   		  var dateTime = $("*[name='outdate']").val();
+			if(dateTime.length>0&&!dateIsValid(dateTime)){
+				alert("日期格式不正确！");
+				return;
+			}
   		  var typeVal = $("select[name=etype]").val();
   		  var areaVal = $("select[name=areaId]").val();
   		  var department = encodeURI($("*[name='departmentName']").val());
@@ -411,7 +469,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "area",
   		                  		"title":"地区",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -425,7 +485,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "department",
     		                    "title":"部门",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -439,7 +501,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "typeName",
       		                    "title":"类型",
     			                	"render":function(data,type,row){
-    			                		if(row.status<=30){
+    			                		if(row.outDateFlag == 1){
+      			                			return "<b>"+data+"</b>";
+      			                		}else if(row.status<=30){
     			                			return "<b class = 'text-red'>"+data+"</b>";
     			                		}else if(row.status>30 && row.status<=60){
     			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -453,7 +517,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "specification",
     		                    "title":"规格",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -467,7 +533,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "label",
       		                    "title":"设备标号",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -481,7 +549,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "location",
         		                "title":"所在位置",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -493,23 +563,27 @@ var dataTable = $('#tableData').DataTable({
   			                	}
         		              },
   			                  { "data": "exp_date",
-            		            "title":"有效期",
-  			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
-  			                			return "<b class = 'text-red'>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
-  			                		}else if(row.status>30 && row.status<=60){
-  			                			return "<b class = 'text-orange'>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
-  			                		}else if(row.status>60 && row.status<=90){
-  			                			return "<b class = 'text-light-blue'>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
-  			                		}else{
-  			                			return "<b>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
-  			                		}
-  			                	}
-  			                  },
+    			                	"title":"有效期",
+    			                	"render":function(data,type,row){
+    			                		if(row.outDateFlag == 1){
+    			                			return "<b>"+(1900+data.year)+"-"+((data.month+1)<10?("0"+(data.month+1)):(data.month+1))+"-"+(data.date<10?("0"+data.date):data.date)+"</b>";
+    			                		}else if(row.status<=30){
+    			                			return "<b class = 'text-red'>"+(1900+data.year)+"-"+((data.month+1)<10?("0"+(data.month+1)):(data.month+1))+"-"+(data.date<10?("0"+data.date):data.date)+"</b>";
+    			                		}else if(row.status>30 && row.status<=60){
+    			                			return "<b class = 'text-orange'>"+(1900+data.year)+"-"+((data.month+1)<10?("0"+(data.month+1)):(data.month+1))+"-"+(data.date<10?("0"+data.date):data.date)+"</b>";
+    			                		}else if(row.status>60 && row.status<=90){
+    			                			return "<b class = 'text-light-blue'>"+(1900+data.year)+"-"+((data.month+1)<10?("0"+(data.month+1)):(data.month+1))+"-"+(data.date<10?("0"+data.date):data.date)+"</b>";
+    			                		}else{
+    			                			return "<b>"+(1900+data.year)+"-"+((data.month+1)<10?("0"+(data.month+1)):(data.month+1))+"-"+(data.date<10?("0"+data.date):data.date)+"</b>";
+    			                		}
+    			                	}
+    			               },
   			                  { "data": "responsible_dep",
       		                    "title":"责任部门",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -523,7 +597,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "responsible_person",
       		                    "title":"责任人(电话)",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -537,7 +613,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "person_pic",
             		            "title":"负责办理人(电话)",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -551,7 +629,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "note",
                 		        "title":"备注",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b><i class = 'fa fa-flag'></i>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -565,7 +645,7 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "id",
                     		    "title":"操作",
                     		    "render":function(data){
-                    		    	return "<button type = 'button' class = 'btn btn-info' data-toggle='modal' data-target='#modal-info' style = 'padding:1px 3px' onclick = 'editRow("+data+",0)'><i class = 'fa fa-edit'></i></button>&nbsp;<button type = 'button' class = 'btn btn-info' style = 'padding:1px 3px' onclick = 'deleteRow("+data+",0)'><i class = 'fa  fa-trash'></i></button>"
+                    		    	return "<button type = 'button' class = 'btn btn-info' data-toggle='modal' data-target='#modal-info' style = 'padding:1px 3px' onclick = 'editRow("+data+",0)'><i class = 'fa fa-edit'></i></button>&nbsp;<button type = 'button' class = 'btn btn-info' style = 'padding:1px 3px' onclick = 'deleteRow("+data+",0)'><i class = 'fa  fa-trash'></i></button>&nbsp;<button type = 'button' class = 'btn btn-info' data-toggle='modal' data-target='#modal-outdate'  style = 'padding:1px 3px' onclick = 'outDateFlag("+data+",0)' ><i class = 'fa  fa-calendar-check-o'></i></button>";
                     		    }
                     		  }
   			              ],
@@ -601,7 +681,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "department",
   			                	"title":"片区",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -615,7 +697,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "name",
   			                	  "title":"部门",
     			                	"render":function(data,type,row){
-      			                		if(row.status<=30){
+    			                		if(row.outDateFlag == 1){
+      			                			return "<b>"+data+"</b>";
+      			                		}else if(row.status<=30){
       			                			return "<b class = 'text-red'>"+data+"</b>";
       			                		}else if(row.status>30 && row.status<=60){
       			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -629,7 +713,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "typeName",
         		                    "title":"类型",
       			                	"render":function(data,type,row){
-      			                		if(row.status<=30){
+      			                		if(row.outDateFlag == 1){
+      			                			return "<b>"+data+"</b>";
+      			                		}else if(row.status<=30){
       			                			return "<b class = 'text-red'>"+data+"</b>";
       			                		}else if(row.status>30 && row.status<=60){
       			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -643,7 +729,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "label",
       		                    "title":"证号",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -657,7 +745,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "specification",
       		                    "title":"规格",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -671,7 +761,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "location",
           		                "title":"所在位置",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -685,21 +777,25 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "exp_date",
   			                	"title":"有效期",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
-  			                			return "<b class = 'text-red'>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+(1900+data.year)+"-"+((data.month+1)<10?("0"+(data.month+1)):(data.month+1))+"-"+(data.date<10?("0"+data.date):data.date)+"</b>";
+  			                		}else if(row.status<=30){
+  			                			return "<b class = 'text-red'>"+(1900+data.year)+"-"+((data.month+1)<10?("0"+(data.month+1)):(data.month+1))+"-"+(data.date<10?("0"+data.date):data.date)+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
-  			                			return "<b class = 'text-orange'>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
+  			                			return "<b class = 'text-orange'>"+(1900+data.year)+"-"+((data.month+1)<10?("0"+(data.month+1)):(data.month+1))+"-"+(data.date<10?("0"+data.date):data.date)+"</b>";
   			                		}else if(row.status>60 && row.status<=90){
-  			                			return "<b class = 'text-light-blue'>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
+  			                			return "<b class = 'text-light-blue'>"+(1900+data.year)+"-"+((data.month+1)<10?("0"+(data.month+1)):(data.month+1))+"-"+(data.date<10?("0"+data.date):data.date)+"</b>";
   			                		}else{
-  			                			return "<b>"+(1900+data.year)+"-"+(data.month+1)+"-"+data.date+"</b>";
+  			                			return "<b>"+(1900+data.year)+"-"+((data.month+1)<10?("0"+(data.month+1)):(data.month+1))+"-"+(data.date<10?("0"+data.date):data.date)+"</b>";
   			                		}
   			                	}
-  			                  },
+  			               },
   			                  { "data": "responsible_dep",
        		                    "title":"责任部门",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -713,7 +809,9 @@ var dataTable = $('#tableData').DataTable({
    			                  { "data": "responsible_person",
        		                    "title":"责任人(电话)",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -727,7 +825,9 @@ var dataTable = $('#tableData').DataTable({
    			                  { "data": "person_pic",
               		            "title":"负责办理人(电话)",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -741,7 +841,9 @@ var dataTable = $('#tableData').DataTable({
   			                  { "data": "note",
                   		        "title":"备注",
   			                	"render":function(data,type,row){
-  			                		if(row.status<=30){
+  			                		if(row.outDateFlag == 1){
+  			                			return "<b>"+data+"</b><i class = 'fa fa-flag'></i>";
+  			                		}else if(row.status<=30){
   			                			return "<b class = 'text-red'>"+data+"</b>";
   			                		}else if(row.status>30 && row.status<=60){
   			                			return "<b class = 'text-orange'>"+data+"</b>";
@@ -755,7 +857,7 @@ var dataTable = $('#tableData').DataTable({
    			                  { "data": "id",
                       		    "title":"操作",
                       		    "render":function(data){
-                      		    	return "<button type = 'button' class = 'btn btn-info' data-toggle='modal' data-target='#modal-info' style = 'padding:1px 3px' onclick = 'editRow("+data+",1)'><i class = 'fa fa-edit'></i></button>&nbsp;<button type = 'button' class = 'btn btn-info'  style = 'padding:1px 3px' onclick = 'deleteRow("+data+",1)' ><i class = 'fa  fa-trash'></i></button>"
+                      		    	return "<button type = 'button' class = 'btn btn-info' data-toggle='modal' data-target='#modal-info' style = 'padding:1px 3px' onclick = 'editRow("+data+",1)'><i class = 'fa fa-edit'></i></button>&nbsp;<button type = 'button' class = 'btn btn-info'  style = 'padding:1px 3px' onclick = 'deleteRow("+data+",1)' ><i class = 'fa  fa-trash'></i></button>&nbsp;<button type = 'button' class = 'btn btn-info' data-toggle='modal' data-target='#modal-outdate' style = 'padding:1px 3px' onclick = 'outDateFlag("+data+",1)' ><i class = 'fa  fa-calendar-check-o'></i></button>";
                       		    }
                       		  }
   			              ],
@@ -888,8 +990,8 @@ var dataTable = $('#tableData').DataTable({
 	  }
   };
   function deleteRow(dataId,type){//编辑按钮
-		$("#modal_title_text").text("确认操作");
-		$("#modal_info_text").text("确认删除此条信息？此操作不可逆！");
+	$("#modal_title_text").text("确认操作");
+	$("#modal_info_text").text("确认删除此条信息？此操作不可逆！");
 	  if(type==0 || type == 1){
 		$("#confirm_id").val(dataId);
 		$("#confirm_type").val(type);
@@ -930,9 +1032,93 @@ var dataTable = $('#tableData').DataTable({
 	 }else{
 		 $("#modal-default").hide();
 	 }
- }
-  
-  
+ };
+
+function quickPickChange(){
+	var selectedValue = $("select[id=quickPick]").val();
+	var a = new Date();
+	var nowDate = "";
+	if(selectedValue==0){
+		//a = a + dadd * 24 * 60 * 60 * 1000;
+		nowDate = a.getFullYear()+"-"+(a.getMonth()+1)+"-"+(a.getDate()<10?"0"+a.getDate():a.getDate());
+		$("#outdate").val(nowDate);
+	}else if(selectedValue==1){
+		a = a.valueOf();
+		a = a + 30 * 24 * 60 * 60 * 1000;
+		a = new Date(a);
+		nowDate = a.getFullYear()+"-"+(a.getMonth()+1)+"-"+(a.getDate()<10?"0"+a.getDate():a.getDate());
+		$("#outdate").val(nowDate);
+	}else if(selectedValue==2){
+		a = a.valueOf();
+		a = a + 60 * 24 * 60 * 60 * 1000;
+		a = new Date(a);
+		nowDate = a.getFullYear()+"-"+(a.getMonth()+1)+"-"+(a.getDate()<10?"0"+a.getDate():a.getDate());
+		$("#outdate").val(nowDate);
+	}else if(selectedValue==3){
+		a = a.valueOf();
+		a = a + 90 * 24 * 60 * 60 * 1000;
+		a = new Date(a);
+		nowDate = a.getFullYear()+"-"+(a.getMonth()+1)+"-"+(a.getDate()<10?"0"+a.getDate():a.getDate());
+		$("#outdate").val(nowDate);
+	}else{
+		$("#outdate").val("");
+	}
+	
+};
+function outDateFlag(dataId,type){
+	//id
+	if(type==0||type==1){
+		$("#confirm_outid").val(dataId);
+		$("#confirm_outtype").val(type);
+	}else{
+		alert("选择错误！");
+	}
+	
+};
+function outdateSubmit(){
+	var etype = $("#confirm_outtype").val();
+	var id = $("#confirm_outid").val();
+	var flag = $("input[name='odflag']:checked").val();
+	var out_url = "";
+	//$("#outdate_result").text(id+"");
+	if(etype==0){
+		out_url = "<%=basePath%>equipapi/outdateflagapi.do";
+	}else if(etype ==1){
+		out_url = "<%=basePath%>certifapi/outdateflagapi.do";
+	}
+	if(!out_url==""){
+		$.getJSON({
+			url:out_url,
+			type:"POST",
+			data:{
+				"id":id,
+				"flag":flag
+			},
+			success:function(data){
+				if(data.status){
+					$("#outdate_result").text("更新成功！");
+					$("#queryBt").click();
+				}else{
+					$("#outdate_result").text("更新失败！");
+				}
+			}
+		});
+	}else{
+		alert("未知错误！！");
+	}
+};
+
+function dateIsValid(str){
+    var  reg  =  /^(\d{4})-(\d{2})-(\d{2})$/;    
+    var  r  =  str.match(reg);    
+    if(r==null)return  false;    
+    r[2]=r[2]-1;    
+    var  d=  new  Date(r[1],  r[2],r[3]);    
+    if(d.getFullYear()!=r[1])return  false;    
+    if(d.getMonth()!=r[2])return  false;    
+    if(d.getDate()!=r[3])return  false;    
+    return  true; 
+};
 </script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.cnpc.action;
 
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
@@ -15,7 +17,9 @@ import org.apache.struts2.ServletActionContext;
 import com.cnpc.bean.Certificationinfo;
 import com.cnpc.bean.Equipmentinfo;
 import com.cnpc.dao.OutDateDao;
+import com.cnpc.dao.UploadFileDao;
 import com.cnpc.filters.SpringInit;
+import com.cnpc.utils.ExcelWrite;
 import com.cnpc.utils.Utils;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -33,6 +37,7 @@ public class OutDateAction  extends ActionSupport{
 	private List<Equipmentinfo> equipLs = null;
 	private List<Certificationinfo> certifLs = null;
 	private JSONObject jsonResult;
+	private OutDateDao outDao = (OutDateDao) SpringInit.getApplicationContext().getBean("outdateDao");
 	public String getTimeType() {
 		return timeType;
 	}
@@ -192,5 +197,34 @@ public class OutDateAction  extends ActionSupport{
 		}
 	}
 	
-	
+	public void downloadFile(){
+		HttpServletResponse response = ServletActionContext.getResponse();
+		String timeType = this.getTimeType();
+		String etype  = this.getEtype();
+		String department=this.getDepartmentName();
+		
+		String area = this.getAreaId();
+		String outdateTime = this.getOutdate();
+		try {
+			
+			response.setContentType("octets/stream");    
+			response.addHeader("Content-Disposition","attachment;filename=outfile"+etype+"_"+area+"_"+outdateTime+".xls");    
+			OutputStream out = response.getOutputStream();    
+			ExcelWrite<HashMap> exportexcel = new ExcelWrite<HashMap>();  
+			if("0".equals(etype)){
+				List<Map<String, Object>> dataset= outDao.getInfoMap(etype,outdateTime,area,department);
+				String[] headers2 = { "地区", "部门", "房间", "类型","规格", "标签","所在位置", "有效期", "负责部门", "负责人", "负责执行人","备注"};  
+				String[] keys = {"area","department","room","type","specification","label","location","exp_date","responsible_dep","responsible_person","person_pic","notes"};    
+				exportexcel.exportExcelList( "导出设备信息",headers2, dataset , out,keys);
+			}else if("1".equals(etype)){
+				List<Map<String, Object>> dataset= outDao.getInfoMap(etype,outdateTime,area,department);
+				String[] headers2 = { "地区", "片区","部门","类型","证号", "规格","所在位置", "有效期", "负责部门", "负责人", "负责执行人","备注"};  
+				String[] keys = {"area","department","name","type","specification","label","location","exp_date","responsible_dep","responsible_person","person_pic","notes"};    
+				exportexcel.exportExcelList( "导出证书信息",headers2,dataset,out,keys);
+			}
+		    out.close();    
+	    }catch (Exception e) {
+	        e.printStackTrace();    
+	    }
+	}	
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.cnpc.bean.Equipmentinfo;
@@ -65,6 +66,38 @@ public class EquipInfoDao extends JdbcDaoSupport {
 	}
 	
 	/**
+	 * 增加一条设备信息
+	 * @param equipinfo
+	 * @return
+	 */
+	public int addEquipmentInfo(final Equipmentinfo equipinfo){
+		int result = -1;
+		final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String sql = "insert into equipments(type,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,out_date_flag,notes) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		
+		result = this.getJdbcTemplate().update(sql, new PreparedStatementSetter(){
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, equipinfo.getTypeName());
+				ps.setString(2, Utils.areaIdMapName.get(equipinfo.getArea()));
+				ps.setString(3, equipinfo.getDepartment());
+				ps.setString(4, "");
+				ps.setString(5, equipinfo.getSpecification());
+				ps.setString(6, equipinfo.getLabel());
+				ps.setString(7, equipinfo.getLocation());
+				ps.setString(8, df.format(equipinfo.getExp_date()));
+				ps.setString(9, equipinfo.getResponsible_dep());
+				ps.setString(10, equipinfo.getResponsible_person());
+				ps.setString(11, equipinfo.getPerson_pic());
+				ps.setString(12, "0");//equipinfo.getOutDateFlag()
+				ps.setString(13, equipinfo.getNote());
+			}
+		});
+		
+		return result;
+	}
+	
+	/**
 	 * 根据@param equipinfo中id 更新设备信息
 	 * @param equipinfo
 	 * @return
@@ -83,6 +116,19 @@ public class EquipInfoDao extends JdbcDaoSupport {
 		
 		return result;
 	}
+	
+	public int updateOutdateFlag(String id,String flag,String area){
+		int result = -1;
+		String sql = "update equipments set out_date_flag = '"+flag+"' where id = "+id;
+		if(!Utils.checkNull(area)){
+			if(!"-1".equals(area)){
+				sql += " and area = '"+Utils.areaIdMapName.get(area)+"'";
+			}
+			result = this.getJdbcTemplate().update(sql);
+		}
+		return result;
+	}
+	
 	/**
 	 * 按照id获得设备信息
 	 * @param equipId
@@ -132,52 +178,52 @@ public class EquipInfoDao extends JdbcDaoSupport {
 		return result;
 	}
 	
-	public void readExcel2DB(String fileName){
-		boolean flag = true;
-		int [] result;
-		ExcelReader er = new ExcelReader();
-		File f = new File(fileName);
-		final List<ArrayList<Object>> params = Utils.convertParams(er.readExcel2DB(f));
-		String sql = "insert into equipments (type,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes) values (?,?,?,?,?,?,?,?,?,?,?,?)";
-		result = this.getJdbcTemplate().batchUpdate(sql, new BatchPreparedStatementSetter(){
-	
-			@Override
-			public int getBatchSize() {
-				// TODO Auto-generated method stub
-				return params.size();
-			}
-	
-			@Override
-			public void setValues(PreparedStatement ps, int i)
-					throws SQLException {
-				ps.setString(1, params.get(i).get(0)+"");
-				ps.setString(2, params.get(i).get(1)+"");
-				ps.setString(3, params.get(i).get(2)+"");
-				ps.setString(4, params.get(i).get(3)+"");
-				ps.setString(5, params.get(i).get(4)+"");
-				ps.setString(6, params.get(i).get(5)+"");
-				ps.setString(7, params.get(i).get(6)+"");
-				ps.setString(8, params.get(i).get(7)+"");
-				ps.setString(9, params.get(i).get(8)+"");
-				ps.setString(10, params.get(i).get(9)+"");
-				ps.setString(11, params.get(i).get(10)+"");
-				ps.setString(12, params.get(i).get(11)+"");
-			}
-			
-		});
-		
-		//check the result
-		for(int i = 0;i<result.length;i++)
-		{
-			if(result[i]<0)
-			{
-				System.out.println(i);
-				flag = false;
-			}
-		}
-	
-		System.out.print(flag);
-	}
+//	public void readExcel2DB(String fileName){
+//		boolean flag = true;
+//		int [] result;
+//		ExcelReader er = new ExcelReader();
+//		File f = new File(fileName);
+//		final List<ArrayList<Object>> params = Utils.convertParams(er.readExcel2DB(f));
+//		String sql = "insert into equipments (type,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,notes) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+//		result = this.getJdbcTemplate().batchUpdate(sql, new BatchPreparedStatementSetter(){
+//	
+//			@Override
+//			public int getBatchSize() {
+//				// TODO Auto-generated method stub
+//				return params.size();
+//			}
+//	
+//			@Override
+//			public void setValues(PreparedStatement ps, int i)
+//					throws SQLException {
+//				ps.setString(1, params.get(i).get(0)+"");
+//				ps.setString(2, params.get(i).get(1)+"");
+//				ps.setString(3, params.get(i).get(2)+"");
+//				ps.setString(4, params.get(i).get(3)+"");
+//				ps.setString(5, params.get(i).get(4)+"");
+//				ps.setString(6, params.get(i).get(5)+"");
+//				ps.setString(7, params.get(i).get(6)+"");
+//				ps.setString(8, params.get(i).get(7)+"");
+//				ps.setString(9, params.get(i).get(8)+"");
+//				ps.setString(10, params.get(i).get(9)+"");
+//				ps.setString(11, params.get(i).get(10)+"");
+//				ps.setString(12, params.get(i).get(11)+"");
+//			}
+//			
+//		});
+//		
+//		//check the result
+//		for(int i = 0;i<result.length;i++)
+//		{
+//			if(result[i]<0)
+//			{
+//				System.out.println(i);
+//				flag = false;
+//			}
+//		}
+//	
+//		System.out.print(flag);
+//	}
 	
 	public void testDao()
 	{
@@ -186,7 +232,19 @@ public class EquipInfoDao extends JdbcDaoSupport {
 		System.out.print(a);
 		
 	}
-	
+	public List<Map<String, Object>> getEquipInfoMap(String areaid,String type,int page)
+	{
+		List<Map<String,Object>> resLs = null;
+		Date now = new Date();
+		String sql = "select id,area,department,room,specification,label,location,exp_date,responsible_dep,responsible_person,person_pic,out_date_flag,notes from equipments where type = "+type ;//+"  limit "+10*(page-1)+","+10*page
+		if(!Utils.checkNull(areaid)){
+			sql += " and area = '"+Utils.areaIdMapName.get(areaid)+"'";
+		}
+		sql += " order by type,area,department asc";
+		resLs = this.getJdbcTemplate().queryForList(sql); 
+		return resLs;
+
+	}
 	
 	public static void main(String [] args)
 	{

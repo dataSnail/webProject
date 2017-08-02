@@ -91,7 +91,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <i class="fa fa-user"></i> <span>用户管理</span>
         </a>
       </li>
-
+      <li class="${type==6?'active':'' }">
+        <a href="<%=basePath%>qinfo/special.do?type=6">
+          <i class="fa fa-calendar-o"></i> <span>特殊设备证书信息</span>
+        </a>
+      </li>
+      <li class="${type==7?'active':'' }">
+        <a href="<%=basePath%>qinfo/sta.do?type=7">
+          <i class="fa fa-pie-chart"></i> <span>统计信息</span>
+        </a>
+      </li>
     </ul>
   </section>
   <!-- /.sidebar -->

@@ -26,6 +26,7 @@ public class EquipmentAction extends ActionSupport{
 	private String equipName = "";
 	private String areaid = "";//查询的地区id，要跟用户的地区id对比
 	private String id="";//设备的id
+	private String flag = "";//设备过期标志
 	private String type = "";
 	private List<Equipmentinfo> equipLs = null;
 	private EquipInfoDao equipDao = (EquipInfoDao) SpringInit.getApplicationContext().getBean("equipDao");
@@ -95,6 +96,14 @@ public class EquipmentAction extends ActionSupport{
 
 	public void setEquipinfo(Equipmentinfo equipinfo) {
 		this.equipinfo = equipinfo;
+	}
+
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 
 	/**
@@ -196,5 +205,43 @@ public class EquipmentAction extends ActionSupport{
 		}
 		return SUCCESS;
 	}
+	/**
+	 * 添加一条设备信息
+	 * @return
+	 */
+	public String addEquipInfoAPI(){
+		HttpServletRequest request = ServletActionContext.getRequest();
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("status", -1);//更新状态标记
+		String userName = request.getSession().getAttribute("username")+"";
+		equipinfo = this.getEquipinfo();
+		equipinfo.setTypeName(type);
+		int result = equipDao.addEquipmentInfo(equipinfo);
+		Object[] obj = {userName,"增加设备："+(result>0?"成功":"失败"),"000"};
+		LogDao.insertLog(obj);
+		jsonObj.put("status", result);//更新状态标记
+		jsonResult = jsonObj;
+		return SUCCESS;
+	}
 	
+	public String outDateFlagAPI(){
+		HttpServletRequest request = ServletActionContext.getRequest();
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("status", -1);//更新状态标记
+		String userName = request.getSession().getAttribute("username")+"";
+		String modify_id = this.getId();
+		String modify_flag = this.getFlag();
+		String user_area = request.getSession().getAttribute("area_id")+"";//用户权限区域
+		if(Utils.checkNull(userName)||Utils.checkNull(modify_id)||Utils.checkNull(modify_flag)||Utils.checkNull(user_area)){//有一个为空即返回失败
+			Object[] obj = {userName,"修改设备过期标志：失败[x]",modify_id};
+			LogDao.insertLog(obj);
+		}else{
+			int result = equipDao.updateOutdateFlag(modify_id,modify_flag,user_area);
+			Object[] obj = {userName,"修改设备过期标志："+(result>0?"成功":"失败"),modify_id};
+			LogDao.insertLog(obj);
+			jsonObj.put("status", result);//更新状态标记
+			jsonResult = jsonObj;
+		}
+		return SUCCESS;
+	}
 }
